@@ -1,6 +1,3 @@
-#include <iostream>
-//namespace std;
-
 class Car {
     private:
         double total_storage;
@@ -33,16 +30,11 @@ class Car {
         }
 
         /* Setters */
-        double set_total_storage(double total_storage){
-            return total_storage;
+        void set_total_storage(double total_storage_param){
+            total_storage = total_storage_param;
         }
 
-        double set_remaining_storage(double value){
-            return remaining_storage;
+        void set_remaining_storage(double remaining_storage_param){
+            remaining_storage = remaining_storage_param;
         }
 };
-
-int main(){
-    Car car(4000, 500);
-    std::cout << car.get_remaining_storage();
-}
