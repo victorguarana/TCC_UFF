@@ -1,40 +1,51 @@
+#define TOTALRANGE 1000
+#define TOTALSTORAGE 500
+
 class Car {
     private:
-        double total_storage;
         double remaining_storage;
-
-        double total_range;
         double remaining_range;
 
     public:
         /* Constructors */
         // "Clean" constructor
-        Car(double total_storage_init, double total_range_init){
-            total_range = total_range_init;
-            remaining_range = total_range_init;
-            total_storage = total_storage_init;
-            remaining_storage = total_storage_init;
+        Car(){
+            remaining_range = TOTALRANGE;
+            remaining_storage = TOTALSTORAGE;
+        }
+
+        Car(double remaining_range_init, double remaining_storage_init){
+            remaining_range = remaining_range_init;
+            remaining_storage = remaining_storage_init;
         }
 
         /* Getters */
         double get_total_storage(){
-            return total_storage;
+            return TOTALSTORAGE;
         }
-
         double get_remaining_storage(){
             return remaining_storage;
         }
-
         double get_used_storage(){
-            return total_storage - remaining_storage;
+            return TOTALSTORAGE - remaining_storage;
+        }
+
+        double get_total_range(){
+            return TOTALRANGE;
+        }
+        double get_remaining_range(){
+            return remaining_range;
+        }
+        double get_used_range(){
+            return TOTALRANGE - remaining_range;
         }
 
         /* Setters */
-        void set_total_storage(double total_storage_param){
-            total_storage = total_storage_param;
-        }
-
         void set_remaining_storage(double remaining_storage_param){
             remaining_storage = remaining_storage_param;
+        }
+
+        void set_remaining_range(double remaining_range_param){
+            remaining_range = remaining_range_param;
         }
 };
