@@ -40,7 +40,7 @@ Route initialize_route(){
 }
 
 double calc_priority(Point actual, Client destiny){
-    return distance_between_points(actual, destiny.pos);
+    return distanceBetweenPoints(actual, destiny.pos);
 }
 
 Route set_best_client_for_position(Point actual, Route route, int actual_index){
@@ -59,7 +59,7 @@ Route set_best_client_for_position(Point actual, Route route, int actual_index){
     }
 
     if(best_index != actual_index)
-        route = change_clients(route, actual_index, best_index);
+        route = changeClients(route, actual_index, best_index);
 
     return route;
 }
@@ -83,7 +83,7 @@ int main(){
 
     Route initial_route = initialize_route();
     Route greedy_route = greedy(ponto0, initial_route);
-    print_route(greedy_route);
+    printRoute(greedy_route);
 
     return 0; 
 }

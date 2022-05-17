@@ -20,32 +20,32 @@ class Drone {
         }
 
         /* Getters */
-        double get_total_storage(){
+        double getTotalStorage(){
             return TOTALSTORAGE;
         }
-        double get_remaining_storage(){
+        double getRemainingStorage(){
             return remaining_storage;
         }
-        double get_used_storage(){
+        double getUsedStorage(){
             return TOTALSTORAGE - remaining_storage;
         }
 
-        double get_total_range(){
+        double getTotalRange(){
             return TOTALRANGE;
         }
-        double get_remaining_range(){
+        double getRemainingRange(){
             return remaining_range;
         }
-        double get_used_range(){
+        double getUsedRange(){
             return TOTALRANGE - remaining_range;
         }
 
         /* Setters */
-        void set_remaining_storage(double remaining_storage_param){
+        void setRemainingStorage(double remaining_storage_param){
             remaining_storage = remaining_storage_param;
         }
 
-        void set_remaining_range(double remaining_range_param){
+        void setRemainingRange(double remaining_range_param){
             remaining_range = remaining_range_param;
         }
 };
