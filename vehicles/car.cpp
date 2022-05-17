@@ -14,9 +14,9 @@ class Car {
             remaining_storage = TOTALSTORAGE;
         }
 
-        Car(double remaining_range_init, double remaining_storage_init){
-            remaining_range = remaining_range_init;
-            remaining_storage = remaining_storage_init;
+        Car(double t_remaining_range, double t_remaining_storage){
+            remaining_range = t_remaining_range;
+            remaining_storage = t_remaining_storage;
         }
 
         /* Getters */
@@ -41,11 +41,11 @@ class Car {
         }
 
         /* Setters */
-        void setRemainingStorage(double remaining_storage_param){
-            remaining_storage = remaining_storage_param;
+        void setRemainingStorage(double t_remaining_storage){
+            remaining_storage = t_remaining_storage;
         }
 
-        void setRemainingRange(double remaining_range_param){
-            remaining_range = remaining_range_param;
+        void setRemainingRange(double t_remaining_range){
+            remaining_range = t_remaining_range;
         }
 };

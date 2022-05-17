@@ -39,18 +39,18 @@ Route initialize_route(){
     return route;
 }
 
-double calc_priority(Point actual, Client destiny){
-    return distanceBetweenPoints(actual, destiny.pos);
+double calc_priority(Point t_actual, Client t_destiny){
+    return distanceBetweenPoints(t_actual, t_destiny.pos);
 }
 
-Route set_best_client_for_position(Point actual, Route route, int actual_index){
-    int best_index = actual_index;
-    Client nearest_client = route.clients[actual_index];
-    double highest_priority = calc_priority(actual, nearest_client);
+Route set_best_client_for_position(Point t_actual_position, Route t_route, int t_actual_index){
+    int best_index = t_actual_index;
+    Client nearest_client = t_route.clients[t_actual_index];
+    double highest_priority = calc_priority(t_actual_position, nearest_client);
 
-    for(int i = actual_index + 1; i < route.size; i++){
-        Client new_client = route.clients[i];
-        double new_priority = calc_priority(actual, new_client);
+    for(int i = t_actual_index + 1; i < t_route.size; i++){
+        Client new_client = t_route.clients[i];
+        double new_priority = calc_priority(t_actual_position, new_client);
 
         if (highest_priority > new_priority){
             highest_priority = new_priority;
@@ -58,20 +58,20 @@ Route set_best_client_for_position(Point actual, Route route, int actual_index){
         }
     }
 
-    if(best_index != actual_index)
-        route = changeClients(route, actual_index, best_index);
+    if(best_index != t_actual_index)
+        t_route = changeClients(t_route, t_actual_index, best_index);
 
-    return route;
+    return t_route;
 }
 
-Route greedy(Point actual_position, Route initial_route){
-    Route greedy_route = initial_route;
-    int size = initial_route.size;
+Route greedy(Point t_actual_position, Route t_route){
+    Route greedy_route = t_route;
+    int size = t_route.size;
     Client organized_clients[size];
 
     for (int i = 0; i < size; i++){
-        greedy_route = set_best_client_for_position(actual_position, greedy_route, i);
-        actual_position = greedy_route.clients[i].pos;
+        greedy_route = set_best_client_for_position(t_actual_position, greedy_route, i);
+        t_actual_position = greedy_route.clients[i].pos;
     }
     return greedy_route;
 }
