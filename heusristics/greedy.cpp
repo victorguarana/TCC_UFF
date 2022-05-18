@@ -1,5 +1,5 @@
 #include <iostream>
-#include "greedy.hpp"
+#include "../helpers/structs.cpp"
 
 Route greedy(Point t_actual_position, Route t_route){
     Route greedy_route = t_route;
