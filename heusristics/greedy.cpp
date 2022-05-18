@@ -1,28 +1,42 @@
 #include <iostream>
 #include "../helpers/structs.cpp"
 
-Route greedy(Point t_actual_position, Route t_route){
-    Route greedy_route = t_route;
+
+
+// ####### //
+// HEADERS //
+// ####### //
+void greedy(Route&, Point);
+void set_best_client_for_position(Route&, Point, int);
+double calc_priority(Client, Point);
+
+
+
+// ############## //
+// IMPLEMENTATION //
+// ############## //
+void greedy(Route& t_route, Point t_actual_position){
     int size = t_route.size;
     Client organized_clients[size];
 
     for (int i = 0; i < size; i++){
-        greedy_route = set_best_client_for_position(t_actual_position, greedy_route, i);
-        t_actual_position = greedy_route.clients[i].pos;
+        set_best_client_for_position(t_route, t_actual_position, i);
+        t_actual_position = t_route.clients[i].pos;
     }
-    return greedy_route;
 }
 
-Route set_best_client_for_position(Point t_actual_position, Route t_route, int t_actual_index){
+// Find the best unvisited client to the actual position
+// Using the actual index as a pivot to define which position has to be calculated
+void set_best_client_for_position(Route& t_route, Point t_actual_position, int t_actual_index){
     int best_index = t_actual_index;
     Client nearest_client = t_route.clients[t_actual_index];
-    double highest_priority = calc_priority(t_actual_position, nearest_client);
+    double highest_priority = calc_priority(nearest_client, t_actual_position);
 
     for(int i = t_actual_index + 1; i < t_route.size; i++){
         Client new_client = t_route.clients[i];
-        double new_priority = calc_priority(t_actual_position, new_client);
+        double new_priority = calc_priority(new_client, t_actual_position);
 
-        if (highest_priority > new_priority){
+        if (highest_priority < new_priority){
             highest_priority = new_priority;
             best_index = i;
         }
@@ -30,12 +44,10 @@ Route set_best_client_for_position(Point t_actual_position, Route t_route, int t
 
     if(best_index != t_actual_index)
         t_route = changeClients(t_route, t_actual_index, best_index);
-
-    return t_route;
 }
 
-double calc_priority(Point t_actual, Client t_destiny){
-    return distanceBetweenPoints(t_actual, t_destiny.pos);
+double calc_priority(Client t_destiny, Point t_actual){
+    return distanceBetweenPoints(t_actual, t_destiny.pos) * -1 ;
 }
 
 /*
@@ -45,8 +57,8 @@ int main(){
     ponto0.lon = 0;
 
     Route initial_route = initialize_route();
-    Route greedy_route = greedy(ponto0, initial_route);
-    printRoute(greedy_route);
+    greedy(initial_route, ponto0);
+    printRoute(initial_route);
 
     return 0; 
 }
