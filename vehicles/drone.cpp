@@ -1,51 +1,37 @@
-#define TOTALRANGE 100
-#define TOTALSTORAGE 10
-
-class Drone {
+class Drone : public Vehicle {
     private:
-        double m_remaining_range;
-        double m_remaining_storage;
+
+        //Constants for each vehicle type
+        const double m_total_range = 100;
+        const double m_total_storage = 10;
+        
+        // Specific Members for this vehiche type
+        int m_battery_cicles;
 
     public:
         /* Constructors */
         // "Clean" constructor
         Drone(){
-            m_remaining_range = TOTALRANGE;
-            m_remaining_storage = TOTALSTORAGE;
+            setTotalRange(m_total_range);
+            setRemainingRange(m_total_range);
+            setTotalStorage(m_total_storage);
+            setRemainingStorage(m_total_storage);
         }
 
         Drone(double t_remaining_range, double t_remaining_storage){
-            m_remaining_range =  t_remaining_range;
-            m_remaining_storage = t_remaining_storage;
+            setTotalRange(m_total_range);
+            setRemainingRange(t_remaining_range);
+            setTotalStorage(m_total_storage);
+            setRemainingStorage(t_remaining_storage);
         }
 
-        /* Getters */
-        double getTotalStorage(){
-            return TOTALSTORAGE;
-        }
-        double getRemainingStorage(){
-            return m_remaining_storage;
-        }
-        double getUsedStorage(){
-            return TOTALSTORAGE - m_remaining_storage;
+        // Getters
+        int getBatteryClicles(){
+            return m_battery_cicles;
         }
 
-        double getTotalRange(){
-            return TOTALRANGE;
-        }
-        double getRemainingRange(){
-            return m_remaining_range;
-        }
-        double getUsedRange(){
-            return TOTALRANGE - m_remaining_range;
-        }
-
-        /* Setters */
-        void setRemainingStorage(double t_remaining_storage){
-            m_remaining_storage = t_remaining_storage;
-        }
-
-        void setRemainingRange(double  t_remaining_range){
-            m_remaining_range =  t_remaining_range;
+        // Setters
+        void setBatteryCicles(int t_battery_life){
+            m_battery_cicles = t_battery_life;
         }
 };
