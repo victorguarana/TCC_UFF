@@ -1,16 +1,8 @@
-#include <cmath>
-#include <iostream>
-#include <string>
-#include <vector>
+#include "client.cpp"
 
 struct Point{
     double lat;
     double lon;
-};
-
-struct Client{
-    Point pos;
-    std::string name;
 };
 
 struct Route{
