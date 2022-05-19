@@ -1,89 +1,80 @@
 #include <iostream>
-#include "../helpers.cpp"
+#include "../helpers/structs.cpp"
 
-Route initialize_route(){
-    Point ponto1;
-    ponto1.lat = 10;
-    ponto1.lon = 11;
-    Client client1;
-    client1.name = "Cliente1";
-    client1.pos = ponto1;
 
-    Point ponto2;
-    ponto2.lat = 20;
-    ponto2.lon = 21;
-    Client client2;
-    client2.name = "Cliente2";
-    client2.pos = ponto2;
 
-    Point ponto3;
-    ponto3.lat = 5;
-    ponto3.lon = 6;
-    Client client3;
-    client3.name = "Cliente3";
-    client3.pos = ponto3;
+// ####### //
+// HEADERS //
+// ####### //
+void greedy(Route&, Point);
+void set_best_client_for_position(Route&, Point, int);
+double calc_priority(Client, Point);
 
-    Point ponto4;
-    ponto4.lat = 15;
-    ponto4.lon = 16;
-    Client client4;
-    client4.name = "Cliente4";
-    client4.pos = ponto4;
 
-    Route route;
-    route.clients[0] = client1;
-    route.clients[1] = client2;
-    route.clients[2] = client3;
-    route.clients[3] = client4;
-    route.size = 4;
-    return route;
+
+// ############## //
+// IMPLEMENTATION //
+// ############## //
+
+/**
+    Implements a greedy algorithm to get an good route
+    @param t_route initial route
+    @param t_actual_position route starting point
+*/
+void greedy(Route& t_route, Point t_actual_position){
+    int size = t_route.size;
+    Client organized_clients[size];
+
+    for (int i = 0; i < size; i++){
+        set_best_client_for_position(t_route, t_actual_position, i);
+        t_actual_position = t_route.clients[i].pos;
+    }
 }
 
-double calc_priority(Point actual, Client destiny){
-    return distance_between_points(actual, destiny.pos);
-}
+/**
+    Finds the best unvisited client to the actual position
+    @param t_route route to be modified
+    @param t_actual_position drivers actual position (usually is the same as the last client)
+    @param t_actual_index index used as a pivot to define which position has to be calculated
+*/
+void set_best_client_for_position(Route& t_route, Point t_actual_position, int t_actual_index){
+    int best_index = t_actual_index;
+    Client nearest_client = t_route.clients[t_actual_index];
+    double highest_priority = calc_priority(nearest_client, t_actual_position);
 
-Route set_best_client_for_position(Point actual, Route route, int actual_index){
-    int best_index = actual_index;
-    Client nearest_client = route.clients[actual_index];
-    double highest_priority = calc_priority(actual, nearest_client);
+    for(int i = t_actual_index + 1; i < t_route.size; i++){
+        Client new_client = t_route.clients[i];
+        double new_priority = calc_priority(new_client, t_actual_position);
 
-    for(int i = actual_index + 1; i < route.size; i++){
-        Client new_client = route.clients[i];
-        double new_priority = calc_priority(actual, new_client);
-
-        if (highest_priority > new_priority){
+        if (highest_priority < new_priority){
             highest_priority = new_priority;
             best_index = i;
         }
     }
 
-    if(best_index != actual_index)
-        route = change_clients(route, actual_index, best_index);
-
-    return route;
+    if(best_index != t_actual_index)
+        t_route = changeClients(t_route, t_actual_index, best_index);
 }
 
-Route greedy(Point actual_position, Route initial_route){
-    Route greedy_route = initial_route;
-    int size = initial_route.size;
-    Client organized_clients[size];
-
-    for (int i = 0; i < size; i++){
-        greedy_route = set_best_client_for_position(actual_position, greedy_route, i);
-        actual_position = greedy_route.clients[i].pos;
-    }
-    return greedy_route;
+/**
+    Calculates the priority based on the distance from the actual position to the client
+    @param t_destiny client to be used in the calculation
+    @param t_actual drivers actual position
+*/
+double calc_priority(Client t_destiny, Point t_actual){
+    return distanceBetweenPoints(t_actual, t_destiny.pos) * -1 ;
 }
 
+/*
 int main(){
     Point ponto0;
     ponto0.lat = 0;
     ponto0.lon = 0;
 
     Route initial_route = initialize_route();
-    Route greedy_route = greedy(ponto0, initial_route);
-    print_route(greedy_route);
+    greedy(initial_route, ponto0);
+    printRoute(initial_route);
 
     return 0; 
 }
+*/

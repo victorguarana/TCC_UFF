@@ -1,14 +1,10 @@
-#include <iostream>
-#include "vehicles/car.cpp"
-#include "vehicles/drone.cpp"
-
-using namespace std;
+#include "main.hpp"
 
 int main(){
-    Drone drone;
+    Drone drone(100, 200);
     Car car2;
     Car car(4000.0, 800.0);
-    std::cout << car.get_remaining_storage() << endl;
-    std::cout << drone.get_remaining_storage() << endl;
-    std::cout << car2.get_remaining_storage() << endl;
-}
+    std::cout << car.getRemainingStorage() << std::endl;
+    std::cout << drone.getRemainingStorage() << std::endl;
+    std::cout << car2.getRemainingStorage() << std::endl;
+};
