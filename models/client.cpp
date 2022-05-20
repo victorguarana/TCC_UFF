@@ -1,4 +1,8 @@
+#ifndef CLIENT_CPP
+#define CLIENT_CPP
+
 #include <string>
+#include "position.cpp"
 
 class Client{
     private:
@@ -39,3 +43,5 @@ class Client{
             return client_str;
         }
 };
+
+#endif

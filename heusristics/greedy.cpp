@@ -1,3 +1,11 @@
+#ifndef GREEDY_CPP
+#define GREEDY_CPP
+
+#include "../models/position.cpp"
+#include "../models/client.cpp"
+#include "../models/route.cpp"
+
+
 class Greedy{
     private:
         /**
@@ -63,3 +71,5 @@ int main(){
     return 0; 
 }
 */
+
+#endif

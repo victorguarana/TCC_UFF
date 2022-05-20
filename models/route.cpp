@@ -1,3 +1,9 @@
+#ifndef ROUTE_CPP
+#define ROUTE_CPP
+
+#include <iostream>
+#include "client.cpp"
+
 struct Route{
     int size;
     Client clients[4];
@@ -47,3 +53,5 @@ Route initialize_route(){
     route.size = 4;
     return route;
 }
+
+#endif

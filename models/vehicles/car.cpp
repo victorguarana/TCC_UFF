@@ -1,3 +1,8 @@
+#ifndef CAR_CPP
+#define CAR_CPP
+
+#include "vehicle.cpp"
+
 class Car : public Vehicle {
     private:
 
@@ -22,3 +27,5 @@ class Car : public Vehicle {
             setRemainingStorage(t_remaining_storage);
         }
 };
+
+#endif

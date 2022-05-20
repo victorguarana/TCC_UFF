@@ -1,4 +1,8 @@
-#include "main.hpp"
+//#include "main.hpp"
+
+#include "models/position.cpp"
+#include "models/route.cpp"
+#include "heusristics/greedy.cpp"
 
 /**
 int main(){

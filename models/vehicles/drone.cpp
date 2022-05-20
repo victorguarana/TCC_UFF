@@ -1,3 +1,8 @@
+#ifndef DRONE_CPP
+#define DRONE_CPP
+
+#include "vehicle.cpp"
+
 class Drone : public Vehicle {
     private:
 
@@ -35,3 +40,5 @@ class Drone : public Vehicle {
             m_battery_cicles = t_battery_life;
         }
 };
+
+#endif

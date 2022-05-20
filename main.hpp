@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cmath>
 #include <string>
 
 #include "models/vehicles/vehicle.cpp"
