@@ -1,3 +1,6 @@
+#ifndef VEHICLE_CPP
+#define VEHICLE_CPP
+
 class Vehicle {
     private:
         double m_total_storage;
@@ -41,3 +44,5 @@ class Vehicle {
             m_total_range = t_total_range;
         }
 };
+
+#endif
