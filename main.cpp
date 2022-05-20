@@ -1,10 +1,10 @@
-//#include "main.hpp"
-
+/**/
+#include <iostream>
+#include "models/vehicles/drone.cpp"
+#include "models/vehicles/car.cpp"
 #include "models/position.cpp"
-#include "models/route.cpp"
-#include "heusristics/greedy.cpp"
+#include "models/client.cpp"
 
-/**
 int main(){
     Drone drone(100, 200);
     Car car2;
@@ -19,11 +19,13 @@ int main(){
     std::cout << car.getRemainingStorage() << std::endl;
     std::cout << drone.getRemainingStorage() << std::endl;
     std::cout << car2.getRemainingStorage() << std::endl;
-
-
-    Route route = initialize_route();
 };
 /*/
+
+#include "models/position.cpp"
+#include "models/route.cpp"
+#include "heusristics/greedy.cpp"
+
 int main(){
     Point ponto0;
     ponto0.lat = 0;
