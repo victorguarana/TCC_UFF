@@ -1,6 +1,3 @@
-#include "../helpers/structs.cpp"
-
-
 class Greedy{
     private:
         /**
@@ -9,7 +6,7 @@ class Greedy{
             @param t_actual drivers actual position
         */
         static double calc_priority(Client t_destiny, Point t_actual){
-            return distanceBetweenPoints(t_actual, t_destiny.pos) * -1 ;
+            return distanceBetweenPoints(t_actual, t_destiny.getPosition()) * -1 ;
         }
 
         /**
@@ -44,11 +41,10 @@ class Greedy{
         */
         static void greedy(Route& t_route, Point t_actual_position){
             int size = t_route.size;
-            Client organized_clients[size];
 
             for (int i = 0; i < size; i++){
                 set_best_client_for_position(t_route, t_actual_position, i);
-                t_actual_position = t_route.clients[i].pos;
+                t_actual_position = t_route.clients[i].getPosition();
             }
         }
 };

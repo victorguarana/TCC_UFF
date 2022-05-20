@@ -19,3 +19,8 @@
     - [ ] Adicionar metodos para simular o consumo dos mesmos.
     - [ ] Adicionar método para simular a recarga dos drones.
 - [ ] Adicionar "relação" entre as classes de carro e drone (Ex: Car has many drones).
+
+
+#### Validador de rota
+- [ ] Implementar uma função dentro de veiculos para receber a classe de cliente e a posição atual e verificar, de acordo com os atributos do veiculo, se é possivel fazer a entrega.
+    - [ ] Este método precisa descobrir o tipo de veiculo (Talvez por um parse bruto ou implementar campos diferentes e validações para eles)
