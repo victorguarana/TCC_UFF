@@ -8,16 +8,13 @@ using namespace std;
 
 class Client: public Point{
     private:
-        struct Point m_pos;
-        string m_name;
-        double m_package;
 
         // Ou é preciso utilizar uma logica mais complexa utilizando dois membros separados?
         // Ou utilizar um enumerador dentro da classe de vehicle?
         // Car m_delivery_car;
         // Drone m_delivery_drone;
         // enum Type { Car, Drone };
-
+/*
     public:
         Client(){
             Point ponto;
@@ -40,10 +37,7 @@ class Client: public Point{
             return m_pos;
         }
 
-        string toString(){
-            string client_str = getName() + " (Pos: " + to_string(getPosition().lat) +  " : " + to_string(getPosition().lon) + ")";
-            return client_str;
-        }
+*/
 };
 
 #endif
