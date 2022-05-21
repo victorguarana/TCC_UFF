@@ -4,10 +4,12 @@
 #include <string>
 #include "position.cpp"
 
+using namespace std;
+
 class Client{
     private:
         struct Point m_pos;
-        std::string m_name;
+        string m_name;
         double m_package;
 
         // Ou é preciso utilizar uma logica mais complexa utilizando dois membros separados?
@@ -25,21 +27,21 @@ class Client{
             m_name = "Default";
             m_package = 0;
         }
-        Client(std::string t_name, Point t_pos, double t_package){
+        Client(string t_name, Point t_pos, double t_package){
             m_name = t_name;
             m_pos = t_pos;
             m_package = t_package;
         }
 
-        std::string getName(){
+        string getName(){
             return m_name;
         }
         Point getPosition(){
             return m_pos;
         }
         
-        std::string toString(){
-            std::string client_str = getName() + " (Pos: " + std::to_string(getPosition().lat) +  " : " + std::to_string(getPosition().lon) + ")";
+        string toString(){
+            string client_str = getName() + " (Pos: " + to_string(getPosition().lat) +  " : " + to_string(getPosition().lon) + ")";
             return client_str;
         }
 };

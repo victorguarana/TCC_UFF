@@ -4,6 +4,8 @@
 #include <iostream>
 #include "client.cpp"
 
+using namespace std;
+
 struct Route{
     int size;
     Client clients[4];
@@ -12,7 +14,7 @@ struct Route{
 void printRoute(Route t_route){
     for(int i = 0; i < t_route.size; i++){
         Client client = t_route.clients[i];
-        std::cout << "#" << i << " -> " << client.toString() << std::endl;
+        cout << "#" << i << " -> " << client.toString() << endl;
     }
 }
 

@@ -5,6 +5,8 @@
 #include "models/position.cpp"
 #include "models/client.cpp"
 
+using namespace std;
+
 int main(){
     Drone drone(100, 200);
     Car car2;
@@ -16,9 +18,9 @@ int main(){
     Client cliente0("nome", ponto0, 100);
 
 
-    std::cout << car.getRemainingStorage() << std::endl;
-    std::cout << drone.getRemainingStorage() << std::endl;
-    std::cout << car2.getRemainingStorage() << std::endl;
+    cout << car.getRemainingStorage() << endl;
+    cout << drone.getRemainingStorage() << endl;
+    cout << car2.getRemainingStorage() << endl;
 };
 /*/
 
