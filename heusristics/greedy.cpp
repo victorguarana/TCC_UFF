@@ -1,7 +1,7 @@
 #ifndef GREEDY_CPP
 #define GREEDY_CPP
 
-#include "../models/position.cpp"
+#include "../models/point.cpp"
 #include "../models/client.cpp"
 #include "../models/route.cpp"
 
@@ -13,8 +13,8 @@ class Greedy{
             @param t_destiny client to be used in the calculation
             @param t_actual drivers actual position
         */
-        static double calc_priority(Client t_destiny, Point t_actual){
-            return distanceBetweenPoints(t_actual, t_destiny.getPosition()) * -1 ;
+        static double calc_priority(Point t_destiny, Point t_actual){
+            return Point::distanceBetweenPoints(t_actual, t_destiny) * -1 ;
         }
 
         /**
@@ -25,12 +25,12 @@ class Greedy{
         */
         static void set_best_client_for_position(Route& t_route, Point t_actual_position, int t_actual_index){
             int best_index = t_actual_index;
-            Client nearest_client = t_route.clients[t_actual_index];
-            double highest_priority = calc_priority(nearest_client, t_actual_position);
+            Point nearest_point = t_route.clients.at(t_actual_index);
+            double highest_priority = calc_priority(nearest_point, t_actual_position);
 
-            for(int i = t_actual_index + 1; i < t_route.size; i++){
-                Client new_client = t_route.clients[i];
-                double new_priority = calc_priority(new_client, t_actual_position);
+            for(int i = t_actual_index + 1; i < t_route.clients.size(); i++){
+                Point new_point = t_route.clients.at(i);
+                double new_priority = calc_priority(new_point, t_actual_position);
 
                 if (highest_priority < new_priority){
                     highest_priority = new_priority;
@@ -39,7 +39,7 @@ class Greedy{
             }
 
             if(best_index != t_actual_index)
-                t_route = changeClients(t_route, t_actual_index, best_index);
+                t_route = swapClients(t_route, t_actual_index, best_index);
         }
     public: 
         /**
@@ -48,11 +48,11 @@ class Greedy{
             @param t_actual_position route starting point
         */
         static void greedy(Route& t_route, Point t_actual_position){
-            int size = t_route.size;
+            int size = t_route.clients.size();
 
             for (int i = 0; i < size; i++){
                 set_best_client_for_position(t_route, t_actual_position, i);
-                t_actual_position = t_route.clients[i].getPosition();
+                t_actual_position = t_route.clients.at(i);
             }
         }
 };
