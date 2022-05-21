@@ -2,7 +2,7 @@
 #include <iostream>
 #include "models/vehicles/drone.cpp"
 #include "models/vehicles/car.cpp"
-#include "models/position.cpp"
+#include "models/point.cpp"
 #include "models/client.cpp"
 
 using namespace std;
@@ -24,7 +24,7 @@ int main(){
 };
 /*/
 
-#include "models/position.cpp"
+#include "models/point.cpp"
 #include "models/route.cpp"
 #include "heusristics/greedy.cpp"
 

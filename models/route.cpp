@@ -2,27 +2,24 @@
 #define ROUTE_CPP
 
 #include <iostream>
+#include <vector>
 #include "client.cpp"
 
 using namespace std;
 
 struct Route{
-    int size;
-    Client clients[4];
+    vector<Client> clients;
 };
 
 void printRoute(Route t_route){
-    for(int i = 0; i < t_route.size; i++){
-        Client client = t_route.clients[i];
+    for(int i = 0; i < t_route.clients.size(); i++){
+        Client client = t_route.clients.at(i);
         cout << "#" << i << " -> " << client.toString() << endl;
     }
 }
 
-Route changeClients(Route t_route, int t_client_index1, int t_client_index2){
-    Client c1 = t_route.clients[t_client_index1];
-    Client c2 = t_route.clients[t_client_index2];
-    t_route.clients[t_client_index1] = c2;
-    t_route.clients[t_client_index2] = c1;
+Route swapClients(Route& t_route, int t_client_index1, int t_client_index2){
+    swap(t_route.clients.at(t_client_index1), t_route.clients.at(t_client_index2));
     return t_route;
 }
 
@@ -48,12 +45,19 @@ Route initialize_route(){
     Client client4("Cliente4", ponto4, 10);
 
     Route route;
-    route.clients[0] = client1;
-    route.clients[1] = client2;
-    route.clients[2] = client3;
-    route.clients[3] = client4;
-    route.size = 4;
+    route.clients.push_back(client1);
+    route.clients.push_back(client2);
+    route.clients.push_back(client3);
+    route.clients.push_back(client4);
     return route;
 }
 
 #endif
+
+int main(){
+    Route route = initialize_route();
+    swapClients(route, 1, 3);
+    printRoute(route);
+
+    return 0;
+}

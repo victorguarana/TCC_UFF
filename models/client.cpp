@@ -2,11 +2,11 @@
 #define CLIENT_CPP
 
 #include <string>
-#include "position.cpp"
+#include "point.cpp"
 
 using namespace std;
 
-class Client{
+class Client: public Point{
     private:
         struct Point m_pos;
         string m_name;
@@ -39,7 +39,7 @@ class Client{
         Point getPosition(){
             return m_pos;
         }
-        
+
         string toString(){
             string client_str = getName() + " (Pos: " + to_string(getPosition().lat) +  " : " + to_string(getPosition().lon) + ")";
             return client_str;
