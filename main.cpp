@@ -25,13 +25,13 @@ int main(){
 #include "heusristics/greedy.cpp"
 
 int main(){
-    Point ponto0("Ponto", 0, 0);
+    Point deposit("Deposito", 0, 0);
+    Car car;
+    Map initial_map = initialize_map();
 
-    // Route initial_route = initialize_map();
-    //initialize_map();
-    // Greedy::greedy(initial_route, ponto0);
+    vector<Point> final_route = Greedy::greedy(initial_map, deposit, car);
 
-    // printRoute(initial_route);
+    printPoints(final_route);
 
     return 0; 
 }

@@ -50,12 +50,16 @@ class Greedy{
         }
 
         static bool validate_next_client(Point t_actual_position, Point t_nearest_client, vector<Point> t_deposits, Car t_car){
-            // TODO Add storage too
+            // Storage validation
+            if (t_car.getRemainingStorage() < t_nearest_client.getPackage()) 
+                return false;
 
+            // Fuel validation
             double actual_to_nearest_point_distance = Point::distanceBetweenPoints(t_actual_position, t_nearest_client);
-            // TODO: Implement search for nearest deposit
-            double nearest_point_to_deposit_distance = Point::distanceBetweenPoints(t_actual_position, t_deposits.at(0));
-            double total_range = actual_to_nearest_point_distance + nearest_point_to_deposit_distance;
+
+            PointReturn nearest_client_to_nearest_deposit_return = find_nearest_point(t_deposits, t_nearest_client);
+            double nearest_client_to_deposit_distance = nearest_client_to_nearest_deposit_return.distance;
+            double total_range = actual_to_nearest_point_distance + nearest_client_to_deposit_distance;
 
             return total_range <= t_car.getRemainingRange();
         }
@@ -93,19 +97,5 @@ class Greedy{
             return final_route;
         }
 };
-
-
-int main(){
-    Point deposit("Deposito", 0, 0);
-    Car car;
-    Map initial_map = initialize_map();
-
-    vector<Point> final_route = Greedy::greedy(initial_map, deposit, car);
-
-    printPoints(final_route);
-
-    return 0; 
-}
-
 
 #endif
