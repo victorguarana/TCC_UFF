@@ -29,6 +29,9 @@ int main(){
     Car car;
     Map initial_map = initialize_map();
 
+    Point far_client("Last Client", -1, -5, 990);
+    initial_map.clients.push_back(far_client);
+
     vector<Point> final_route = Greedy::greedy(initial_map, deposit, car);
 
     printPoints(final_route);

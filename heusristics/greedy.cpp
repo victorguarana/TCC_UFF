@@ -13,14 +13,6 @@ class Greedy{
             double distance;
             int index;
         };
-        /**
-            Calculates the priority based on the distance from the actual position to the client
-            @param t_actual drivers actual position
-            @param t_destiny client to be used in the calculation
-        */
-        static double calc_priority(Point t_actual, Point t_destiny){
-            return Point::distanceBetweenPoints(t_actual, t_destiny) * -1 ;
-        }
 
         /**
             Finds the nearest unvisited client to the actual position, allways considering that the car can go back to any deposit
@@ -84,13 +76,18 @@ class Greedy{
                 double nearest_client_distance = nearest_client_return.distance;
 
                 if (validate_next_client(t_initial_position, nearest_client, t_map.deposits, t_car)){
+                    t_initial_position = nearest_client;
                     final_route.push_back(nearest_client);
                     t_map.clients.erase(t_map.clients.begin() + nearest_client_index);
                     t_car.move(nearest_client_distance);
+                    t_car.store(nearest_client.getPackage());
                 }
                 else {
-                    double distance = find_nearest_point(t_map.deposits, t_initial_position).distance;
-                    t_car.move(distance);
+                    Point nearest_deposit = find_nearest_point(t_map.deposits, t_initial_position).point;
+                    t_initial_position = nearest_deposit;
+                    final_route.push_back(nearest_deposit);
+                    t_car.resetRange();
+                    t_car.resetStorage();
                 }
             }
 
