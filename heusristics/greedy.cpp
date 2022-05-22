@@ -36,7 +36,7 @@ class Greedy{
                 Point new_point = t_points.at(i);
                 double new_distance = Point::distanceBetweenPoints(t_actual_position, new_point);
 
-                if (shortest_distance < new_distance){
+                if (shortest_distance > new_distance){
                     shortest_distance = new_distance;
                     nearest_point = new_point;
                     nearest_index = i;
