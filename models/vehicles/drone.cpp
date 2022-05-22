@@ -3,13 +3,11 @@
 
 #include "vehicle.cpp"
 
+#define DEFAULT_DRONE_TOTAL_RANGE 100
+#define DEFAULT_DRONE_TOTAL_STORAGE 10
+
 class Drone : public Vehicle {
     private:
-
-        //Constants for each vehicle type
-        const double m_total_range = 100;
-        const double m_total_storage = 10;
-        
         // Specific Members for this vehiche type
         int m_battery_cicles;
 
@@ -17,16 +15,16 @@ class Drone : public Vehicle {
         /* Constructors */
         // "Clean" constructor
         Drone(){
-            setTotalRange(m_total_range);
-            setRemainingRange(m_total_range);
-            setTotalStorage(m_total_storage);
-            setRemainingStorage(m_total_storage);
+            setTotalRange(DEFAULT_DRONE_TOTAL_RANGE);
+            setRemainingRange(DEFAULT_DRONE_TOTAL_RANGE);
+            setTotalStorage(DEFAULT_DRONE_TOTAL_STORAGE);
+            setRemainingStorage(DEFAULT_DRONE_TOTAL_STORAGE);
         }
 
         Drone(double t_remaining_range, double t_remaining_storage){
-            setTotalRange(m_total_range);
+            setTotalRange(DEFAULT_DRONE_TOTAL_RANGE);
             setRemainingRange(t_remaining_range);
-            setTotalStorage(m_total_storage);
+            setTotalStorage(DEFAULT_DRONE_TOTAL_STORAGE);
             setRemainingStorage(t_remaining_storage);
         }
 

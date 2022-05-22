@@ -21,17 +21,20 @@ int main(){
 /*/
 
 #include "models/point.cpp"
-#include "models/route.cpp"
+#include "models/map.cpp"
 #include "heusristics/greedy.cpp"
 
 int main(){
-    Point ponto0("Ponto", 0, 0);
+    Point deposit("Deposito", 0, 0);
+    Car car;
+    Map initial_map = initialize_map();
 
-    Route initial_route = initialize_route();
-    //initialize_route();
-    Greedy::greedy(initial_route, ponto0);
+    Point far_client("Last Client", -1, -5, 990);
+    initial_map.clients.push_back(far_client);
 
-    printRoute(initial_route);
+    vector<Point> final_route = Greedy::greedy(initial_map, deposit, car);
+
+    printPoints(final_route);
 
     return 0; 
 }

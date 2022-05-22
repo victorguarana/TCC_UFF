@@ -8,6 +8,14 @@ class Vehicle {
         double m_total_range;
         double m_remaining_range;
 
+    protected:
+        void setTotalStorage(double t_total_storage){
+            m_total_storage = t_total_storage;
+        }
+        void setTotalRange(double t_total_range){
+            m_total_range = t_total_range;
+        }
+
     public:
         /* Getters */
         double getTotalStorage(){
@@ -16,18 +24,12 @@ class Vehicle {
         double getRemainingStorage(){
             return m_remaining_storage;
         }
-        double getUsedStorage(){
-            return m_total_storage - m_remaining_storage;
-        }
 
         double getTotalRange(){
             return m_total_range;
         }
         double getRemainingRange(){
             return m_remaining_range;
-        }
-        double getUsedRange(){
-            return m_total_range - m_remaining_range;
         }
 
         /* Setters */
@@ -37,11 +39,18 @@ class Vehicle {
         void setRemainingRange(double t_remaining_range){
             m_remaining_range = t_remaining_range;
         }
-        void setTotalStorage(double t_total_storage){
-            m_total_storage = t_total_storage;
+
+        void move(double t_distance_travelled){
+            m_remaining_range -= t_distance_travelled;
         }
-        void setTotalRange(double t_total_range){
-            m_total_range = t_total_range;
+        void store(double t_stored_space){
+            m_remaining_storage -= t_stored_space;
+        }
+        void resetStorage(){
+            m_remaining_storage = m_total_storage;
+        }
+        void resetRange(){
+            m_remaining_range = m_total_range;
         }
 };
 
