@@ -10,6 +10,7 @@
 #### Tipos de operações de pertubação (Podem ser feitas mais de uma por vez (?) ):
 - [ ] Trocar entrega de veiculo por entrega de drone ( e vice versa (?) ).
 - [ ] Trocar ordem de entregas.
+- [ ] Remover ou alterar as posições dos depósitos nas rotas.
 - [ ] Verificar se alteração continua com boa qualidade.
 
 #### Pontos extras:
