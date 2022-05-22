@@ -2,6 +2,8 @@
 #define DRONE_CPP
 
 #include "vehicle.cpp"
+#include <vector>
+#include "../point.cpp"
 
 #define DEFAULT_DRONE_TOTAL_RANGE 100
 #define DEFAULT_DRONE_TOTAL_STORAGE 10
@@ -42,17 +44,22 @@ class Drone : public Vehicle {
         bool isFlying(){
             return m_flying;
         }
-        void takeOff(){
+        void takeOff(Point t_takeoff_point){
             m_flying = true;
+            Flight flight;
+            flight.initial_point = t_takeoff_point;
+            m_flights.push_back(flight);
         }
-        void land(){
-            m_flying = true;
+        void land(Point t_land_point){
+            Flight flight = m_flights.at(m_flights.size()-1);
+            flight.returning_point = t_land_point;
+            m_flying = false;
         }
 
-        void addFlight(Flight t_flight){
-            m_flights.push_back(t_flight);
+        void addPointToFlight(Point t_point){
+            Flight flight = m_flights.at(m_flights.size()-1);
+            flight.route.push_back(t_point);
         }
-
 };
 
 #endif

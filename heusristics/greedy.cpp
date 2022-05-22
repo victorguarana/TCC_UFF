@@ -110,21 +110,19 @@ class Greedy{
                     double distance_delivery = Point::distanceBetweenPoints(next_point, actual_point);
                     double distance_back = Point::distanceBetweenPoints(actual_point, car_route.at(i+1));
                     double total_distance = distance_delivery + distance_back;
+
                     if (drone->canDeliver(total_distance, package)){
                         drone->move(distance_delivery);
                         drone->store(package);
                         if (!drone->isFlying()){
-                            actual_flight.initial_point = actual_point;
-                            drone->takeOff();
+                            drone->takeOff(actual_point);
                         }
-                        actual_flight.route.push_back(next_point);
+                        drone->addPointToFlight(next_point);
                         car_route.erase(car_route.begin() + i);
                     }
                     else{
                         if (drone->isFlying()){
-                            actual_flight.returning_point = next_point;
-                            drone->addFlight(actual_flight);
-                            drone->land();
+                            drone->land(next_point);
                             drone->resetRange();
                             drone->resetStorage();
                         }
