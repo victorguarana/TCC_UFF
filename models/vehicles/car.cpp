@@ -3,27 +3,24 @@
 
 #include "vehicle.cpp"
 
-class Car : public Vehicle {
-    private:
+#define DEFAULT_CAR_TOTAL_RANGE 500
+#define DEFAULT_CAR_TOTAL_STORAGE 1000
 
-        //Constants for each vehicle type
-        const double m_total_range = 1000;
-        const double m_total_storage = 500;
-        
+class Car : public Vehicle {
     public:
-        /* Constructors */
+        // Constructors
         // "Clean" constructor
         Car(){
-            setTotalRange(m_total_range);
-            setRemainingRange(m_total_range);
-            setTotalStorage(m_total_storage);
-            setRemainingStorage(m_total_storage);
+            setTotalRange(DEFAULT_CAR_TOTAL_RANGE);
+            setRemainingRange(DEFAULT_CAR_TOTAL_RANGE);
+            setTotalStorage(DEFAULT_CAR_TOTAL_STORAGE);
+            setRemainingStorage(DEFAULT_CAR_TOTAL_STORAGE);
         }
 
         Car(double t_remaining_range, double t_remaining_storage){
-            setTotalRange(m_total_range);
+            setTotalRange(DEFAULT_CAR_TOTAL_RANGE);
             setRemainingRange(t_remaining_range);
-            setTotalStorage(m_total_storage);
+            setTotalStorage(DEFAULT_CAR_TOTAL_STORAGE);
             setRemainingStorage(t_remaining_storage);
         }
 };
