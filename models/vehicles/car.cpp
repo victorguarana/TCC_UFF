@@ -31,13 +31,6 @@ class Car : public Vehicle {
             m_drone = drone;
         }
 
-        Car(double t_remaining_range, double t_remaining_storage){
-            setTotalRange(DEFAULT_CAR_TOTAL_RANGE);
-            setRemainingRange(t_remaining_range);
-            setTotalStorage(DEFAULT_CAR_TOTAL_STORAGE);
-            setRemainingStorage(t_remaining_storage);
-        }
-
         Drone* getDrone(){
             return &m_drone;
         }

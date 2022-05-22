@@ -77,8 +77,7 @@ class Greedy{
                     t_initial_position = nearest_client;
                     t_car.addPointToRoute(nearest_client);
                     t_map.clients.erase(t_map.clients.begin() + nearest_client_index);
-                    t_car.move(nearest_client_distance);
-                    t_car.store(nearest_client.getPackage());
+                    t_car.deliver(nearest_client.getPackage(), nearest_client_distance);
                 }
                 else {
                     Point nearest_deposit = find_nearest_point(t_map.deposits, t_initial_position).point;
@@ -112,8 +111,7 @@ class Greedy{
                     double total_distance = distance_delivery + distance_back;
 
                     if (drone->canDeliver(total_distance, package)){
-                        drone->move(distance_delivery);
-                        drone->store(package);
+                        drone->deliver(package, distance_delivery);
                         if (!drone->isFlying()){
                             drone->takeOff(actual_point);
                         }
@@ -123,8 +121,6 @@ class Greedy{
                     else{
                         if (drone->isFlying()){
                             drone->land(next_point);
-                            drone->resetRange();
-                            drone->resetStorage();
                         }
                     }
                 }

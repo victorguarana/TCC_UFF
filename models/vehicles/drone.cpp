@@ -53,6 +53,8 @@ class Drone : public Vehicle {
         void land(Point t_land_point){
             Flight flight = m_flights.at(m_flights.size()-1);
             flight.returning_point = t_land_point;
+            resetRange();
+            resetStorage();
             m_flying = false;
         }
 

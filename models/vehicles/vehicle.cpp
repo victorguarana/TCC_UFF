@@ -40,11 +40,9 @@ class Vehicle {
             m_remaining_range = t_remaining_range;
         }
 
-        void move(double t_distance_travelled){
-            m_remaining_range -= t_distance_travelled;
-        }
-        void store(double t_stored_space){
+        void deliver(double t_stored_space, double t_distance_travelled){
             m_remaining_storage -= t_stored_space;
+            m_remaining_range -= t_distance_travelled;
         }
         void resetStorage(){
             m_remaining_storage = m_total_storage;
