@@ -43,6 +43,10 @@ class Vehicle {
         void setTotalRange(double t_total_range){
             m_total_range = t_total_range;
         }
+
+        void move(double t_distance_travelled){
+            m_remaining_range -= t_distance_travelled;
+        }
 };
 
 #endif

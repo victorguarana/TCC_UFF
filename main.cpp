@@ -21,17 +21,17 @@ int main(){
 /*/
 
 #include "models/point.cpp"
-#include "models/route.cpp"
+#include "models/map.cpp"
 #include "heusristics/greedy.cpp"
 
 int main(){
     Point ponto0("Ponto", 0, 0);
 
-    Route initial_route = initialize_route();
-    //initialize_route();
-    Greedy::greedy(initial_route, ponto0);
+    // Route initial_route = initialize_map();
+    //initialize_map();
+    // Greedy::greedy(initial_route, ponto0);
 
-    printRoute(initial_route);
+    // printRoute(initial_route);
 
     return 0; 
 }

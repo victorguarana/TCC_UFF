@@ -3,73 +3,109 @@
 
 #include "../models/point.cpp"
 #include "../models/client.cpp"
-#include "../models/route.cpp"
-
+#include "../models/map.cpp"
+#include "../models/vehicles/car.cpp"
 
 class Greedy{
     private:
+        struct PointReturn{
+            Point point;
+            double distance;
+            int index;
+        };
         /**
             Calculates the priority based on the distance from the actual position to the client
-            @param t_destiny client to be used in the calculation
             @param t_actual drivers actual position
+            @param t_destiny client to be used in the calculation
         */
-        static double calc_priority(Point t_destiny, Point t_actual){
+        static double calc_priority(Point t_actual, Point t_destiny){
             return Point::distanceBetweenPoints(t_actual, t_destiny) * -1 ;
         }
 
         /**
-            Finds the best unvisited client to the actual position
-            @param t_route route to be modified
+            Finds the nearest unvisited client to the actual position, allways considering that the car can go back to any deposit
+            @param t_points vector of points to be searched
             @param t_actual_position drivers actual position (usually is the same as the last client)
-            @param t_actual_index index used as a pivot to define which position has to be calculated
         */
-        static void set_best_client_for_position(Route& t_route, Point t_actual_position, int t_actual_index){
-            int best_index = t_actual_index;
-            Point nearest_point = t_route.clients.at(t_actual_index);
-            double highest_priority = calc_priority(nearest_point, t_actual_position);
+        static PointReturn find_nearest_point(vector<Point> t_points, Point t_actual_position){
+            Point nearest_point = t_points.at(0);
+            int nearest_index = 0;
+            double shortest_distance = Point::distanceBetweenPoints(t_actual_position, nearest_point);
 
-            for(int i = t_actual_index + 1; i < t_route.clients.size(); i++){
-                Point new_point = t_route.clients.at(i);
-                double new_priority = calc_priority(new_point, t_actual_position);
+            for(int i = 1; i < t_points.size(); i++){
+                Point new_point = t_points.at(i);
+                double new_distance = Point::distanceBetweenPoints(t_actual_position, new_point);
 
-                if (highest_priority < new_priority){
-                    highest_priority = new_priority;
-                    best_index = i;
+                if (shortest_distance < new_distance){
+                    shortest_distance = new_distance;
+                    nearest_point = new_point;
+                    nearest_index = i;
                 }
             }
-
-            if(best_index != t_actual_index)
-                t_route = swapClients(t_route, t_actual_index, best_index);
+            PointReturn point_return;
+            point_return.point = nearest_point;
+            point_return.distance = shortest_distance;
+            point_return.index = nearest_index;
+            return point_return;
         }
+
+        static bool validate_next_client(Point t_actual_position, Point t_nearest_client, vector<Point> t_deposits, Car t_car){
+            // TODO Add storage too
+
+            double actual_to_nearest_point_distance = Point::distanceBetweenPoints(t_actual_position, t_nearest_client);
+            // TODO: Implement search for nearest deposit
+            double nearest_point_to_deposit_distance = Point::distanceBetweenPoints(t_actual_position, t_deposits.at(0));
+            double total_range = actual_to_nearest_point_distance + nearest_point_to_deposit_distance;
+
+            return total_range <= t_car.getRemainingRange();
+        }
+
     public: 
         /**
             Implements a greedy algorithm to get an good route
-            @param t_route initial route
-            @param t_actual_position route starting point
+            @param t_map map struct to define the environment
+            @param t_initial_position starting point of the car
+            @param t_car car to be used in the route
         */
-        static void greedy(Route& t_route, Point t_actual_position){
-            int size = t_route.clients.size();
+        static vector<Point> greedy(Map t_map, Point t_initial_position, Car t_car){
+            // TODO: Validate if all clients are reachable from any deposit (reachable -> can start from any deposit and to any other?)
+            vector<Point> final_route;
 
-            for (int i = 0; i < size; i++){
-                set_best_client_for_position(t_route, t_actual_position, i);
-                t_actual_position = t_route.clients.at(i);
+            while (!t_map.clients.empty()){
+                // OPTIMIZATION: Use the remainig car range when setting the nearest client?
+
+                PointReturn nearest_client_return = find_nearest_point(t_map.clients, t_initial_position);
+                Point nearest_client = nearest_client_return.point;
+                int nearest_client_index = nearest_client_return.index;
+                double nearest_client_distance = nearest_client_return.distance;
+
+                if (validate_next_client(t_initial_position, nearest_client, t_map.deposits, t_car)){
+                    final_route.push_back(nearest_client);
+                    t_map.clients.erase(t_map.clients.begin() + nearest_client_index);
+                    t_car.move(nearest_client_distance);
+                }
+                else {
+                    double distance = find_nearest_point(t_map.deposits, t_initial_position).distance;
+                    t_car.move(distance);
+                }
             }
+
+            return final_route;
         }
 };
 
-/*
+
 int main(){
-    Point ponto0;
-    ponto0.lat = 0;
-    ponto0.lon = 0;
+    Point deposit("Deposito", 0, 0);
+    Car car;
+    Map initial_map = initialize_map();
 
-    Route initial_route = initialize_route();
-    Greedy::greedy(initial_route, ponto0);
+    vector<Point> final_route = Greedy::greedy(initial_map, deposit, car);
 
-    printRoute(initial_route);
+    printPoints(final_route);
 
     return 0; 
 }
-*/
+
 
 #endif

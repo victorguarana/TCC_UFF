@@ -17,6 +17,12 @@ class Point{
         pointType m_type;
 
     public:
+        Point(){
+            m_latitude = 0;
+            m_longitude = 0;
+            m_name = "";
+        }
+
         // Initializer for client
         Point(string t_name, double t_latitude, double t_longitude, double t_package){
             m_name = t_name;
