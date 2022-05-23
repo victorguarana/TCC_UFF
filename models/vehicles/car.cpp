@@ -7,6 +7,7 @@
 
 #define DEFAULT_CAR_TOTAL_RANGE 500
 #define DEFAULT_CAR_TOTAL_STORAGE 1000
+#define DEFAULT_CAR_SPEED 10
 
 class Car : public Vehicle {
     private:
@@ -21,6 +22,7 @@ class Car : public Vehicle {
             setRemainingRange(DEFAULT_CAR_TOTAL_RANGE);
             setTotalStorage(DEFAULT_CAR_TOTAL_STORAGE);
             setRemainingStorage(DEFAULT_CAR_TOTAL_STORAGE);
+            setSpeed(DEFAULT_CAR_SPEED);
         }
 
         Car(Drone drone){
@@ -28,6 +30,7 @@ class Car : public Vehicle {
             setRemainingRange(DEFAULT_CAR_TOTAL_RANGE);
             setTotalStorage(DEFAULT_CAR_TOTAL_STORAGE);
             setRemainingStorage(DEFAULT_CAR_TOTAL_STORAGE);
+            setSpeed(DEFAULT_CAR_SPEED);
             m_drone = drone;
         }
 
@@ -51,6 +54,13 @@ class Car : public Vehicle {
             m_route.erase(m_route.begin() + t_index);
         }
 
+        double route_distance(){
+            double total_distance = 0;
+            for(int i = 0; i < m_route.size()-1 ; i++){
+                total_distance += Point::distanceBetweenPoints(m_route.at(i), m_route.at(i+1));
+            }
+            return total_distance;
+        }
 };
 
 #endif

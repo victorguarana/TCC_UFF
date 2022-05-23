@@ -68,6 +68,11 @@ class Point{
 
             return str;
         }
+        bool equal(Point t_point){
+            if (m_latitude == t_point.m_latitude && m_longitude == t_point.m_longitude && m_name == t_point.m_name && m_package == t_point.m_package && m_type  == t_point.m_type)
+                return true;
+            return false;
+        }
 
         static double distanceBetweenPoints(Point t_p1, Point t_p2){
             return sqrt( ((t_p1.m_latitude - t_p2.m_latitude)*(t_p1.m_latitude - t_p2.m_latitude)) + ((t_p1.m_longitude - t_p2.m_longitude)*(t_p1.m_longitude - t_p2.m_longitude)) * 1.0);

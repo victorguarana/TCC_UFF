@@ -7,6 +7,7 @@ class Vehicle {
         double m_remaining_storage;
         double m_total_range;
         double m_remaining_range;
+        double m_speed;
 
     protected:
         void setTotalStorage(double t_total_storage){
@@ -15,21 +16,20 @@ class Vehicle {
         void setTotalRange(double t_total_range){
             m_total_range = t_total_range;
         }
+        void setSpeed(double t_speed){
+            m_speed = t_speed;
+        }
 
     public:
         /* Getters */
-        double getTotalStorage(){
-            return m_total_storage;
-        }
         double getRemainingStorage(){
             return m_remaining_storage;
         }
-
-        double getTotalRange(){
-            return m_total_range;
-        }
         double getRemainingRange(){
             return m_remaining_range;
+        }
+        double getSpeed(){
+            return m_speed;
         }
 
         /* Setters */
