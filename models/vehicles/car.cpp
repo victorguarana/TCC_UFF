@@ -47,6 +47,9 @@ class Car : public Vehicle {
         void addPointToRoute(Point t_point){
             m_route.push_back(t_point);
         }
+        void removePointFromRoute(int t_index){
+            m_route.erase(m_route.begin() + t_index);
+        }
 
 };
 

@@ -65,6 +65,7 @@ class Greedy{
         */
         static void single_car_greedy(Car& t_car, Map t_map, Point t_initial_position){
             // TODO: Validate if all clients are reachable from any deposit (reachable -> can start from any deposit and to any other?)
+            t_car.addPointToRoute(t_initial_position);
             while (!t_map.clients.empty()){
                 // OPTIMIZATION: Use the remainig car range when setting the nearest client?
 
@@ -97,17 +98,17 @@ class Greedy{
         }
 
         static void add_drone_flight(Car& t_car){
-            vector<Point> car_route = t_car.getRoute();
+            vector<Point> old_car_route = t_car.getRoute();
             Drone* drone = t_car.getDrone();
 
-            Point next_point, actual_point = car_route.at(0);
+            Point next_point, actual_point = old_car_route.at(0);
             Flight actual_flight;
-            for(int i = 1; i < car_route.size()-1; i++){
-                next_point = car_route.at(i);
+            for(int i = 1; i < old_car_route.size()-1; i++){
+                next_point = old_car_route.at(i);
                 if (next_point.is_client()){
                     double package = next_point.getPackage();
                     double distance_delivery = Point::distanceBetweenPoints(next_point, actual_point);
-                    double distance_back = Point::distanceBetweenPoints(actual_point, car_route.at(i+1));
+                    double distance_back = Point::distanceBetweenPoints(actual_point, old_car_route.at(i+1));
                     double total_distance = distance_delivery + distance_back;
 
                     if (drone->canDeliver(total_distance, package)){
@@ -116,7 +117,10 @@ class Greedy{
                             drone->takeOff(actual_point);
                         }
                         drone->addPointToFlight(next_point);
-                        car_route.erase(car_route.begin() + i);
+
+                        t_car.removePointFromRoute(i);
+                        old_car_route.erase(old_car_route.begin() + i);
+                        i--;
                     }
                     else{
                         if (drone->isFlying()){
@@ -124,9 +128,13 @@ class Greedy{
                         }
                     }
                 }
+                else{
+                    if (drone->isFlying()){
+                        drone->land(next_point);
+                    }
+                }
                 actual_point = next_point;
             }
-            t_car.setRoute(car_route);
         }
 };
 
