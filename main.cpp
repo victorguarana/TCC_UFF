@@ -32,9 +32,15 @@ int main(){
     Point far_client("Last Client", -1, -5, 990);
     initial_map.clients.push_back(far_client);
 
-    vector<Point> final_route = Greedy::greedy(initial_map, deposit, car);
+    cout << "Initial Route (Car only):" << endl;
+    Greedy::single_car_greedy(car, initial_map, deposit);
+    printPoints(car.getRoute());
 
-    printPoints(final_route);
+    cout << "\n\n" << endl;
+
+    cout << "Final Route (Car and drone):" << endl;
+    Greedy::add_drone_flight(car);
+    printPoints(car.getRoute());
 
     return 0; 
 }

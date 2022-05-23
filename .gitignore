@@ -39,3 +39,6 @@
 
 # Ignore VS Code files
 /.vscode/*
+
+# Ignore compiler files
+*.plist

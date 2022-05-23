@@ -58,15 +58,14 @@ class Greedy{
 
     public: 
         /**
-            Implements a greedy algorithm to get an good route
+            Implements a greedy algorithm to get an good route only using a single car
             @param t_map map struct to define the environment
             @param t_initial_position starting point of the car
             @param t_car car to be used in the route
         */
-        static vector<Point> greedy(Map t_map, Point t_initial_position, Car t_car){
+        static void single_car_greedy(Car& t_car, Map t_map, Point t_initial_position){
             // TODO: Validate if all clients are reachable from any deposit (reachable -> can start from any deposit and to any other?)
-            vector<Point> final_route;
-
+            t_car.addPointToRoute(t_initial_position);
             while (!t_map.clients.empty()){
                 // OPTIMIZATION: Use the remainig car range when setting the nearest client?
 
@@ -77,21 +76,65 @@ class Greedy{
 
                 if (validate_next_client(t_initial_position, nearest_client, t_map.deposits, t_car)){
                     t_initial_position = nearest_client;
-                    final_route.push_back(nearest_client);
+                    t_car.addPointToRoute(nearest_client);
                     t_map.clients.erase(t_map.clients.begin() + nearest_client_index);
-                    t_car.move(nearest_client_distance);
-                    t_car.store(nearest_client.getPackage());
+                    t_car.deliver(nearest_client.getPackage(), nearest_client_distance);
                 }
                 else {
                     Point nearest_deposit = find_nearest_point(t_map.deposits, t_initial_position).point;
                     t_initial_position = nearest_deposit;
-                    final_route.push_back(nearest_deposit);
+                    t_car.addPointToRoute(nearest_deposit);
                     t_car.resetRange();
                     t_car.resetStorage();
                 }
             }
 
-            return final_route;
+            // Add deposit at the end of the route
+            Point nearest_deposit = find_nearest_point(t_map.deposits, t_initial_position).point;
+            t_initial_position = nearest_deposit;
+            t_car.addPointToRoute(nearest_deposit);
+            t_car.resetRange();
+            t_car.resetStorage();
+        }
+
+        static void add_drone_flight(Car& t_car){
+            vector<Point> old_car_route = t_car.getRoute();
+            Drone* drone = t_car.getDrone();
+
+            Point next_point, actual_point = old_car_route.at(0);
+            Flight actual_flight;
+            for(int i = 1; i < old_car_route.size()-1; i++){
+                next_point = old_car_route.at(i);
+                if (next_point.is_client()){
+                    double package = next_point.getPackage();
+                    double distance_delivery = Point::distanceBetweenPoints(next_point, actual_point);
+                    double distance_back = Point::distanceBetweenPoints(actual_point, old_car_route.at(i+1));
+                    double total_distance = distance_delivery + distance_back;
+
+                    if (drone->canDeliver(total_distance, package)){
+                        drone->deliver(package, distance_delivery);
+                        if (!drone->isFlying()){
+                            drone->takeOff(actual_point);
+                        }
+                        drone->addPointToFlight(next_point);
+
+                        t_car.removePointFromRoute(i);
+                        old_car_route.erase(old_car_route.begin() + i);
+                        i--;
+                    }
+                    else{
+                        if (drone->isFlying()){
+                            drone->land(next_point);
+                        }
+                    }
+                }
+                else{
+                    if (drone->isFlying()){
+                        drone->land(next_point);
+                    }
+                }
+                actual_point = next_point;
+            }
         }
 };
 
