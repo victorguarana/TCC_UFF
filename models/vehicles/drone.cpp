@@ -57,17 +57,17 @@ class Drone : public Vehicle {
             m_flights.push_back(flight);
         }
         void land(Point t_land_point){
-            Flight flight = m_flights.at(m_flights.size()-1);
-            flight.route.push_back(t_land_point);
-            flight.returning_point = t_land_point;
+            Flight *flight = &m_flights.at(m_flights.size()-1);
+            flight->route.push_back(t_land_point);
+            flight->returning_point = t_land_point;
             resetRange();
             resetStorage();
             m_flying = false;
         }
 
         void addPointToFlight(Point t_point){
-            Flight flight = m_flights.at(m_flights.size()-1);
-            flight.route.push_back(t_point);
+            Flight *flight = &m_flights.at(m_flights.size()-1);
+            flight->route.push_back(t_point);
         }
 
         double route_distance(){
@@ -82,11 +82,11 @@ class Drone : public Vehicle {
         }
 
         void appendFlightChromos(vector<Chromo> &chromos, Point t_point){
-            for(int i = 0; m_flights.size(); i++){
+            for(int i = 0; i < m_flights.size(); i++){
                 if (m_flights.at(i).initial_point.equal(t_point)){
                     vector<Point> route = m_flights.at(i).route;
-                    for(int j = 1; j < m_flights.at(i).route.size()-1 ; j++){
-                        Chromo chromo(route.at(i));
+                    for(int j = 1; j < route.size()-1 ; j++){
+                        Chromo chromo(route.at(j));
                         chromo.DeliveredByDrone();
                         chromos.push_back(chromo);
                     }

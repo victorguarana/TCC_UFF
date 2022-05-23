@@ -41,11 +41,12 @@ int main(){
 
     cout << "\n\n" << endl;
 
-    cout << "Final Route (Car and drone):" << endl;
+    cout << "Greedy Route (Car and drone):" << endl;
     Greedy::add_drone_flight(car);
     printPoints(car.getRoute());
     cout << "Measure (Car and drone): " << Measurer::route_measurer(car) << endl;
 
+    vector<Chromo> chromos = car.toChromos();
     return 0; 
 }
 /**/

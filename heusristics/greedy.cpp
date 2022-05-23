@@ -102,8 +102,7 @@ class Greedy{
             Drone* drone = t_car.getDrone();
 
             Point next_point, actual_point = old_car_route.at(0);
-            Flight actual_flight;
-            for(int i = 1; i < old_car_route.size()-1; i++){
+            for(int i = 1; i < old_car_route.size(); i++){
                 next_point = old_car_route.at(i);
                 if (next_point.is_client()){
                     double package = next_point.getPackage();
