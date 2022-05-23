@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum pointType { Deposit, Client };
+enum pointType { DEPOSIT, CLIENT };
 
 class Point{
     private:
@@ -29,7 +29,7 @@ class Point{
             m_latitude = t_latitude;
             m_longitude = t_longitude;
             m_package = t_package;
-            m_type = Client;
+            m_type = CLIENT;
         }
 
         // Initializer for deposit
@@ -38,14 +38,14 @@ class Point{
             m_latitude = t_latitude;
             m_longitude = t_longitude;
             m_package = -1;
-            m_type = Deposit;
+            m_type = DEPOSIT;
         }
 
         bool is_deposit(){
-            return m_type == Deposit;
+            return m_type == DEPOSIT;
         }
         bool is_client(){
-            return m_type == Client;
+            return m_type == CLIENT;
         }
 
         string getName(){

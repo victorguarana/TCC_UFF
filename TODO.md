@@ -20,6 +20,7 @@
     - [X] Adicionar metodos para simular o consumo dos mesmos.
     - [X] Adicionar método para simular a recarga dos drones.
 - [X] Adicionar "relação" entre as classes de carro e drone (Ex: Car has many drones).
+- [ ] Método para transformar a rota completa (Rota do carro com sub-rotas dos drones) em cromossomos.
 
 #### Validador de rota:
 - [ ] Implementar uma função dentro de veiculos para receber a classe de cliente e a posição atual e verificar, de acordo com os atributos do veiculo, se é possivel fazer a entrega.

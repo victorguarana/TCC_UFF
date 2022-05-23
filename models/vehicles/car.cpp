@@ -4,6 +4,7 @@
 #include "vehicle.cpp"
 #include "drone.cpp"
 #include "../point.cpp"
+#include "../chromosome.cpp"
 
 #define DEFAULT_CAR_TOTAL_RANGE 500
 #define DEFAULT_CAR_TOTAL_STORAGE 1000
@@ -60,6 +61,17 @@ class Car : public Vehicle {
                 total_distance += Point::distanceBetweenPoints(m_route.at(i), m_route.at(i+1));
             }
             return total_distance;
+        }
+
+        vector<Chromo> toChromos(){
+            vector<Chromo> chromos;
+            for(int i = 1; i < m_route.size()-1; i++){
+                Point actual_point = m_route.at(i);
+                Chromo chromo(actual_point);
+                chromos.push_back(chromo);
+                m_drone.appendFlightChromos(chromos, actual_point);
+            }
+            return chromos;
         }
 };
 
