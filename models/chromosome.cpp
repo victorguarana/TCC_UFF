@@ -10,12 +10,13 @@ enum Deliverer { CAR, DRONE };
 class Chromo{
     private:
         Point m_point;
-        Deliverer m_deliverer = CAR;
+        Deliverer m_deliverer;
 
     public:
         // Initializers
         Chromo(Point t_point){
             m_point = t_point;
+            m_deliverer = CAR;
         }
 
         // Getters
