@@ -5,7 +5,7 @@
 - [ ] Depois seguir com as perturbações.
 
 #### Definir qualidade:
-- [ ] Utilizar o tempo como indicador de qualidade.
+- [X] Utilizar o tempo como indicador de qualidade.
 
 #### Tipos de operações de pertubação (Podem ser feitas mais de uma por vez (?) ):
 - [ ] Trocar entrega de veiculo por entrega de drone ( e vice versa (?) ).
@@ -24,5 +24,5 @@
 #### Validador de rota:
 - [ ] Implementar uma função dentro de veiculos para receber a classe de cliente e a posição atual e verificar, de acordo com os atributos do veiculo, se é possivel fazer a entrega.
 
-#### Múltiplos Carros (?):
-- [ ] Refatorar para a rota pertencer ao carro (?).
+#### Múltiplos Carros:
+- [X] Refatorar para a rota pertencer ao carro.
