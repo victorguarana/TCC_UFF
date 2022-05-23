@@ -72,7 +72,7 @@ class Drone : public Vehicle {
             double total_distance = 0;
             for(int i = 0; i < m_flights.size(); i++){
                 Flight flight = m_flights.at(i);
-                for(int j = 0; i < flight.route.size(); i++){
+                for(int j = 0; i < flight.route.size()-1; i++){
                     total_distance += Point::distanceBetweenPoints(flight.route.at(i), flight.route.at(i+1));
                 }
             }

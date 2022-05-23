@@ -23,6 +23,7 @@ int main(){
 #include "models/point.cpp"
 #include "models/map.cpp"
 #include "heusristics/greedy.cpp"
+#include "measurer.cpp"
 
 int main(){
     Point deposit("Deposito", 0, 0);
@@ -35,12 +36,15 @@ int main(){
     cout << "Initial Route (Car only):" << endl;
     Greedy::single_car_greedy(car, initial_map, deposit);
     printPoints(car.getRoute());
+    cout << "Measure (Car only): " << Measurer::route_measurer(car) << endl;
+
 
     cout << "\n\n" << endl;
 
     cout << "Final Route (Car and drone):" << endl;
     Greedy::add_drone_flight(car);
     printPoints(car.getRoute());
+    cout << "Measure (Car and drone): " << Measurer::route_measurer(car) << endl;
 
     return 0; 
 }
