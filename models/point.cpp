@@ -48,15 +48,6 @@ class Point{
             return m_type == Client;
         }
 
-        string getName(){
-            return m_name;
-        }
-        double getLatitude(){
-            return m_latitude;
-        }
-        double getLongitude(){
-            return m_longitude;
-        }
         double getPackage(){
             return m_package;
         }

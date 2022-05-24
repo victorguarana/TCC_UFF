@@ -23,15 +23,17 @@ class Car : public Vehicle {
             setTotalStorage(DEFAULT_CAR_TOTAL_STORAGE);
             setRemainingStorage(DEFAULT_CAR_TOTAL_STORAGE);
             setSpeed(DEFAULT_CAR_SPEED);
+            setName("");
         }
 
-        Car(Drone drone){
+        Car(string t_name, Drone t_drone){
             setTotalRange(DEFAULT_CAR_TOTAL_RANGE);
             setRemainingRange(DEFAULT_CAR_TOTAL_RANGE);
             setTotalStorage(DEFAULT_CAR_TOTAL_STORAGE);
             setRemainingStorage(DEFAULT_CAR_TOTAL_STORAGE);
             setSpeed(DEFAULT_CAR_SPEED);
-            m_drone = drone;
+            setName(t_name);
+            m_drone = t_drone;
         }
 
         Drone* getDrone(){
@@ -39,10 +41,6 @@ class Car : public Vehicle {
         }
         vector<Point> getRoute(){
             return m_route;
-        }
-
-        void setRoute(vector<Point> t_route){
-            m_route = t_route;
         }
 
         // TODO: When add point to route, use functions move and store in backend

@@ -2,7 +2,6 @@
 #define GREEDY_CPP
 
 #include "../models/point.cpp"
-#include "../models/client.cpp"
 #include "../models/map.cpp"
 #include "../models/vehicles/car.cpp"
 

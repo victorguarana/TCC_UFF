@@ -3,7 +3,6 @@
 #include "models/vehicles/drone.cpp"
 #include "models/vehicles/car.cpp"
 #include "models/point.cpp"
-#include "models/client.cpp"
 
 using namespace std;
 
@@ -27,7 +26,9 @@ int main(){
 
 int main(){
     Point deposit("Deposito", 0, 0);
-    Car car;
+    Drone drone("Drone 1");
+    Car car("Carro 1", drone);
+
     Map initial_map = initialize_map();
 
     Point far_client("Last Client", -1, 0, 990);
