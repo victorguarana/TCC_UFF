@@ -3,7 +3,6 @@
 #include "models/vehicles/drone.cpp"
 #include "models/vehicles/car.cpp"
 #include "models/point.cpp"
-#include "models/client.cpp"
 
 using namespace std;
 
