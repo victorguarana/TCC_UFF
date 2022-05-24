@@ -65,11 +65,11 @@ class Car : public Vehicle {
 
         vector<Chromo> toChromos(){
             vector<Chromo> chromos;
-            for(int i = 1; i < m_route.size()-1; i++){
+            for(int i = 0; i < m_route.size(); i++){
                 Point actual_point = m_route.at(i);
                 Chromo chromo(actual_point);
                 chromos.push_back(chromo);
-                m_drone.appendFlightChromos(chromos, actual_point);
+                m_drone.appendFlightChromos(chromos, actual_point, i);
             }
             return chromos;
         }

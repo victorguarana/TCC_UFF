@@ -6,7 +6,8 @@
 
 #### Definir qualidade:
 - [X] Utilizar o tempo como indicador de qualidade.
-- [ ] Calcular qualidade de uma sequencia de cromossomos (?) Ou converter chromossomos de volta para rotas e utilizar indicador atual (?).
+- [X] Calcular qualidade de uma sequencia de cromossomos.
+- [ ] Durante entregas simultâneas, ignorar a rota de menor tempo.
 
 #### Tipos de operações de pertubação (Podem ser feitas mais de uma por vez (?) ):
 - [ ] Trocar entrega de veiculo por entrega de drone ( e vice versa (?) ).

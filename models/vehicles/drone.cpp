@@ -72,24 +72,26 @@ class Drone : public Vehicle {
             double total_distance = 0;
             for(int i = 0; i < m_flights.size(); i++){
                 Flight flight = m_flights.at(i);
-                for(int j = 0; i < flight.route.size()-1; i++){
-                    total_distance += Point::distanceBetweenPoints(flight.route.at(i), flight.route.at(i+1));
+                for(int j = 0; j < flight.route.size()-1; j++){
+                    total_distance += Point::distanceBetweenPoints(flight.route.at(j), flight.route.at(j+1));
                 }
             }
             return total_distance;
         }
 
         void appendFlightChromos(vector<Chromo> &chromos, Point t_point, int t_route_index){
-            for(int i = 0; i < m_flights.size(); i++){
-                if (m_flights.at(i).initial_point_index == t_route_index){
-                    vector<Point> route = m_flights.at(i).route;
-                    for(int j = 1; j < route.size()-1 ; j++){
-                        Chromo chromo(route.at(j));
+            if (!m_flights.empty()){
+                if (m_flights.at(0).initial_point_index == t_route_index){
+                    vector<Point> route = m_flights.at(0).route;
+                    for(int i = 1; i < route.size()-1 ; i++){
+                        Chromo chromo(route.at(i));
                         chromo.DeliveredByDrone();
                         chromos.push_back(chromo);
                     }
+                    m_flights.erase(m_flights.begin());
                 }
             }
+
         }
 };
 

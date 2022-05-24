@@ -26,6 +26,9 @@ class Chromo{
         bool isDeliveredByDrone(){
             return m_deliverer == DRONE;
         }
+        Point getPoint(){
+            return m_point;
+        }
 
         // Setters
         void DeliveredByCar(){

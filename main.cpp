@@ -30,7 +30,7 @@ int main(){
     Car car;
     Map initial_map = initialize_map();
 
-    Point far_client("Last Client", -1, -5, 990);
+    Point far_client("Last Client", -1, 0, 990);
     initial_map.clients.push_back(far_client);
 
     cout << "Initial Route (Car only):" << endl;
@@ -47,6 +47,8 @@ int main(){
     cout << "Measure (Car and drone): " << Measurer::route_measurer(car) << endl;
 
     vector<Chromo> chromos = car.toChromos();
+    cout << "Chromossome Measure (Car and drone): " << Measurer::chromo_measurer(chromos, car) << endl;
+    
     return 0; 
 }
 /**/
