@@ -101,21 +101,21 @@ class Greedy{
             vector<Point> old_car_route = t_car.getRoute();
             Drone* drone = t_car.getDrone();
 
-            Point next_point, actual_point = old_car_route.at(0);
+            Point actual_point, last_point = old_car_route.at(0);
             for(int i = 1; i < old_car_route.size(); i++){
-                next_point = old_car_route.at(i);
-                if (next_point.is_client()){
-                    double package = next_point.getPackage();
-                    double distance_delivery = Point::distanceBetweenPoints(next_point, actual_point);
+                actual_point = old_car_route.at(i);
+                if (actual_point.is_client()){
+                    double package = actual_point.getPackage();
+                    double distance_delivery = Point::distanceBetweenPoints(actual_point, last_point);
                     double distance_back = Point::distanceBetweenPoints(actual_point, old_car_route.at(i+1));
                     double total_distance = distance_delivery + distance_back;
 
                     if (drone->canDeliver(total_distance, package)){
                         drone->deliver(package, distance_delivery);
                         if (!drone->isFlying()){
-                            drone->takeOff(actual_point, i);
+                            drone->takeOff(last_point, i-1);
                         }
-                        drone->addPointToFlight(next_point);
+                        drone->addPointToFlight(actual_point);
 
                         t_car.removePointFromRoute(i);
                         old_car_route.erase(old_car_route.begin() + i);
@@ -123,16 +123,16 @@ class Greedy{
                     }
                     else{
                         if (drone->isFlying()){
-                            drone->land(next_point);
+                            drone->land(actual_point);
                         }
                     }
                 }
                 else{
                     if (drone->isFlying()){
-                        drone->land(next_point);
+                        drone->land(actual_point);
                     }
                 }
-                actual_point = next_point;
+                last_point = actual_point;
             }
         }
 };
