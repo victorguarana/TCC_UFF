@@ -30,7 +30,7 @@ int main(){
     Car car;
     Map initial_map = initialize_map();
 
-    Point far_client("Last Client", -1, -5, 990);
+    Point far_client("Last Client", -1, 0, 990);
     initial_map.clients.push_back(far_client);
 
     cout << "Initial Route (Car only):" << endl;
