@@ -41,10 +41,6 @@ class Car : public Vehicle {
             return m_route;
         }
 
-        void setRoute(vector<Point> t_route){
-            m_route = t_route;
-        }
-
         // TODO: When add point to route, use functions move and store in backend
         // To do this, need to add m_actual_point to car?
         void addPointToRoute(Point t_point){

@@ -19,6 +19,13 @@ class Vehicle {
         void setSpeed(double t_speed){
             m_speed = t_speed;
         }
+        /* Setters */
+        void setRemainingStorage(double t_remaining_storage){
+            m_remaining_storage = t_remaining_storage;
+        }
+        void setRemainingRange(double t_remaining_range){
+            m_remaining_range = t_remaining_range;
+        }
 
     public:
         /* Getters */
@@ -30,14 +37,6 @@ class Vehicle {
         }
         double getSpeed(){
             return m_speed;
-        }
-
-        /* Setters */
-        void setRemainingStorage(double t_remaining_storage){
-            m_remaining_storage = t_remaining_storage;
-        }
-        void setRemainingRange(double t_remaining_range){
-            m_remaining_range = t_remaining_range;
         }
 
         void deliver(double t_stored_space, double t_distance_travelled){
