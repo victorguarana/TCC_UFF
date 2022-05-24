@@ -113,7 +113,7 @@ class Greedy{
                     if (drone->canDeliver(total_distance, package)){
                         drone->deliver(package, distance_delivery);
                         if (!drone->isFlying()){
-                            drone->takeOff(actual_point);
+                            drone->takeOff(actual_point, i);
                         }
                         drone->addPointToFlight(next_point);
 

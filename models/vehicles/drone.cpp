@@ -12,8 +12,7 @@
 #define DEFAULT_DRONE_SPEED 25
 
 struct Flight{
-    Point initial_point;
-    Point returning_point;
+    int initial_point_index;
     vector<Point> route;
 };
 
@@ -49,17 +48,16 @@ class Drone : public Vehicle {
         bool isFlying(){
             return m_flying;
         }
-        void takeOff(Point t_takeoff_point){
+        void takeOff(Point t_takeoff_point, int t_route_index){
             m_flying = true;
             Flight flight;
-            flight.initial_point = t_takeoff_point;
+            flight.initial_point_index = t_route_index;
             flight.route.push_back(t_takeoff_point);
             m_flights.push_back(flight);
         }
         void land(Point t_land_point){
             Flight *flight = &m_flights.at(m_flights.size()-1);
             flight->route.push_back(t_land_point);
-            flight->returning_point = t_land_point;
             resetRange();
             resetStorage();
             m_flying = false;
@@ -81,9 +79,9 @@ class Drone : public Vehicle {
             return total_distance;
         }
 
-        void appendFlightChromos(vector<Chromo> &chromos, Point t_point){
+        void appendFlightChromos(vector<Chromo> &chromos, Point t_point, int t_route_index){
             for(int i = 0; i < m_flights.size(); i++){
-                if (m_flights.at(i).initial_point.equal(t_point)){
+                if (m_flights.at(i).initial_point_index == t_route_index){
                     vector<Point> route = m_flights.at(i).route;
                     for(int j = 1; j < route.size()-1 ; j++){
                         Chromo chromo(route.at(j));
