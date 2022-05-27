@@ -29,3 +29,6 @@
 
 #### Múltiplos Carros:
 - [X] Refatorar para a rota pertencer ao carro.
+
+#### Outras ideias:
+- [ ] Drones podem decolar em um veiculo e retornar e outro.
