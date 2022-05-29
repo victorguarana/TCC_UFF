@@ -1,10 +1,11 @@
 #ifndef FLIGHT_CPP
-#define FLIGHTP_CPP
+#define FLIGHT_CPP
 
 
 #include "car_stop.cpp"
 #include "drone_stop.cpp"
-#include "point.cpp"
+#include "vehicles/drone.cpp"
+// #include "point.cpp"
 
 class Flight {
     private:
@@ -30,12 +31,12 @@ class Flight {
     }
 
     // GETTERS //
-    Point* getInitialPoint(){
-        return m_begin->getPoint();
-    }
-    Point* getFinalPoint(){
-        return m_end->getPoint();
-    }
+    // Point* getInitialPoint(){
+    //     return m_begin->getPoint();
+    // }
+    // Point* getFinalPoint(){
+    //     return m_end->getPoint();
+    // }
 
     // SETTER //
     void setFirstStop(DroneStop* m_stop){

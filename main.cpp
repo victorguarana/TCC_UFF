@@ -18,7 +18,6 @@ int main(){
     cout << car2.getRemainingStorage() << endl;
 };
 /*/
-
 #include "models/point.cpp"
 #include "models/map.cpp"
 #include "heusristics/greedy.cpp"
@@ -40,12 +39,12 @@ int main(){
     cout << "Measure (Car only): " << Measurer::route_measurer(car) << endl;
 
 
-    cout << "\n\n" << endl;
+    // cout << "\n\n" << endl;
 
-    cout << "Final Route (Car and drone):" << endl;
-    Greedy::add_drone_flight(car);
-    printPoints(car.getRoute());
-    cout << "Measure (Car and drone): " << Measurer::route_measurer(car) << endl;
+    // cout << "Final Route (Car and drone):" << endl;
+    // Greedy::add_drone_flight(car);
+    // printPoints(car.getRoute());
+    // cout << "Measure (Car and drone): " << Measurer::route_measurer(car) << endl;
 
     return 0; 
 }

@@ -3,7 +3,6 @@
 
 #include "vehicle.cpp"
 #include "drone.cpp"
-#include "../point.cpp"
 
 #define DEFAULT_CAR_TOTAL_RANGE 500
 #define DEFAULT_CAR_TOTAL_STORAGE 1000
@@ -12,7 +11,6 @@
 class Car : public Vehicle {
     private:
         Drone m_drone;
-        vector<Point> m_route;
 
     public:
         // Constructors
@@ -39,26 +37,26 @@ class Car : public Vehicle {
         Drone* getDrone(){
             return &m_drone;
         }
-        vector<Point> getRoute(){
-            return m_route;
-        }
+        // vector<Point> getRoute(){
+        //     return m_route;
+        // }
 
-        // TODO: When add point to route, use functions move and store in backend
-        // To do this, need to add m_actual_point to car?
-        void addPointToRoute(Point t_point){
-            m_route.push_back(t_point);
-        }
-        void removePointFromRoute(int t_index){
-            m_route.erase(m_route.begin() + t_index);
-        }
+        // // TODO: When add point to route, use functions move and store in backend
+        // // To do this, need to add m_actual_point to car?
+        // void addPointToRoute(Point t_point){
+        //     m_route.push_back(t_point);
+        // }
+        // void removePointFromRoute(int t_index){
+        //     m_route.erase(m_route.begin() + t_index);
+        // }
 
-        double route_distance(){
-            double total_distance = 0;
-            for(int i = 0; i < m_route.size()-1 ; i++){
-                total_distance += Point::distanceBetweenPoints(m_route.at(i), m_route.at(i+1));
-            }
-            return total_distance;
-        }
+        // double route_distance(){
+        //     double total_distance = 0;
+        //     for(int i = 0; i < m_route.size()-1 ; i++){
+        //         total_distance += Point::distanceBetweenPoints(m_route.at(i), m_route.at(i+1));
+        //     }
+        //     return total_distance;
+        // }
 };
 
 #endif
