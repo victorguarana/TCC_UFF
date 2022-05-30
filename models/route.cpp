@@ -1,18 +1,41 @@
 #ifndef ROUTE_CPP
 #define ROUTE_CPP
 
+#include <iostream>
+#include <vector>
+
 #include "vehicles/car.cpp"
 #include "car_stop.cpp"
 
-// TODO: fix vehicles models
-// After this, adapt greedy to use this structure
-// After this, implement ils 
+using namespace std;
+
 class Route {
     private:
     Car* m_car;
     CarStop* m_first_stop;
     CarStop* m_last_stop;
 
+    // Just to store the stops without losing to garbage
+    vector<CarStop> m_car_stops;
+
+    void setFirstStop(CarStop* m_stop){
+        if (size > 0){
+            m_first_stop->m_prev = m_stop;
+            m_stop->m_next = m_first_stop;
+        }
+        else{
+            m_last_stop = m_stop;
+        }
+        m_first_stop = m_stop;
+    }
+    void setLastStop(CarStop* m_stop){
+        CarStop* actual_car_stop = m_first_stop;
+        while(actual_car_stop->m_next != nullptr){
+            actual_car_stop = actual_car_stop->m_next;
+        }
+        actual_car_stop->m_next = m_stop;
+        m_stop->m_prev = actual_car_stop;
+    }
     public:
     int size;
 
@@ -24,26 +47,40 @@ class Route {
         size = 0;
     }
 
+    // GETTER //
+    CarStop* getFirstStop(){
+        return m_first_stop;
+    }
+    CarStop* getLastStop(){
+        return m_last_stop;
+    }
+
     // SETTER //
-    void setFirstStop(CarStop* m_stop){
-        m_first_stop = m_stop;
-        size++;
-    }
-    void setLastStop(CarStop* m_stop){
-        m_last_stop->m_next = m_stop;
-        m_stop->m_prev = m_last_stop;
-        m_last_stop = m_stop;
-        size++;
-    }
-    void addPoint(Point* t_point){
-        CarStop stop(this, t_point);
-        if (size > 0){
-            setLastStop(&stop);
+    void addPoint(Point t_point){
+        m_car_stops.push_back(CarStop(t_point));
+        CarStop* p_car_stop = &m_car_stops.at(size);
+        // CarStop* p_stop = &stop;
+        if (size == 0){
+            setFirstStop(p_car_stop);
         }
         else{
-            setFirstStop(&stop);
+            setLastStop(p_car_stop);
         }
+        size++;
+    }
 
+    // PRINTING //
+    void print(){
+        if (size < 1)
+            return;
+
+        int index = 1;
+        CarStop* actual_stop = m_first_stop;
+        while (actual_stop != nullptr){
+            cout << "STOP #" << to_string(index) << " -> " << actual_stop->toString() << endl;
+            actual_stop = actual_stop->m_next;
+            index++;
+        }
     }
 };
 

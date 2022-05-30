@@ -2,7 +2,7 @@
 #define FLIGHT_CPP
 
 
-#include "car_stop.cpp"
+// #include "car_stop.cpp"
 #include "drone_stop.cpp"
 #include "vehicles/drone.cpp"
 // #include "point.cpp"
@@ -10,8 +10,8 @@
 class Flight {
     private:
     // POINTERS TO MAIN ROUTE //
-    CarStop* m_begin;
-    CarStop* m_end;
+    // CarStop* m_begin;
+    // CarStop* m_end;
 
     // DATA
     DroneStop* m_first_point;
@@ -21,13 +21,18 @@ class Flight {
     int size;
 
     // INITIALIZER //
-    Flight(CarStop* t_begin, Drone* t_drone){
-        m_begin = t_begin;
-        m_end = nullptr;
+    // Flight(CarStop* t_begin, Drone* t_drone){
+    //     m_begin = t_begin;
+    //     m_end = nullptr;
+    //     m_first_point = nullptr;
+    //     m_drone = t_drone;
+    //     size = 0;
+
+    // }
+    Flight(Drone* t_drone){
         m_first_point = nullptr;
         m_drone = t_drone;
         size = 0;
-
     }
 
     // GETTERS //
@@ -44,11 +49,11 @@ class Flight {
     }
 
     // OPERATIONS //
-    void erase(){
-        m_begin->removeTakeoff();
-        m_end->removeReturn();
-        delete this;
-    }
+    // void erase(){
+    //     m_begin->removeTakeoff();
+    //     m_end->removeReturn();
+    //     delete this;
+    // }
 
 };
 

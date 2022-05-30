@@ -7,21 +7,24 @@
 using namespace std;
 
 int main(){
-    Drone drone(100, 200);
-    Car car2;
-    Car car(4000.0, 800.0);
+    Drone drone("Drone");
+    Drone drone2(drone);
+    drone2.deliver(10, 20);
+    Drone* p_drone2 = &drone2;
+    p_drone2->deliver(0, 20);
+    drone2.resetAttributes();
 
     Point cliente0("nome", 10, 11, 10);
 
-    cout << car.getRemainingStorage() << endl;
-    cout << drone.getRemainingStorage() << endl;
-    cout << car2.getRemainingStorage() << endl;
+    // cout << car.getRemainingStorage() << endl;
+    // cout << drone.getRemainingStorage() << endl;
+    // cout << car2.getRemainingStorage() << endl;
 };
 /*/
 #include "models/point.cpp"
 #include "models/map.cpp"
 #include "heusristics/greedy.cpp"
-#include "measurer.cpp"
+// #include "measurer.cpp"
 
 int main(){
     Point deposit("Deposito", 0, 0);
@@ -34,10 +37,10 @@ int main(){
     initial_map.clients.push_back(far_client);
 
     cout << "Initial Route (Car only):" << endl;
-    Greedy::single_car_greedy(car, initial_map, deposit);
-    printPoints(car.getRoute());
-    cout << "Measure (Car only): " << Measurer::route_measurer(car) << endl;
-
+    Route route = Greedy::single_car_greedy(initial_map, &car, deposit);
+    route.print();
+    // printPoints(car.getRoute());
+    // cout << "Measure (Car only): " << Measurer::route_measurer(car) << endl;
 
     // cout << "\n\n" << endl;
 

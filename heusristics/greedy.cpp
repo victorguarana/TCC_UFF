@@ -8,7 +8,7 @@
 
 class Greedy{
     private:
-    // TODO: Use pointers
+    // TODO: Use pointers ?
     struct PointReturn{
         Point point;
         double distance;
@@ -20,14 +20,15 @@ class Greedy{
         @param t_points vector of points to be searched
         @param t_actual_position drivers actual position (usually is the same as the last client)
     */
-    static PointReturn find_nearest_point(vector<Point> t_points, Point t_actual_position){
-        Point nearest_point = t_points.at(0);
+    static PointReturn find_nearest_point(Point* t_actual_position, vector<Point>* t_points){
+        Point nearest_point = t_points->at(0);
         int nearest_index = 0;
-        double shortest_distance = Point::distanceBetweenPoints(t_actual_position, nearest_point);
+        double shortest_distance = Point::distanceBetweenPoints(*t_actual_position, nearest_point);
 
-        for(int i = 1; i < t_points.size(); i++){
-            Point new_point = t_points.at(i);
-            double new_distance = Point::distanceBetweenPoints(t_actual_position, new_point);
+        // OPTIMIZATION: USE LOOP WITH POINTERS ? 
+        for(int i = 1; i < t_points->size(); i++){
+            Point new_point = t_points->at(i);
+            double new_distance = Point::distanceBetweenPoints(*t_actual_position, new_point);
 
             if (shortest_distance > new_distance){
                 shortest_distance = new_distance;
@@ -50,7 +51,7 @@ class Greedy{
         // Fuel validation
         double actual_to_nearest_point_distance = Point::distanceBetweenPoints(t_actual_position, t_nearest_client);
 
-        PointReturn nearest_client_to_nearest_deposit_return = find_nearest_point(t_deposits, t_nearest_client);
+        PointReturn nearest_client_to_nearest_deposit_return = find_nearest_point(&t_nearest_client, &t_deposits);
         double nearest_client_to_deposit_distance = nearest_client_to_nearest_deposit_return.distance;
         double total_range = actual_to_nearest_point_distance + nearest_client_to_deposit_distance;
 
@@ -64,41 +65,37 @@ class Greedy{
         @param t_initial_position starting point of the car
         @param t_car car to be used in the route
     */
-    static Route single_car_greedy(Map t_map, Car* t_car, Point* t_initial_position){
+    static Route single_car_greedy(Map t_map, Car* t_car, Point t_initial_position){
         // TODO: Validate if all clients are reachable from any deposit (reachable -> can start from any deposit and to any other?)
 
-        Point* p_actual_position = t_initial_position;
+        Point actual_position = t_initial_position;
         Route route(t_car);
-        route.addPoint(p_actual_position);
+        route.addPoint(actual_position);
         while (!t_map.clients.empty()){
             // OPTIMIZATION: Use the remainig car range when setting the nearest client?
-
-            PointReturn nearest_client_return = find_nearest_point(t_map.clients, *p_actual_position);
+            PointReturn nearest_client_return = find_nearest_point(&actual_position, &t_map.clients);
             Point nearest_client = nearest_client_return.point;
             int nearest_client_index = nearest_client_return.index;
             double nearest_client_distance = nearest_client_return.distance;
 
-            if (validate_next_client(*p_actual_position, nearest_client, t_map.deposits, *t_car)){
-                p_actual_position = &nearest_client;
-
+            if (validate_next_client(actual_position, nearest_client, t_map.deposits, *t_car)){
+                actual_position = nearest_client;
                 t_map.clients.erase(t_map.clients.begin() + nearest_client_index);
                 t_car->deliver(nearest_client.getPackage(), nearest_client_distance);
-                route.addPoint(&nearest_client);
+                route.addPoint(actual_position);
             }
             else {
-                Point nearest_deposit = find_nearest_point(t_map.deposits, *p_actual_position).point;
-                p_actual_position = &nearest_deposit;
+                Point nearest_deposit = find_nearest_point(&actual_position, &t_map.deposits).point;
+                actual_position = nearest_deposit;
                 t_car->resetAttributes();
-                route.addPoint(&nearest_deposit);
-
+                route.addPoint(nearest_deposit);
             }
         }
 
         // Add deposit at the end of the route
-        Point nearest_deposit = find_nearest_point(t_map.deposits, *p_actual_position).point;
-        t_initial_position = &nearest_deposit;
+        Point nearest_deposit = find_nearest_point(&t_initial_position, &t_map.deposits).point;
         t_car->resetAttributes();
-        route.addPoint(p_actual_position);
+        route.addPoint(nearest_deposit);
 
         return route;
     }
