@@ -50,7 +50,7 @@ class Vehicle {
             return m_name;
         }
 
-        void deliver(double t_stored_space, double t_distance_travelled){
+        void deliver(double t_distance_travelled, double t_stored_space){
             m_remaining_storage -= t_stored_space;
             m_remaining_range -= t_distance_travelled;
         }

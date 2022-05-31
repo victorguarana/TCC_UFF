@@ -43,6 +43,7 @@ class Greedy{
         return point_return;
     }
 
+    //  TODO: Change this function to an car function
     static bool validate_next_client(Point t_actual_position, Point t_nearest_client, vector<Point> t_deposits, Car t_car){
         // Storage validation
         if (t_car.getRemainingStorage() < t_nearest_client.getPackage()) 
@@ -100,44 +101,61 @@ class Greedy{
         return route;
     }
 
-    // static void add_drone_flight(Car& t_car){
-    //         vector<Point> old_car_route = t_car.getRoute();
-    //         Drone* drone = t_car.getDrone();
+    static void add_drone_flight(Route& route){
+        Car* p_car = route.getCar();
+        Drone* p_drone = p_car->getDrone();
 
-    //         Point actual_point, last_point = old_car_route.at(0);
-    //         for(int i = 1; i < old_car_route.size(); i++){
-    //             actual_point = old_car_route.at(i);
-    //             if (actual_point.is_client()){
-    //                 double package = actual_point.getPackage();
-    //                 double distance_delivery = Point::distanceBetweenPoints(actual_point, last_point);
-    //                 double distance_back = Point::distanceBetweenPoints(last_point, old_car_route.at(i+1));
-    //                 double total_distance = distance_delivery + distance_back;
+        CarStop* p_last_car_stop = route.getFirstStop();
+        CarStop* p_actual_car_stop = p_last_car_stop->m_next;
+        CarStop* p_next_car_stop = p_actual_car_stop->m_next;
+        Flight* p_actual_flight = nullptr;
 
-    //                 if (drone->canDeliver(total_distance, package)){
-    //                     drone->deliver(package, distance_delivery);
-    //                     if (!drone->isFlying()){
-    //                         drone->takeOff(last_point, i-1);
-    //                     }
-    //                     drone->addPointToFlight(actual_point);
+        while (p_next_car_stop != nullptr){
+            Point last_point = p_last_car_stop->getPoint();
+            Point actual_point = p_actual_car_stop->getPoint();
+            Point next_point = p_next_car_stop->getPoint();
 
-    //                     t_car.removePointFromRoute(i);
-    //                     old_car_route.erase(old_car_route.begin() + i);
-    //                     i--;
-    //                 }
-    //                 else{
-    //                     if (drone->isFlying()){
-    //                         drone->land(actual_point);
-    //                     }
-    //                 }
-    //             }
-    //             else{
-    //                 if (drone->isFlying()){
-    //                     drone->land(actual_point);
-    //                 }
-    //             }
-    //             last_point = actual_point;
-    //         }
-    //     }
+            if (actual_point.is_client()){
+                double package = actual_point.getPackage();
+                double distance_delivery = Point::distanceBetweenPoints(last_point, actual_point);
+                double distance_back = Point::distanceBetweenPoints(actual_point, next_point);
+                double total_distance = distance_delivery + distance_back;
+
+                if (p_drone->canDeliver(total_distance, package)){
+                    if (!p_drone->isFlying()){
+                        p_drone->takeOff();
+                        // TODO: Refactor startFlight to set takeoff point
+                        p_actual_flight = route.createFlight(p_last_car_stop, p_drone);
+                        p_actual_car_stop->setTakeoffFlight(p_actual_flight);
+                    }
+                    DroneStop* new_drone_stop = route.createDroneStop(p_actual_flight, actual_point);
+                    p_actual_flight->addStop(new_drone_stop);
+
+                    p_drone->deliver(distance_delivery, package);
+
+                    route.removeCarStop(p_actual_car_stop);
+                }
+                else{
+                    if (p_drone->isFlying()){
+                        p_drone->land();
+                        // TODO: ADD returning carstop to flight
+                        p_actual_car_stop->setReturnFlight(p_actual_flight);
+                    }
+                }
+            }
+            else{
+                if (p_drone->isFlying()){
+                    p_drone->land();
+                    // TODO: ADD returning carstop to flight
+                    p_actual_car_stop->setReturnFlight(p_actual_flight);
+                }
+            }
+
+            p_last_car_stop = p_actual_car_stop;
+            p_actual_car_stop = p_next_car_stop;
+            p_next_car_stop = p_actual_car_stop->m_next;
+        }
+    }
 };
 
 #endif

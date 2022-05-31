@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 
+#include "point.cpp"
+
 using namespace std;
 
 // DOUBT: Use vectors or linked list to represent?
