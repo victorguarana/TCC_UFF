@@ -7,8 +7,6 @@ class CarStop;
 class DroneStop;
 class Drone;
 
-// #include "point.cpp"
-
 using namespace std;
 
 class Flight {

@@ -57,7 +57,6 @@ Car* Route::getCar(){
 void Route::addPoint(Point t_point){
     m_car_stops.push_back(CarStop(this, t_point));
     CarStop* p_car_stop = &m_car_stops.at(size);
-    // CarStop* p_stop = &stop;
     if (size == 0){
         setFirstStop(p_car_stop);
     }

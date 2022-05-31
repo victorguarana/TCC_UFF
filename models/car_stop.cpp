@@ -4,8 +4,6 @@
 #include "car_stop.hpp"
 
 #include "point.cpp"
-#include "flight.cpp"
-//#include "route.cpp"
 
 // Future: When implementing multiple drones, use vectors to represent flights and return and takeoff (?)
 // INITIALIZER //

@@ -46,13 +46,3 @@ Map initialize_map(){
 }
 
 #endif
-
-/*
-int main(){
-    Route route = initialize_map();
-    swapClients(route, 1, 3);
-    printRoute(route);
-
-    return 0;
-}
-*/
