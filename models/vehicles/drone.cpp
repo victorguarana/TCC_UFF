@@ -23,6 +23,7 @@ class Drone : public Vehicle {
             setRemainingStorage(DEFAULT_DRONE_TOTAL_STORAGE);
             setSpeed(DEFAULT_DRONE_SPEED);
             setName("");
+            m_flying = false;
         }
 
         Drone(string t_name){
@@ -32,6 +33,7 @@ class Drone : public Vehicle {
             setRemainingStorage(DEFAULT_DRONE_TOTAL_STORAGE);
             setSpeed(DEFAULT_DRONE_SPEED);
             setName(t_name);
+            m_flying = false;
         }
 
     public:

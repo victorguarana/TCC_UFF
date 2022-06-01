@@ -14,14 +14,8 @@ struct Map{
     vector<Point> deposits;
 };
 
-// Map and point Helpers
-void printPoints(vector<Point> t_points){
-    for(int i = 0; i < t_points.size(); i++){
-        cout << "#" << i+1 << " -> " << t_points.at(i).toString() << endl;
-    }
-}
 
-Map initialize_map(){
+Map initializeMap(){
     Map map;
 
     map.deposits.push_back(Point("Deposito", 0, 0));

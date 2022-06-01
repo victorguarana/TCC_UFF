@@ -134,10 +134,10 @@ class Greedy{
                         p_drone->takeOff();
                         // TODO: Refactor startFlight to set takeoff point
                         p_actual_flight = Flight::create(p_last_car_stop, p_drone);
-                        p_actual_car_stop->setTakeoffFlight(p_actual_flight);
+                        p_last_car_stop->setTakeoffFlight(p_actual_flight);
                     }
                     DroneStop* new_drone_stop = DroneStop::create(p_actual_flight, p_actual_point);
-                    p_actual_flight->addStop(new_drone_stop);
+                    p_actual_flight->appendDroneStop(new_drone_stop);
 
                     p_drone->deliver(*p_actual_point, distance_delivery);
 
@@ -146,16 +146,19 @@ class Greedy{
                 else{
                     if (p_drone->isFlying()){
                         p_drone->land();
-                        // TODO: ADD returning carstop to flight
                         p_actual_car_stop->setReturnFlight(p_actual_flight);
+                        p_actual_flight->setReturnStop(p_actual_car_stop);
+                        p_actual_flight = nullptr;
+
                     }
                 }
             }
             else{
                 if (p_drone->isFlying()){
                     p_drone->land();
-                    // TODO: ADD returning carstop to flight
                     p_actual_car_stop->setReturnFlight(p_actual_flight);
+                    p_actual_flight->setReturnStop(p_actual_car_stop);
+                    p_actual_flight = nullptr;
                 }
             }
 

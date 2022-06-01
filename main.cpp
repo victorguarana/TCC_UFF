@@ -38,7 +38,7 @@ int main(){
     Drone drone("Drone 1");
     Car car("Carro 1", drone);
 
-    Map initial_map = initialize_map();
+    Map initial_map = initializeMap();
 
     Point far_client("Last Client", -1, 0, 990);
     initial_map.clients.push_back(far_client);
@@ -46,16 +46,12 @@ int main(){
     cout << "Initial Route (Car only):" << endl;
     Route route = Greedy::single_car_greedy(initial_map, &car, deposit);
     route.print();
-    // printPoints(car.getRoute());
-    // cout << "Measure (Car only): " << Measurer::route_measurer(car) << endl;
 
-    // cout << "\n\n" << endl;
+    cout << "\n\n" << endl;
 
-    // cout << "Final Route (Car and drone):" << endl;
-    // Greedy::add_drone_flight(route);
-    // route.print();
-    // printPoints(car.getRoute());
-    // cout << "Measure (Car and drone): " << Measurer::route_measurer(car) << endl;
+    cout << "Final Route (Car and drone):" << endl;
+    Greedy::add_drone_flight(route);
+    route.print();
 
     return 0; 
 }

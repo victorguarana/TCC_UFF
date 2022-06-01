@@ -13,6 +13,7 @@ class Flight {
     private:
     // DATA //
     DroneStop* m_first_point;
+    DroneStop* m_last_point;
     Drone* m_drone;
     // Pointers to main route
     CarStop* m_begin;
@@ -28,8 +29,9 @@ class Flight {
     static Flight* create(CarStop*, Drone*);
 
     // SETTER //
-    void setFirstStop(DroneStop*);
-    void addStop(DroneStop*);
+    void setTakeoffStop(CarStop*);
+    void setReturnStop(CarStop*);
+    void appendDroneStop(DroneStop*);
 
     // PRINTING //
     void print(int);

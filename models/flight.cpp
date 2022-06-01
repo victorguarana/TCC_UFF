@@ -15,6 +15,7 @@ Flight::Flight(CarStop* t_begin, Drone* t_drone){
     m_begin = t_begin;
     m_end = nullptr;
     m_first_point = nullptr;
+    m_last_point = nullptr;
     m_drone = t_drone;
     size = 0;
 }
@@ -25,22 +26,24 @@ Flight* Flight::create(CarStop* t_begin, Drone* t_drone){
 }
 
 // SETTER //
-void Flight::setFirstStop(DroneStop* t_stop){
-    m_first_point = t_stop;
+void Flight::setTakeoffStop(CarStop* t_car_stop){
+    m_begin = t_car_stop;
+}
+void Flight::setReturnStop(CarStop* t_car_stop){
+    m_end = t_car_stop;
 }
 
 // TODO: Add pointer to last drone stop;
-void Flight::addStop(DroneStop* t_drone_stop){
-    if(m_first_point == nullptr){
+void Flight::appendDroneStop(DroneStop* t_drone_stop){
+    if (size == 0){
         m_first_point = t_drone_stop;
     }
     else {
-        DroneStop* p_actual_stop = m_first_point;
-        while(p_actual_stop->m_next != nullptr){
-            p_actual_stop = p_actual_stop->m_next;
-        }
-        p_actual_stop->m_next = t_drone_stop;
+        m_last_point->m_next = t_drone_stop;
+        t_drone_stop->m_prev = m_last_point;
     }
+    m_last_point = t_drone_stop;
+    size++;
 }
 
 // PRINTING //
