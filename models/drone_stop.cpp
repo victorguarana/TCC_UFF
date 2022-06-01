@@ -5,7 +5,7 @@
 
 #include "point.cpp"
 
-DroneStop::DroneStop(Flight* t_this_flight, Point t_point){
+DroneStop::DroneStop(Flight* t_this_flight, Point* t_point){
     m_this_flight = t_this_flight;
     m_point = t_point;
     m_cost = -1;
@@ -23,7 +23,7 @@ bool DroneStop::is_last(){
 
 // PRINTING //
 string DroneStop::toString(){
-    string str = "Point: " + m_point.toString() + " - Total cost: ...";
+    string str = "Point: " + m_point->toString() + " - Total cost: ...";
     return str;
 }
 

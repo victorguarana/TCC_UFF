@@ -20,12 +20,10 @@ class Route {
     CarStop* m_last_stop;
 
     // "DATABASE" //
+    vector<Point> m_points;
     vector<CarStop> m_car_stops;
     vector<DroneStop> m_drone_stops;
     vector<Flight> m_flights;
-
-    void setFirstStop(CarStop*);
-    void setLastStop(CarStop*);
 
     public:
     int size;
@@ -45,8 +43,9 @@ class Route {
     void removeCarStop(CarStop*);
 
     // DATABASE OPERATIONS //
-    DroneStop* createDroneStop(Flight*, Point);
-
+    Point* createPoint(Point);
+    CarStop* createCarStop(Point*);
+    DroneStop* createDroneStop(Flight*, Point*);
     Flight* createFlight(CarStop*, Drone*);
 
     // PRINTING //

@@ -7,7 +7,7 @@
 
 // Future: When implementing multiple drones, use vectors to represent flights and return and takeoff (?)
 // INITIALIZER //
-CarStop::CarStop(Route* t_route, Point t_point){
+CarStop::CarStop(Route* t_route, Point* t_point){
     m_this_route = t_route;
     m_point = t_point;
     m_takeoff_flight = nullptr;
@@ -18,7 +18,7 @@ CarStop::CarStop(Route* t_route, Point t_point){
 }
 
 // GETTERS//
-Point CarStop::getPoint(){
+Point* CarStop::getPoint(){
     return m_point;
 }
 bool CarStop::is_takeoff(){
@@ -57,7 +57,7 @@ void CarStop::removeReturn(){
 
 // PRINTING //
 string CarStop::toString(){
-    string str = "Point: " + m_point.toString() + " - Total cost: ...";
+    string str = "Point: " + m_point->toString() + " - Total cost: ...";
     return str;
 }
 

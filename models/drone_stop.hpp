@@ -11,7 +11,7 @@ class Flight;
 class DroneStop {
     private:
     // DATA //
-    Point m_point;
+    Point* m_point;
     double m_cost;
 
     // Flight that this stop belongs
@@ -22,7 +22,7 @@ class DroneStop {
     DroneStop* m_next;
     DroneStop* m_prev;
 
-    DroneStop(Flight*, Point);
+    DroneStop(Flight*, Point*);
 
     // GETTERS//
     bool is_first();

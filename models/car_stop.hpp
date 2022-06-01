@@ -13,7 +13,7 @@ class Route;
 class CarStop {
     private:
     // DATA //
-    Point m_point;
+    Point* m_point;
     Flight* m_takeoff_flight;
     Flight* m_return_flight;
     double m_cost;
@@ -26,10 +26,10 @@ class CarStop {
     CarStop* m_prev;
 
     // INITIALIZER //
-    CarStop(Route*, Point);
+    CarStop(Route*, Point*);
 
     // GETTERS//
-    Point getPoint();
+    Point* getPoint();
     bool is_takeoff();
     bool is_return();
     bool is_first();

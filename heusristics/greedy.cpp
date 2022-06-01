@@ -43,7 +43,7 @@ class Greedy{
         return point_return;
     }
 
-    //  TODO: Change this function to an car function
+    // TODO: Change this function to an car function
     static bool validate_next_client(Point t_actual_position, Point t_nearest_client, vector<Point> t_deposits, Car t_car){
         // Storage validation
         if (t_car.getRemainingStorage() < t_nearest_client.getPackage()) 
@@ -111,14 +111,14 @@ class Greedy{
         Flight* p_actual_flight = nullptr;
 
         while (p_next_car_stop != nullptr){
-            Point last_point = p_last_car_stop->getPoint();
-            Point actual_point = p_actual_car_stop->getPoint();
-            Point next_point = p_next_car_stop->getPoint();
+            Point* p_last_point = p_last_car_stop->getPoint();
+            Point* p_actual_point = p_actual_car_stop->getPoint();
+            Point* p_next_point = p_next_car_stop->getPoint();
 
-            if (actual_point.is_client()){
-                double package = actual_point.getPackage();
-                double distance_delivery = Point::distanceBetweenPoints(last_point, actual_point);
-                double distance_back = Point::distanceBetweenPoints(actual_point, next_point);
+            if (p_actual_point->is_client()){
+                double package = p_actual_point->getPackage();
+                double distance_delivery = Point::distanceBetweenPoints(*p_last_point, *p_actual_point);
+                double distance_back = Point::distanceBetweenPoints(*p_actual_point, *p_next_point);
                 double total_distance = distance_delivery + distance_back;
 
                 if (p_drone->canDeliver(total_distance, package)){
@@ -128,7 +128,7 @@ class Greedy{
                         p_actual_flight = route.createFlight(p_last_car_stop, p_drone);
                         p_actual_car_stop->setTakeoffFlight(p_actual_flight);
                     }
-                    DroneStop* new_drone_stop = route.createDroneStop(p_actual_flight, actual_point);
+                    DroneStop* new_drone_stop = route.createDroneStop(p_actual_flight, p_actual_point);
                     p_actual_flight->addStop(new_drone_stop);
 
                     p_drone->deliver(distance_delivery, package);
