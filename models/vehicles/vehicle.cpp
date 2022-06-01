@@ -50,14 +50,17 @@ class Vehicle {
             return m_name;
         }
 
-        void deliver(double t_stored_space, double t_distance_travelled){
-            m_remaining_storage -= t_stored_space;
-            m_remaining_range -= t_distance_travelled;
+        void deliver(Point t_point, double t_distance_travelled){
+            if (t_point.is_client()){
+                m_remaining_storage -= t_point.getPackage();
+                m_remaining_range -= t_distance_travelled;
+            }
+            else if (t_point.is_deposit()){
+                this->resetAttributes();
+            }
         }
-        void resetStorage(){
+        void resetAttributes(){
             m_remaining_storage = m_total_storage;
-        }
-        void resetRange(){
             m_remaining_range = m_total_range;
         }
 };
