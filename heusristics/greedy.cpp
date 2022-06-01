@@ -115,15 +115,20 @@ class Greedy{
 
         CarStop* p_last_car_stop = route.getFirstStop();
         CarStop* p_actual_car_stop = p_last_car_stop->m_next;
-        CarStop* p_next_car_stop = p_actual_car_stop->m_next;
+        CarStop* p_next_car_stop;
+        Point *p_last_point, *p_actual_point, *p_next_point;
+
         Flight* p_actual_flight = nullptr;
 
-        while (p_next_car_stop != nullptr){
-            Point* p_last_point = p_last_car_stop->getPoint();
-            Point* p_actual_point = p_actual_car_stop->getPoint();
-            Point* p_next_point = p_next_car_stop->getPoint();
+        while (p_actual_car_stop != nullptr){
+            p_next_car_stop = p_actual_car_stop->m_next;
+
+            p_last_point = p_last_car_stop->getPoint();
+            p_actual_point = p_actual_car_stop->getPoint();
 
             if (p_actual_point->is_client()){
+                p_next_point = p_next_car_stop->getPoint();
+
                 double package = p_actual_point->getPackage();
                 double distance_delivery = Point::distanceBetweenPoints(*p_last_point, *p_actual_point);
                 double distance_back = Point::distanceBetweenPoints(*p_actual_point, *p_next_point);
@@ -163,7 +168,6 @@ class Greedy{
 
             p_last_car_stop = p_actual_car_stop;
             p_actual_car_stop = p_next_car_stop;
-            p_next_car_stop = p_actual_car_stop->m_next;
         }
     }
 };
