@@ -33,7 +33,6 @@ void Flight::setReturnStop(CarStop* t_car_stop){
     m_end = t_car_stop;
 }
 
-// TODO: Add pointer to last drone stop;
 void Flight::appendDroneStop(DroneStop* t_drone_stop){
     if (size == 0){
         m_first_point = t_drone_stop;

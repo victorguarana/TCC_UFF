@@ -132,7 +132,6 @@ class Greedy{
                 if (p_drone->canDeliver(total_distance, package)){
                     if (!p_drone->isFlying()){
                         p_drone->takeOff();
-                        // TODO: Refactor startFlight to set takeoff point
                         p_actual_flight = Flight::create(p_last_car_stop, p_drone);
                         p_last_car_stop->setTakeoffFlight(p_actual_flight);
                     }
