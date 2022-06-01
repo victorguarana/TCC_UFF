@@ -125,10 +125,10 @@ class Greedy{
                     if (!p_drone->isFlying()){
                         p_drone->takeOff();
                         // TODO: Refactor startFlight to set takeoff point
-                        p_actual_flight = route.createFlight(p_last_car_stop, p_drone);
+                        p_actual_flight = Flight::create(p_last_car_stop, p_drone);
                         p_actual_car_stop->setTakeoffFlight(p_actual_flight);
                     }
-                    DroneStop* new_drone_stop = route.createDroneStop(p_actual_flight, p_actual_point);
+                    DroneStop* new_drone_stop = DroneStop::create(p_actual_flight, p_actual_point);
                     p_actual_flight->addStop(new_drone_stop);
 
                     p_drone->deliver(distance_delivery, package);

@@ -15,15 +15,10 @@ using namespace std;
 
 class Route {
     private:
+    // DATA //
     Car* m_car;
     CarStop* m_first_stop;
     CarStop* m_last_stop;
-
-    // "DATABASE" //
-    vector<Point> m_points;
-    vector<CarStop> m_car_stops;
-    vector<DroneStop> m_drone_stops;
-    vector<Flight> m_flights;
 
     public:
     int size;
@@ -41,12 +36,6 @@ class Route {
 
     // OPERATIONS //
     void removeCarStop(CarStop*);
-
-    // DATABASE OPERATIONS //
-    Point* createPoint(Point);
-    CarStop* createCarStop(Point*);
-    DroneStop* createDroneStop(Flight*, Point*);
-    Flight* createFlight(CarStop*, Drone*);
 
     // PRINTING //
     void print();

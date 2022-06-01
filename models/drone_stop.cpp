@@ -5,6 +5,7 @@
 
 #include "point.cpp"
 
+// PRIVATE INITIALIZER //
 DroneStop::DroneStop(Flight* t_this_flight, Point* t_point){
     m_this_flight = t_this_flight;
     m_point = t_point;
@@ -12,6 +13,12 @@ DroneStop::DroneStop(Flight* t_this_flight, Point* t_point){
     m_next = nullptr;
     m_prev = nullptr;
 }
+
+// PUBLIC INITIALIZER //
+DroneStop* DroneStop::create(Flight* t_flight, Point* t_point){
+    return new DroneStop(t_flight, t_point);
+}
+
 
 // GETTERS//
 bool DroneStop::is_first(){

@@ -13,16 +13,19 @@ class DroneStop {
     // DATA //
     Point* m_point;
     double m_cost;
-
     // Flight that this stop belongs
     Flight* m_this_flight;
+
+    // PRIVATE INITIALIZER //
+    DroneStop(Flight*, Point*);
 
     public:
     // LINKED LIST //
     DroneStop* m_next;
     DroneStop* m_prev;
 
-    DroneStop(Flight*, Point*);
+    // PUBLIC INITIALIZER //
+    static DroneStop* create(Flight*, Point*);
 
     // GETTERS//
     bool is_first();

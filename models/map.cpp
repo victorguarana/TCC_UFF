@@ -24,8 +24,7 @@ void printPoints(vector<Point> t_points){
 Map initialize_map(){
     Map map;
 
-    Point deposit("Deposito", 0, 0);
-    map.deposits.push_back(deposit);
+    map.deposits.push_back(Point("Deposito", 0, 0));
 
     /*
     Point client1("Client1", 10, 11, 10);
@@ -33,14 +32,12 @@ Map initialize_map(){
     Point client3("Client3", 5, 6, 10);
     Point client4("Client4", 15, 16, 10);
     */
-    Point client1("Client1", 10, 0, 10);
-    Point client2("Client2", 20, 0, 10);
-    Point client3("Client3", 5, 0, 10);
-    Point client4("Client4", 15, 0, 10);
-    map.clients.push_back(client1);
-    map.clients.push_back(client2);
-    map.clients.push_back(client3);
-    map.clients.push_back(client4);
+    map.clients.push_back(Point("Client1", 10, 0, 10));
+    map.clients.push_back(Point("Client2", 20, 0, 10));
+    map.clients.push_back(Point("Client3", 5, 0, 10));
+    map.clients.push_back(Point("Client4", 15, 0, 10));
+    map.clients.push_back(Point("Client5", 30, 0, 10));
+    map.clients.push_back(Point("Client6", 25, 0, 10));
 
     return map;
 }

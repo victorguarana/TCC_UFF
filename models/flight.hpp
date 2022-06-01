@@ -11,22 +11,24 @@ using namespace std;
 
 class Flight {
     private:
-    // POINTERS TO MAIN ROUTE //
-    CarStop* m_begin;
-    CarStop* m_end;
-
     // DATA //
     DroneStop* m_first_point;
     Drone* m_drone;
+    // Pointers to main route
+    CarStop* m_begin;
+    CarStop* m_end;
+
+    // PUBLIC INITIALIZER //
+    Flight(CarStop*, Drone*);
 
     public:
     int size;
 
-    Flight(CarStop*, Drone*);
+    // PRIVATE INITIALIZER //
+    static Flight* create(CarStop*, Drone*);
 
     // SETTER //
     void setFirstStop(DroneStop*);
-
     void addStop(DroneStop*);
 
     // PRINTING //

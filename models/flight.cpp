@@ -10,7 +10,7 @@
 
 using namespace std;
 
-// INITIALIZER //
+// PRIVATE INITIALIZER //
 Flight::Flight(CarStop* t_begin, Drone* t_drone){
     m_begin = t_begin;
     m_end = nullptr;
@@ -19,12 +19,16 @@ Flight::Flight(CarStop* t_begin, Drone* t_drone){
     size = 0;
 }
 
+// PUBLIC INITIALIZER //
+Flight* Flight::create(CarStop* t_begin, Drone* t_drone){
+    return new Flight(t_begin, t_drone);
+}
+
 // SETTER //
 void Flight::setFirstStop(DroneStop* t_stop){
     m_first_point = t_stop;
 }
 
-// Add stop to route
 // TODO: Add pointer to last drone stop;
 void Flight::addStop(DroneStop* t_drone_stop){
     if(m_first_point == nullptr){

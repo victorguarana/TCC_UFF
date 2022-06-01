@@ -17,16 +17,18 @@ class CarStop {
     Flight* m_takeoff_flight;
     Flight* m_return_flight;
     double m_cost;
-
     Route* m_this_route;
+
+    // PRIVATE INITIALIZER //
+    CarStop(Route*, Point*);
 
     public:
     // LINKED LIST //
     CarStop* m_next;
     CarStop* m_prev;
 
-    // INITIALIZER //
-    CarStop(Route*, Point*);
+    // PUBLIC INITIALIZER //
+    static CarStop* create(Route*, Point*);
 
     // GETTERS//
     Point* getPoint();

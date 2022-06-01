@@ -6,7 +6,7 @@
 #include "point.cpp"
 
 // Future: When implementing multiple drones, use vectors to represent flights and return and takeoff (?)
-// INITIALIZER //
+// PRIVATE INITIALIZER //
 CarStop::CarStop(Route* t_route, Point* t_point){
     m_this_route = t_route;
     m_point = t_point;
@@ -15,6 +15,11 @@ CarStop::CarStop(Route* t_route, Point* t_point){
     m_cost = -1;
     m_next = nullptr;
     m_prev = nullptr;
+}
+
+// PUBLIC INITIALIZER //
+CarStop* CarStop::create(Route* t_route, Point* t_point){
+    return new CarStop(t_route, t_point);
 }
 
 // GETTERS//

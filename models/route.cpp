@@ -35,8 +35,8 @@ Car* Route::getCar(){
 
 // SETTER //
 void Route::addPoint(Point t_point){
-    Point* p_point = this->createPoint(Point(t_point));
-    CarStop* p_car_stop = this->createCarStop(p_point);
+    Point* p_point = Point::create(Point(t_point));
+    CarStop* p_car_stop = CarStop::create(this, p_point);
     if (size == 0){
         m_first_stop = p_car_stop;
     }
@@ -56,36 +56,6 @@ void Route::removeCarStop(CarStop* t_car_stop){
     next_car_stop->m_prev = prev_car_stop;
     prev_car_stop->m_next = next_car_stop;
     size--;
-}
-
-// DATABASE OPERATIONS //
-Point* Route::createPoint(Point t_point){
-    m_points.push_back(Point(t_point));
-    int last_index = m_points.size()-1;
-    Point* p_point = &m_points.at(last_index);
-    return p_point;
-}
-
-CarStop* Route::createCarStop(Point* t_point){
-    m_car_stops.push_back(CarStop(this, t_point));
-    int last_index = m_car_stops.size()-1;
-    CarStop* p_car_stop = &m_car_stops.at(size);
-    return p_car_stop;
-}
-
-DroneStop* Route::createDroneStop(Flight* t_flight, Point* t_point){
-    m_drone_stops.push_back(DroneStop(t_flight, t_point));
-    int last_index = m_drone_stops.size()-1;
-    DroneStop* p_drone_stop = &m_drone_stops.at(last_index);
-    return p_drone_stop;
-}
-
-Flight* Route::createFlight(CarStop* t_car_stop, Drone* t_p_drone){
-    m_flights.push_back(Flight(t_car_stop, t_p_drone));
-    int last_index = m_flights.size()-1;
-    Flight* p_flight = &m_flights.at(last_index);
-
-    return p_flight;
 }
 
 // PRINTING //
