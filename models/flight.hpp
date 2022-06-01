@@ -12,8 +12,8 @@ using namespace std;
 class Flight {
     private:
     // DATA //
-    DroneStop* m_first_point;
-    DroneStop* m_last_point;
+    DroneStop* m_first_stop;
+    DroneStop* m_last_stop;
     Drone* m_drone;
     // Pointers to main route
     CarStop* m_begin;
@@ -32,6 +32,9 @@ class Flight {
     void setTakeoffStop(CarStop*);
     void setReturnStop(CarStop*);
     void appendDroneStop(DroneStop*);
+
+    // OPERATION //
+    void setCosts();
 
     // PRINTING //
     void print(int);

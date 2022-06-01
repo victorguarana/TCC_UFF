@@ -45,12 +45,14 @@ int main(){
 
     cout << "Initial Route (Car only):" << endl;
     Route route = Greedy::single_car_greedy(initial_map, &car, deposit);
+    route.setCosts();
     route.print();
 
     cout << "\n\n" << endl;
 
     cout << "Final Route (Car and drone):" << endl;
     Greedy::add_drone_flight(route);
+    route.setCosts();
     route.print();
 
     return 0; 

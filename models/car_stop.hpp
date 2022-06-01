@@ -32,6 +32,7 @@ class CarStop {
 
     // GETTERS//
     Point* getPoint();
+    double getCost();
     bool is_takeoff();
     bool is_return();
     bool is_first();
@@ -40,6 +41,7 @@ class CarStop {
     Flight* getReturnFlight();
 
     // SETTERS //
+    void setCost(double);
     void setTakeoffFlight(Flight*);
     void setReturnFlight(Flight*);
     void removeTakeoff();

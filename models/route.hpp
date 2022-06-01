@@ -36,6 +36,7 @@ class Route {
 
     // OPERATIONS //
     void removeCarStop(CarStop*);
+    void setCosts();
 
     // PRINTING //
     void print();

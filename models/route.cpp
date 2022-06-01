@@ -55,6 +55,26 @@ void Route::removeCarStop(CarStop* t_car_stop){
     prev_car_stop->m_next = next_car_stop;
     size--;
 }
+void Route::setCosts(){
+    CarStop* last_stop = m_first_stop;
+    CarStop* actual_stop = last_stop->m_next;
+    CarStop* next_stop = actual_stop->m_next;
+    double distance_backward, distance_forward;
+
+    while (actual_stop->m_next != nullptr){
+        distance_backward = Point::distanceBetweenPoints(*last_stop->getPoint(), *actual_stop->getPoint());
+        distance_forward = Point::distanceBetweenPoints(*actual_stop->getPoint(), *next_stop->getPoint());
+
+        actual_stop->setCost(distance_backward + distance_forward);
+        if (actual_stop->is_takeoff()){
+            actual_stop->getTakeoffFlight()->setCosts();
+        }
+
+        last_stop = actual_stop;
+        actual_stop = last_stop->m_next;
+        next_stop = actual_stop->m_next;
+    }
+}
 
 // PRINTING //
 void Route::print(){
