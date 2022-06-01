@@ -32,7 +32,7 @@ class Route {
     Car* getCar();
 
     // SETTER //
-    void addPoint(Point);
+    void appendCarStop(CarStop*);
 
     // OPERATIONS //
     void removeCarStop(CarStop*);

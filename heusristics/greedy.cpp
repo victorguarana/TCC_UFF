@@ -8,7 +8,6 @@
 
 class Greedy{
     private:
-    // TODO: Use pointers ?
     struct PointReturn{
         Point point;
         double distance;
@@ -36,14 +35,11 @@ class Greedy{
                 nearest_index = i;
             }
         }
-        PointReturn point_return;
-        point_return.point = nearest_point;
-        point_return.distance = shortest_distance;
-        point_return.index = nearest_index;
+        PointReturn point_return = { nearest_point, shortest_distance, nearest_index };
         return point_return;
     }
 
-    // TODO: Change this function to an car function
+    // TODO: Change this function to an car function?
     static bool validate_next_client(Point t_actual_position, Point t_nearest_client, vector<Point> t_deposits, Car t_car){
         // Storage validation
         if (t_car.getRemainingStorage() < t_nearest_client.getPackage()) 
@@ -71,7 +67,12 @@ class Greedy{
 
         Point actual_position = t_initial_position;
         Route route(t_car);
-        route.addPoint(actual_position);
+
+        // Append initial point to route
+        Point* p_point = Point::create(t_initial_position);
+        CarStop* p_car_stop = CarStop::create(&route, p_point);
+        route.appendCarStop(p_car_stop);
+
         while (!t_map.clients.empty()){
             // OPTIMIZATION: Use the remainig car range when setting the nearest client?
             PointReturn nearest_client_return = find_nearest_point(&actual_position, &t_map.clients);
@@ -79,24 +80,31 @@ class Greedy{
             int nearest_client_index = nearest_client_return.index;
             double nearest_client_distance = nearest_client_return.distance;
 
+            // Decide next point
+            Point* p_point;
             if (validate_next_client(actual_position, nearest_client, t_map.deposits, *t_car)){
-                actual_position = nearest_client;
                 t_map.clients.erase(t_map.clients.begin() + nearest_client_index);
-                t_car->deliver(nearest_client.getPackage(), nearest_client_distance);
-                route.addPoint(actual_position);
+                p_point = Point::create(nearest_client);
             }
             else {
                 Point nearest_deposit = find_nearest_point(&actual_position, &t_map.deposits).point;
-                actual_position = nearest_deposit;
-                t_car->resetAttributes();
-                route.addPoint(nearest_deposit);
+                p_point = Point::create(nearest_deposit);
             }
+
+            // Create car stop and append it to route
+            CarStop* p_car_stop = CarStop::create(&route, p_point);
+            route.appendCarStop(p_car_stop);
+            actual_position = *p_point;
+            t_car->deliver(actual_position, nearest_client_distance);
+
         }
 
         // Add deposit at the end of the route
         Point nearest_deposit = find_nearest_point(&t_initial_position, &t_map.deposits).point;
-        t_car->resetAttributes();
-        route.addPoint(nearest_deposit);
+        p_point = Point::create(nearest_deposit);
+        p_car_stop = CarStop::create(&route, p_point);
+        route.appendCarStop(p_car_stop);
+        t_car->deliver(nearest_deposit, 0);
 
         return route;
     }
@@ -131,7 +139,7 @@ class Greedy{
                     DroneStop* new_drone_stop = DroneStop::create(p_actual_flight, p_actual_point);
                     p_actual_flight->addStop(new_drone_stop);
 
-                    p_drone->deliver(distance_delivery, package);
+                    p_drone->deliver(*p_actual_point, distance_delivery);
 
                     route.removeCarStop(p_actual_car_stop);
                 }

@@ -34,18 +34,16 @@ Car* Route::getCar(){
 }
 
 // SETTER //
-void Route::addPoint(Point t_point){
-    Point* p_point = Point::create(Point(t_point));
-    CarStop* p_car_stop = CarStop::create(this, p_point);
+void Route::appendCarStop(CarStop* t_p_car_stop){
     if (size == 0){
-        m_first_stop = p_car_stop;
+        m_first_stop = t_p_car_stop;
     }
     else{
         CarStop* p_last_stop = m_last_stop;
-        p_last_stop->m_next = p_car_stop;
-        p_car_stop->m_prev = p_last_stop;
+        p_last_stop->m_next = t_p_car_stop;
+        t_p_car_stop->m_prev = p_last_stop;
     }
-    m_last_stop = p_car_stop;
+    m_last_stop = t_p_car_stop;
     size++;
 }
 
