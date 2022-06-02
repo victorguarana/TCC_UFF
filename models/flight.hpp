@@ -28,6 +28,9 @@ class Flight {
     // PRIVATE INITIALIZER //
     static Flight* create(CarStop*, Drone*);
 
+    // GETTERS //
+    DroneStop* getFirstStop();
+
     // SETTER //
     void setTakeoffStop(CarStop*);
     void setReturnStop(CarStop*);

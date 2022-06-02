@@ -28,6 +28,7 @@ int main(){
 #include "models/point.cpp"
 #include "models/map.cpp"
 #include "heusristics/greedy.cpp"
+#include "heusristics/ils.cpp"
 // #include "measurer.cpp"
 
 int main(){
@@ -54,6 +55,10 @@ int main(){
     Greedy::add_drone_flight(route);
     route.setCosts();
     route.print();
+
+    cout << "\n\n" << endl;
+
+    Ils::printWorstsStops(&route);
 
     return 0; 
 }

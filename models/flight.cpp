@@ -25,6 +25,12 @@ Flight* Flight::create(CarStop* t_begin, Drone* t_drone){
     return new Flight(t_begin, t_drone);
 }
 
+// GETTERS //
+DroneStop* Flight::getFirstStop(){
+    return m_first_stop;
+}
+
+
 // SETTER //
 void Flight::setTakeoffStop(CarStop* t_car_stop){
     m_begin = t_car_stop;
