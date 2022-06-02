@@ -69,7 +69,9 @@ void CarStop::removeReturn(){
 
 // PRINTING //
 string CarStop::toString(){
-    string str = "Point: " + m_point->toString() + " - Total cost: " + to_string(m_cost);
+    std::stringstream cost;
+    cost << std::fixed << std::setprecision(2) << m_cost;
+    string str = "Point: " + m_point->toString() + " - Total cost: " + cost.str();
     return str;
 }
 

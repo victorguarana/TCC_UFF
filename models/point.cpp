@@ -3,6 +3,8 @@
 
 #include <cmath>
 #include <string>
+#include <iomanip>
+#include <sstream>
 
 using namespace std;
 
@@ -23,7 +25,6 @@ class Point{
         m_longitude = 0;
         m_name = "";
     }
-
 
     public:
     // PUBLIC INITIALIZERS //
@@ -62,9 +63,14 @@ class Point{
     }
 
     string toString(){
-        string str = m_name + " (Pos: " + to_string(m_latitude) +  " : " + to_string(m_longitude) + ")";
+        std::stringstream latitude, longitude, package;
+        latitude << std::fixed << std::setprecision(2) << m_latitude;
+        longitude << std::fixed << std::setprecision(2) << m_longitude;
+        package << std::fixed << std::setprecision(2) << m_package;
+
+        string str = m_name + " (Pos: " + latitude.str() +  " : " + longitude.str() + ")";
         if (is_client())
-            str += " Pacote: " + to_string(m_package);
+            str += " Pacote: " + package.str();
 
         return str;
     }
