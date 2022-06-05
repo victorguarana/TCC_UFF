@@ -18,6 +18,7 @@ class Flight {
     // Pointers to main route
     CarStop* m_begin;
     CarStop* m_end;
+    double m_total_cost;
 
     // PUBLIC INITIALIZER //
     Flight(CarStop*, Drone*);
@@ -33,16 +34,18 @@ class Flight {
 
     // GETTERS //
     DroneStop* getFirstStop();
+    double getTotalCost();
 
 
     // SETTER //
     void setTakeoffStop(CarStop*);
     void setReturnStop(CarStop*);
     void appendDroneStop(DroneStop*);
+    void setTotalCost(double);
 
 
     // OPERATIONS //
-    void setCosts();
+    void calcCosts();
     void eraseUpBottom();
 
 

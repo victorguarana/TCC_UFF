@@ -38,7 +38,7 @@ Point* DroneStop::getPoint(){
 
 
 // SETTERS //
-void DroneStop::setCost(double t_cost){
+void DroneStop::calcCosts(double t_cost){
     m_cost = t_cost;
 }
 

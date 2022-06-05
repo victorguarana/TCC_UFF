@@ -19,6 +19,7 @@ class Route {
     Car* m_car;
     CarStop* m_first_stop;
     CarStop* m_last_stop;
+    double m_total_cost;
 
     public:
     int size;
@@ -30,13 +31,15 @@ class Route {
     CarStop* getFirstStop();
     CarStop* getLastStop();
     Car* getCar();
+    double getTotalCost();
 
     // SETTER //
-    void appendCarStop(CarStop*);
+    void setTotalCost(double);
 
     // OPERATIONS //
+    void appendCarStop(CarStop*);
     void removeCarStop(CarStop*);
-    void setCosts();
+    void calcCosts();
 
     // PRINTING //
     void print();
