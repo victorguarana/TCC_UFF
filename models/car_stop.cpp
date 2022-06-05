@@ -4,6 +4,7 @@
 #include "car_stop.hpp"
 
 #include "point.cpp"
+#include "flight.cpp"
 
 // TODO: Utilzar uma classe Stop para agrupar todos métodos iguais
 // Future: When implementing multiple drones, use vectors to represent flights and return and takeoff (?)
@@ -18,10 +19,12 @@ CarStop::CarStop(Route* t_route, Point* t_point){
     m_prev = nullptr;
 }
 
+
 // PUBLIC INITIALIZER //
 CarStop* CarStop::create(Route* t_route, Point* t_point){
     return new CarStop(t_route, t_point);
 }
+
 
 // GETTERS//
 double CarStop::getCost(){
@@ -49,6 +52,7 @@ Flight* CarStop::getReturnFlight(){
     return m_return_flight;
 }
 
+
 // SETTERS //
 void CarStop::setCost(double t_cost){
     m_cost = t_cost;
@@ -66,6 +70,20 @@ void CarStop::removeTakeoff(){
 void CarStop::removeReturn(){
     m_return_flight = nullptr;
 }
+
+
+// OPERATIONS //
+void CarStop::eraseUpBottom(){
+    if(m_point != nullptr)
+        m_point->erase();
+    if(m_takeoff_flight != nullptr)
+        m_takeoff_flight->eraseUpBottom();
+    if(m_return_flight != nullptr)
+        m_return_flight->eraseUpBottom();
+
+    delete this;
+}
+
 
 // PRINTING //
 string CarStop::toString(){

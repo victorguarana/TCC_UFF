@@ -19,13 +19,16 @@ class DroneStop {
     // PRIVATE INITIALIZER //
     DroneStop(Flight*, Point*);
 
+
     public:
     // LINKED LIST //
     DroneStop* m_next;
     DroneStop* m_prev;
 
+
     // PUBLIC INITIALIZER //
     static DroneStop* create(Flight*, Point*);
+
 
     // GETTERS//
     bool is_first();
@@ -33,8 +36,14 @@ class DroneStop {
     double getCost();
     Point* getPoint();
 
+
     // SETTERS //
     void setCost(double);
+
+
+    // OPERATIONS //
+    void eraseUpBottom();
+
 
     // PRINTING //
     string toString();

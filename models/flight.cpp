@@ -10,6 +10,7 @@
 
 using namespace std;
 
+
 // PRIVATE INITIALIZER //
 Flight::Flight(CarStop* t_begin, Drone* t_drone){
     m_begin = t_begin;
@@ -20,10 +21,12 @@ Flight::Flight(CarStop* t_begin, Drone* t_drone){
     size = 0;
 }
 
+
 // PUBLIC INITIALIZER //
 Flight* Flight::create(CarStop* t_begin, Drone* t_drone){
     return new Flight(t_begin, t_drone);
 }
+
 
 // GETTERS //
 DroneStop* Flight::getFirstStop(){
@@ -51,7 +54,8 @@ void Flight::appendDroneStop(DroneStop* t_drone_stop){
     size++;
 }
 
-// OPERATION //
+
+// OPERATIONS //
 void Flight::setCosts(){
     Point* p_last_point = m_begin->getPoint();
     Point* p_actual_point = m_first_stop->getPoint();
@@ -77,6 +81,21 @@ void Flight::setCosts(){
     distance_forward = Point::distanceBetweenPoints(*p_actual_point, *p_next_point);
     p_actual_stop->setCost(distance_backward + distance_forward);
 }
+void Flight::eraseUpBottom(){
+    if(m_first_stop != nullptr){
+        DroneStop* actual_stop = m_first_stop;
+        while (actual_stop != nullptr){
+            actual_stop = actual_stop->m_next;
+            actual_stop->m_prev->eraseUpBottom();
+        }
+        actual_stop->eraseUpBottom();
+    }
+    if(m_last_stop != nullptr)
+        m_last_stop->eraseUpBottom();
+
+    delete this;
+}
+
 
 // PRINTING //
 void Flight::print(int index){

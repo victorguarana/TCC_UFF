@@ -22,22 +22,29 @@ class Flight {
     // PUBLIC INITIALIZER //
     Flight(CarStop*, Drone*);
 
+
     public:
     int size;
+
 
     // PRIVATE INITIALIZER //
     static Flight* create(CarStop*, Drone*);
 
+
     // GETTERS //
     DroneStop* getFirstStop();
+
 
     // SETTER //
     void setTakeoffStop(CarStop*);
     void setReturnStop(CarStop*);
     void appendDroneStop(DroneStop*);
 
-    // OPERATION //
+
+    // OPERATIONS //
     void setCosts();
+    void eraseUpBottom();
+
 
     // PRINTING //
     void print(int);

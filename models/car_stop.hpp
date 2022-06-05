@@ -22,13 +22,16 @@ class CarStop {
     // PRIVATE INITIALIZER //
     CarStop(Route*, Point*);
 
+
     public:
     // LINKED LIST //
     CarStop* m_next;
     CarStop* m_prev;
 
+
     // PUBLIC INITIALIZER //
     static CarStop* create(Route*, Point*);
+
 
     // GETTERS//
     Point* getPoint();
@@ -40,12 +43,18 @@ class CarStop {
     Flight* getTakeoffFlight();
     Flight* getReturnFlight();
 
+
     // SETTERS //
     void setCost(double);
     void setTakeoffFlight(Flight*);
     void setReturnFlight(Flight*);
     void removeTakeoff();
     void removeReturn();
+
+
+    // OPERATIONS //
+    void eraseUpBottom();
+
 
     // PRINTING //
     string toString();
