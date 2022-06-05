@@ -140,12 +140,14 @@ class Greedy{
                         p_actual_flight = Flight::create(p_last_car_stop, p_drone);
                         p_last_car_stop->setTakeoffFlight(p_actual_flight);
                     }
-                    DroneStop* new_drone_stop = DroneStop::create(p_actual_flight, p_actual_point);
+                    Point* p_point = Point::create(*p_actual_point);
+                    DroneStop* new_drone_stop = DroneStop::create(p_actual_flight, p_point);
                     p_actual_flight->appendDroneStop(new_drone_stop);
 
                     p_drone->deliver(*p_actual_point, distance_delivery);
 
                     route.removeCarStop(p_actual_car_stop);
+                    p_actual_car_stop = nullptr;
                 }
                 else{
                     if (p_drone->isFlying()){
@@ -166,7 +168,8 @@ class Greedy{
                 }
             }
 
-            p_last_car_stop = p_actual_car_stop;
+            if (p_actual_car_stop != nullptr)
+                p_last_car_stop = p_actual_car_stop;
             p_actual_car_stop = p_next_car_stop;
         }
     }

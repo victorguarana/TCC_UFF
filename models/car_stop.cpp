@@ -74,6 +74,10 @@ void CarStop::removeReturn(){
 
 // OPERATIONS //
 void CarStop::eraseUpBottom(){
+    if (m_next != nullptr)
+        m_next->m_prev = m_prev;
+    if (m_prev != nullptr)
+        m_prev->m_next = m_next;
     if(m_point != nullptr)
         m_point->erase();
     if(m_takeoff_flight != nullptr)

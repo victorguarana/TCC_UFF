@@ -14,6 +14,7 @@
 
 using namespace std;
 
+
 // INITIALIZER //
 Route::Route(Car* t_car){
     m_car = t_car;
@@ -21,6 +22,7 @@ Route::Route(Car* t_car){
     m_last_stop = nullptr;
     size = 0;
 }
+
 
 // GETTER //
 CarStop* Route::getFirstStop(){
@@ -32,6 +34,7 @@ CarStop* Route::getLastStop(){
 Car* Route::getCar(){
     return m_car;
 }
+
 
 // SETTER //
 void Route::appendCarStop(CarStop* t_p_car_stop){
@@ -47,12 +50,10 @@ void Route::appendCarStop(CarStop* t_p_car_stop){
     size++;
 }
 
+
 // OPERATIONS //
 void Route::removeCarStop(CarStop* t_car_stop){
-    CarStop* next_car_stop = t_car_stop->m_next;
-    CarStop* prev_car_stop = t_car_stop->m_prev;
-    next_car_stop->m_prev = prev_car_stop;
-    prev_car_stop->m_next = next_car_stop;
+    t_car_stop->eraseUpBottom();
     size--;
 }
 void Route::setCosts(){
@@ -75,6 +76,7 @@ void Route::setCosts(){
         next_stop = actual_stop->m_next;
     }
 }
+
 
 // PRINTING //
 void Route::print(){
