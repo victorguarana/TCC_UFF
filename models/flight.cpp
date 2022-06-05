@@ -18,7 +18,6 @@ Flight::Flight(CarStop* t_begin, Drone* t_drone){
     m_first_stop = nullptr;
     m_last_stop = nullptr;
     m_drone = t_drone;
-    size = 0;
 }
 
 
@@ -57,7 +56,7 @@ void Flight::setLandingStop(CarStop* t_car_stop){
 }
 
 void Flight::appendDroneStop(DroneStop* t_drone_stop){
-    if (size == 0){
+    if (m_first_stop == nullptr){
         m_first_stop = t_drone_stop;
     }
     else {
@@ -65,7 +64,6 @@ void Flight::appendDroneStop(DroneStop* t_drone_stop){
         t_drone_stop->m_prev = m_last_stop;
     }
     m_last_stop = t_drone_stop;
-    size++;
 }
 
 
@@ -116,12 +114,12 @@ void Flight::eraseUpBottom(){
     delete this;
 }
 void Flight::eraseBottomUp(){
-    if(size == 1){
+    if(m_takeoff != nullptr)
         m_takeoff->setTakeoffFlight(nullptr);
+    if(m_landing != nullptr)
         m_landing->setTakeoffFlight(nullptr);
 
-        delete this;
-    }
+    delete this;
 }
 void Flight::attachFlight(Flight* t_flight){
     m_landing = t_flight->getLandingStop();

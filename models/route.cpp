@@ -20,7 +20,6 @@ Route::Route(Car* t_car){
     m_car = t_car;
     m_first_stop = nullptr;
     m_last_stop = nullptr;
-    size = 0;
 }
 
 
@@ -46,7 +45,7 @@ void Route::setTotalCost(double t_total_cost){
 
 // OPERATIONS //
 void Route::appendCarStop(CarStop* t_p_car_stop){
-    if (size == 0){
+    if (m_first_stop == nullptr){
         m_first_stop = t_p_car_stop;
     }
     else{
@@ -55,11 +54,9 @@ void Route::appendCarStop(CarStop* t_p_car_stop){
         t_p_car_stop->m_prev = p_last_stop;
     }
     m_last_stop = t_p_car_stop;
-    size++;
 }
-void Route::removeCarStop(CarStop* t_car_stop){
+void Route::eraseCarStop(CarStop* t_car_stop){
     t_car_stop->eraseUpBottom();
-    size--;
 }
 void Route::calcCosts(){
     m_total_cost = 0;
@@ -93,7 +90,7 @@ void Route::calcCosts(){
 
 // PRINTING //
 void Route::print(){
-    if (size < 1)
+    if (m_first_stop == nullptr)
         return;
 
     int index = 1;

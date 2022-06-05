@@ -20,15 +20,12 @@ class Flight {
     CarStop* m_landing;
     double m_total_cost;
 
-    // PUBLIC INITIALIZER //
+    // PRIVATE INITIALIZER //
     Flight(CarStop*, Drone*);
 
 
     public:
-    int size;
-
-
-    // PRIVATE INITIALIZER //
+    // PUBLIC INITIALIZER //
     static Flight* create(CarStop*, Drone*);
 
 

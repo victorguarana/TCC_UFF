@@ -22,8 +22,6 @@ class Route {
     double m_total_cost;
 
     public:
-    int size;
-
     // INITIALIZER //
     Route(Car*);
 
@@ -38,7 +36,7 @@ class Route {
 
     // OPERATIONS //
     void appendCarStop(CarStop*);
-    void removeCarStop(CarStop*);
+    void eraseCarStop(CarStop*);
     void calcCosts();
 
     // PRINTING //

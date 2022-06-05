@@ -146,7 +146,7 @@ class Greedy{
 
                     p_drone->deliver(*p_actual_point, distance_delivery);
 
-                    route.removeCarStop(p_actual_car_stop);
+                    route.eraseCarStop(p_actual_car_stop);
                     p_actual_car_stop = nullptr;
                 }
                 else{
