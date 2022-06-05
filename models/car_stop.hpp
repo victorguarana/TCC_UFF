@@ -45,7 +45,7 @@ class CarStop {
 
 
     // SETTERS //
-    void calcCosts(double);
+    void setCost(double);
     void setTakeoffFlight(Flight*);
     void setReturnFlight(Flight*);
     void removeTakeoff();

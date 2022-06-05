@@ -86,7 +86,7 @@ void Flight::calcCosts(){
         distance_backward = Point::distanceBetweenPoints(*p_last_point, *p_actual_point);
         distance_forward = Point::distanceBetweenPoints(*p_actual_point, *p_next_point);
 
-        p_actual_stop->calcCosts(distance_backward + distance_forward);
+        p_actual_stop->setCost(distance_backward + distance_forward);
         m_total_cost += distance_backward / drone_speed;
 
         p_actual_stop = p_actual_stop->m_next;
@@ -99,7 +99,7 @@ void Flight::calcCosts(){
     distance_forward = Point::distanceBetweenPoints(*p_actual_point, *p_next_point);
     m_total_cost += (distance_backward + distance_forward) / drone_speed;
 
-    p_actual_stop->calcCosts(distance_backward + distance_forward);
+    p_actual_stop->setCost(distance_backward + distance_forward);
 }
 void Flight::eraseUpBottom(){
     if(m_first_stop != nullptr){

@@ -62,7 +62,7 @@ void Route::removeCarStop(CarStop* t_car_stop){
     size--;
 }
 void Route::calcCosts(){
-    m_last_stop = 0;
+    m_total_cost = 0;
     double car_speed = m_car->getSpeed();
 
     CarStop* last_stop = m_first_stop;
@@ -74,7 +74,7 @@ void Route::calcCosts(){
         distance_backward = Point::distanceBetweenPoints(*last_stop->getPoint(), *actual_stop->getPoint());
         distance_forward = Point::distanceBetweenPoints(*actual_stop->getPoint(), *next_stop->getPoint());
 
-        actual_stop->calcCosts(distance_backward + distance_forward);
+        actual_stop->setCost(distance_backward + distance_forward);
         m_total_cost += distance_backward / car_speed;
 
         if (actual_stop->is_takeoff()){

@@ -38,7 +38,7 @@ class DroneStop {
 
 
     // SETTERS //
-    void calcCosts(double);
+    void setCost(double);
 
 
     // OPERATIONS //

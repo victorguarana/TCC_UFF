@@ -54,7 +54,7 @@ Flight* CarStop::getReturnFlight(){
 
 
 // SETTERS //
-void CarStop::calcCosts(double t_cost){
+void CarStop::setCost(double t_cost){
     m_cost = t_cost;
 }
 void CarStop::setTakeoffFlight(Flight* t_flight){
