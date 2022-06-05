@@ -153,7 +153,7 @@ class Greedy{
                     if (p_drone->isFlying()){
                         p_drone->land();
                         p_actual_car_stop->setReturnFlight(p_actual_flight);
-                        p_actual_flight->setReturnStop(p_actual_car_stop);
+                        p_actual_flight->setLandingStop(p_actual_car_stop);
                         p_actual_flight = nullptr;
 
                     }
@@ -163,7 +163,7 @@ class Greedy{
                 if (p_drone->isFlying()){
                     p_drone->land();
                     p_actual_car_stop->setReturnFlight(p_actual_flight);
-                    p_actual_flight->setReturnStop(p_actual_car_stop);
+                    p_actual_flight->setLandingStop(p_actual_car_stop);
                     p_actual_flight = nullptr;
                 }
             }

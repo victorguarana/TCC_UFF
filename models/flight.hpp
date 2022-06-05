@@ -16,8 +16,8 @@ class Flight {
     DroneStop* m_last_stop;
     Drone* m_drone;
     // Pointers to main route
-    CarStop* m_begin;
-    CarStop* m_end;
+    CarStop* m_takeoff;
+    CarStop* m_landing;
     double m_total_cost;
 
     // PUBLIC INITIALIZER //
@@ -35,11 +35,13 @@ class Flight {
     // GETTERS //
     DroneStop* getFirstStop();
     double getTotalCost();
+    CarStop* getTakeoffStop();
+    CarStop* getLandingStop();
 
 
     // SETTER //
     void setTakeoffStop(CarStop*);
-    void setReturnStop(CarStop*);
+    void setLandingStop(CarStop*);
     void appendDroneStop(DroneStop*);
     void setTotalCost(double);
 
@@ -47,7 +49,8 @@ class Flight {
     // OPERATIONS //
     void calcCosts();
     void eraseUpBottom();
-
+    void eraseBottomUp();
+    void attachFlight(Flight*);
 
     // PRINTING //
     void print(int);

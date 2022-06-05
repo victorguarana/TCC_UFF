@@ -50,6 +50,19 @@ void DroneStop::eraseUpBottom(){
 
     delete this;
 }
+void DroneStop::eraseBottomUp(){
+    if(m_point != nullptr)
+        m_point->erase();
+
+    if (m_next != nullptr)
+        m_next->m_prev = m_prev;
+    if (m_prev != nullptr)
+        m_prev->m_next = m_next;
+
+    m_this_flight->eraseBottomUp();
+
+    delete this;
+}
 
 
 // PRINTING //

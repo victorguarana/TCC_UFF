@@ -87,6 +87,33 @@ void CarStop::eraseUpBottom(){
 
     delete this;
 }
+void CarStop::eraseBottomUp(){
+    if (m_next != nullptr)
+        m_next->m_prev = m_prev;
+    if (m_prev != nullptr)
+        m_prev->m_next = m_next;
+    if(m_point != nullptr)
+        m_point->erase();
+
+    if(is_takeoff() && is_return()){
+        // Join both flights
+        m_return_flight->attachFlight(m_takeoff_flight);
+    }
+    else if(is_takeoff()){
+        if(m_prev != nullptr)
+            m_takeoff_flight->setTakeoffStop(m_prev);
+        else 
+            m_takeoff_flight->setTakeoffStop(m_next);
+    }
+    else if(is_return()){
+        if(m_next != nullptr)
+            m_return_flight->setLandingStop(m_next);
+        else 
+            m_return_flight->setLandingStop(m_prev);
+    }
+
+    delete this;
+}
 
 
 // PRINTING //

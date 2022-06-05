@@ -13,8 +13,8 @@ using namespace std;
 
 // PRIVATE INITIALIZER //
 Flight::Flight(CarStop* t_begin, Drone* t_drone){
-    m_begin = t_begin;
-    m_end = nullptr;
+    m_takeoff = t_begin;
+    m_landing = nullptr;
     m_first_stop = nullptr;
     m_last_stop = nullptr;
     m_drone = t_drone;
@@ -35,6 +35,12 @@ DroneStop* Flight::getFirstStop(){
 double Flight::getTotalCost(){
     return m_total_cost;
 }
+CarStop* Flight::getTakeoffStop(){
+    return m_takeoff;
+}
+CarStop* Flight::getLandingStop(){
+    return m_landing;
+}
 
 
 // SETTER //
@@ -44,10 +50,10 @@ void Flight::setTotalCost(double t_total_cost){
 
 // SETTER //
 void Flight::setTakeoffStop(CarStop* t_car_stop){
-    m_begin = t_car_stop;
+    m_takeoff = t_car_stop;
 }
-void Flight::setReturnStop(CarStop* t_car_stop){
-    m_end = t_car_stop;
+void Flight::setLandingStop(CarStop* t_car_stop){
+    m_landing = t_car_stop;
 }
 
 void Flight::appendDroneStop(DroneStop* t_drone_stop){
@@ -68,7 +74,7 @@ void Flight::calcCosts(){
     m_total_cost = 0;
     double drone_speed = m_drone->getSpeed();
 
-    Point* p_last_point = m_begin->getPoint();
+    Point* p_last_point = m_takeoff->getPoint();
     Point* p_actual_point = m_first_stop->getPoint();
     Point* p_next_point;
     DroneStop* p_actual_stop = m_first_stop;
@@ -88,7 +94,7 @@ void Flight::calcCosts(){
         p_actual_point = p_next_point;
     }
 
-    p_next_point = m_end->getPoint();
+    p_next_point = m_landing->getPoint();
     distance_backward = Point::distanceBetweenPoints(*p_last_point, *p_actual_point);
     distance_forward = Point::distanceBetweenPoints(*p_actual_point, *p_next_point);
     m_total_cost += (distance_backward + distance_forward) / drone_speed;
@@ -109,6 +115,35 @@ void Flight::eraseUpBottom(){
 
     delete this;
 }
+void Flight::eraseBottomUp(){
+    if(size == 1){
+        m_takeoff->setTakeoffFlight(nullptr);
+        m_landing->setTakeoffFlight(nullptr);
+
+        delete this;
+    }
+}
+void Flight::attachFlight(Flight* t_flight){
+    m_landing = t_flight->getLandingStop();
+
+    // Get last drone stop
+    DroneStop* p_last_stop = m_first_stop;
+    while(p_last_stop->m_next != nullptr)
+        p_last_stop = p_last_stop->m_next;
+
+
+    DroneStop* p_actual_stop = t_flight->getFirstStop();
+    while(p_actual_stop != nullptr){
+        p_last_stop->m_next = p_actual_stop;
+        p_actual_stop->m_prev = p_last_stop;
+
+        p_last_stop = p_actual_stop;
+        p_actual_stop = p_actual_stop->m_next;
+    }
+
+    delete t_flight;
+}
+
 
 
 // PRINTING //
