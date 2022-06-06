@@ -14,7 +14,7 @@ CarStop::CarStop(Route* t_route, Point* t_point){
     m_point = t_point;
     m_takeoff_flight = nullptr;
     m_return_flight = nullptr;
-    m_cost = -1;
+    m_cost = 0;
     m_next = nullptr;
     m_prev = nullptr;
 }
@@ -73,11 +73,24 @@ void CarStop::removeReturn(){
 
 
 // OPERATIONS //
-void CarStop::eraseUpBottom(){
+void CarStop::insertInRoute(CarStop* t_new_car_stop){
+    CarStop* p_next_car_stop = m_next;
+
+    m_next = t_new_car_stop;
+    t_new_car_stop->m_prev = this;
+
+    p_next_car_stop->m_prev = t_new_car_stop;
+    t_new_car_stop->m_next = p_next_car_stop;
+}
+void CarStop::removeFromRoute(){
     if (m_next != nullptr)
         m_next->m_prev = m_prev;
     if (m_prev != nullptr)
         m_prev->m_next = m_next;
+}
+void CarStop::eraseUpBottom(){
+    removeFromRoute();
+
     if(m_point != nullptr)
         m_point->erase();
     if(m_takeoff_flight != nullptr)
@@ -88,12 +101,7 @@ void CarStop::eraseUpBottom(){
     delete this;
 }
 void CarStop::eraseBottomUp(){
-    if (m_next != nullptr)
-        m_next->m_prev = m_prev;
-    if (m_prev != nullptr)
-        m_prev->m_next = m_next;
-    if(m_point != nullptr)
-        m_point->erase();
+    removeFromRoute();
 
     if(is_takeoff() && is_return()){
         // Join both flights

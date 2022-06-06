@@ -31,6 +31,7 @@ int main(){
 #include "heusristics/ils.cpp"
 // #include "measurer.cpp"
 
+
 int main(){
     // Database database_instane;
     
@@ -44,22 +45,39 @@ int main(){
     Point far_client("Last Client", -1, 0, 990);
     initial_map.clients.push_back(far_client);
 
-    cout << "Initial Route (Car only):" << endl;
+    cout << "Initial Greedy Route (Car only):" << endl;
     Route route = Greedy::single_car_greedy(initial_map, &car, deposit);
-    route.setCosts();
+    route.calcCosts();
     route.print();
+
 
     cout << "\n\n" << endl;
 
-    cout << "Final Route (Car and drone):" << endl;
+    cout << "Hybrid Greedy Route (Car and drone):" << endl;
     Greedy::add_drone_flight(route);
-    route.setCosts();
+    route.calcCosts();
     route.print();
+
 
     cout << "\n\n" << endl;
 
+    cout << "Swap Worsts Stops (First):" << endl;
     Ils::printWorstsStops(&route);
+    Ils::swapWorstsStops(&route);
+    route.calcCosts();
+    route.print();
 
+
+    cout << "\n\n" << endl;
+
+    cout << "Swap Worsts Stops (Second):" << endl;
+    Ils::printWorstsStops(&route);
+    Ils::swapWorstsStops(&route);
+    route.calcCosts();
+    route.print();
+
+
+    cout << "\n" << endl;
     return 0; 
 }
 /**/

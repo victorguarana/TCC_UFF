@@ -39,9 +39,12 @@ class DroneStop {
 
     // SETTERS //
     void setCost(double);
+    void setFlight(Flight*);
 
 
     // OPERATIONS //
+    void removeFromFlight();
+    void insertInFlight(DroneStop*);
     void eraseUpBottom();
     void eraseBottomUp();
 
