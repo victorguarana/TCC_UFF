@@ -34,9 +34,14 @@ class Route {
     // SETTER //
     void setTotalCost(double);
 
-    // OPERATIONS //
-    void appendCarStop(CarStop*);
-    void eraseCarStop(CarStop*);
+    // LINKED LIST FUNCTIONS //
+    void appendCarStopFront(CarStop*);
+    void appendCarStopBack(CarStop*);
+    void insertCarStop(CarStop*, CarStop*);
+    void removeCarStop(CarStop*, bool=false);
+
+
+    // OTHER FUNCTIONS //
     void calcCosts();
 
     // PRINTING //

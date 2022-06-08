@@ -82,20 +82,20 @@ class Ils{
 
         while(actual_stop->m_next != nullptr){
 
-            actual_stop->insertInRoute(t_new_car_stop);
+            t_route->insertCarStop(actual_stop, t_new_car_stop);
             t_route->calcCosts();
             actual_cost = t_route->getTotalCost();
             if (best_cost == -1 || actual_cost < best_cost){
                 best_cost = actual_cost;
                 best_insertion_position = last_stop;
             }
-            t_new_car_stop->removeFromRoute();
+            t_route->removeCarStop(t_new_car_stop);
 
             last_stop = actual_stop;
             actual_stop = last_stop->m_next;
         }
 
-    best_insertion_position->insertInRoute(t_new_car_stop);
+    t_route->insertCarStop(best_insertion_position, t_new_car_stop);
     }
 
     static void addDroneStopToRoute(Route* t_route, DroneStop* t_new_drone_stop){
@@ -154,10 +154,7 @@ class Ils{
         else if(best_flight_insertion_position != nullptr){
             Flight* p_new_flight = Flight::create(best_flight_insertion_position, p_drone);
             p_new_flight->appendDroneStop(t_new_drone_stop);
-            best_flight_insertion_position->setTakeoffFlight(p_new_flight);
             p_new_flight->setLandingStop(best_flight_insertion_position->m_next);
-            best_flight_insertion_position->m_next->setReturnFlight(p_new_flight);
-            t_new_drone_stop->setFlight(p_new_flight);
         }
     }
 

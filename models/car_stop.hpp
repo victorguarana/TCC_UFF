@@ -53,8 +53,6 @@ class CarStop {
 
 
     // OPERATIONS //
-    void insertInRoute(CarStop*);
-    void removeFromRoute();
     void eraseUpBottom();
     void eraseBottomUp();
 

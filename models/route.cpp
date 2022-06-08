@@ -43,21 +43,62 @@ void Route::setTotalCost(double t_total_cost){
     m_total_cost = t_total_cost;
 }
 
-// OPERATIONS //
-void Route::appendCarStop(CarStop* t_p_car_stop){
+
+// LINKED LIST FUNCTIONS //
+// Add to first position
+void Route::appendCarStopFront(CarStop* t_car_stop){
+    if (m_last_stop == nullptr){
+        m_last_stop = t_car_stop;
+    }
+    else{
+        CarStop* p_first_stop = m_first_stop;
+        p_first_stop->m_prev = t_car_stop;
+        t_car_stop->m_next = p_first_stop;
+    }
+    m_first_stop = t_car_stop;
+}
+// Add to last position
+void Route::appendCarStopBack(CarStop* t_car_stop){
     if (m_first_stop == nullptr){
-        m_first_stop = t_p_car_stop;
+        m_first_stop = t_car_stop;
     }
     else{
         CarStop* p_last_stop = m_last_stop;
-        p_last_stop->m_next = t_p_car_stop;
-        t_p_car_stop->m_prev = p_last_stop;
+        p_last_stop->m_next = t_car_stop;
+        t_car_stop->m_prev = p_last_stop;
     }
-    m_last_stop = t_p_car_stop;
+    m_last_stop = t_car_stop;
 }
-void Route::eraseCarStop(CarStop* t_car_stop){
-    t_car_stop->eraseUpBottom();
+// Insert Car Stop after an existing stop
+void Route::insertCarStop(CarStop* t_previous_stop, CarStop* t_new_stop){
+    CarStop* p_next_stop = t_previous_stop->m_next;
+    if (p_next_stop != nullptr)
+        p_next_stop->m_prev = t_new_stop;
+
+    t_previous_stop->m_next = t_new_stop;
+
+    t_new_stop->m_next = p_next_stop;
+    t_new_stop->m_prev = t_previous_stop;
 }
+// Remove from route (To erase this instance, set erase = true)
+void Route::removeCarStop(CarStop* t_remove_stop, bool erase){
+    CarStop* t_prev = t_remove_stop->m_prev;
+    CarStop* t_next = t_remove_stop->m_next;
+
+    t_remove_stop->m_next = nullptr;
+    t_remove_stop->m_prev = nullptr;
+
+    if(t_prev != nullptr)
+        t_prev->m_next = t_next;
+    if(t_next != nullptr)
+        t_next->m_prev = t_prev;
+
+    if(erase)
+        t_remove_stop->eraseUpBottom();
+}
+
+
+// OTHER FUNCTIONS //
 void Route::calcCosts(){
     m_total_cost = 0;
     double car_speed = m_car->getSpeed();
@@ -71,6 +112,7 @@ void Route::calcCosts(){
         distance_backward = Point::distanceBetweenPoints(*last_stop->getPoint(), *actual_stop->getPoint());
         distance_forward = Point::distanceBetweenPoints(*actual_stop->getPoint(), *next_stop->getPoint());
 
+        // TODO: Make cost calculation a stop responsability
         actual_stop->setCost(distance_backward + distance_forward);
         m_total_cost += distance_backward / car_speed;
 

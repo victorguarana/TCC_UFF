@@ -70,9 +70,6 @@ int main(){
 
     cout << "\n\n" << endl;
 
-    // Verificar se é possivel reduzir a quantidade de lógica na ils linha 155
-    // Passar lógica de adição e remoção de stops para a route/flight?
-
     cout << "Swap Worsts Stops (Second):" << endl;
     Ils::printWorstsStops(&route);
     Ils::swapWorstsStops(&route);

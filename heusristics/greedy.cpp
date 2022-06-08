@@ -71,7 +71,7 @@ class Greedy{
         // Append initial point to route
         Point* p_point = Point::create(t_initial_position);
         CarStop* p_car_stop = CarStop::create(&route, p_point);
-        route.appendCarStop(p_car_stop);
+        route.appendCarStopBack(p_car_stop);
 
         while (!t_map.clients.empty()){
             // OPTIMIZATION: Use the remainig car range when setting the nearest client?
@@ -93,7 +93,7 @@ class Greedy{
 
             // Create car stop and append it to route
             CarStop* p_car_stop = CarStop::create(&route, p_point);
-            route.appendCarStop(p_car_stop);
+            route.appendCarStopBack(p_car_stop);
             actual_position = *p_point;
             t_car->deliver(actual_position, nearest_client_distance);
 
@@ -103,7 +103,7 @@ class Greedy{
         Point nearest_deposit = find_nearest_point(&t_initial_position, &t_map.deposits).point;
         p_point = Point::create(nearest_deposit);
         p_car_stop = CarStop::create(&route, p_point);
-        route.appendCarStop(p_car_stop);
+        route.appendCarStopBack(p_car_stop);
         t_car->deliver(nearest_deposit, 0);
 
         return route;
@@ -146,7 +146,7 @@ class Greedy{
 
                     p_drone->deliver(*p_actual_point, distance_delivery);
 
-                    route.eraseCarStop(p_actual_car_stop);
+                    route.removeCarStop(p_actual_car_stop, true);
                     p_actual_car_stop = nullptr;
                 }
                 else{

@@ -50,9 +50,11 @@ void Flight::setTotalCost(double t_total_cost){
 // SETTER //
 void Flight::setTakeoffStop(CarStop* t_car_stop){
     m_takeoff = t_car_stop;
+    t_car_stop->setTakeoffFlight(this);
 }
 void Flight::setLandingStop(CarStop* t_car_stop){
     m_landing = t_car_stop;
+    t_car_stop->setReturnFlight(this);
 }
 
 void Flight::appendDroneStop(DroneStop* t_drone_stop){
@@ -64,6 +66,7 @@ void Flight::appendDroneStop(DroneStop* t_drone_stop){
         t_drone_stop->m_prev = m_last_stop;
     }
     m_last_stop = t_drone_stop;
+    t_drone_stop->setFlight(this);
 }
 
 
@@ -118,9 +121,9 @@ void Flight::eraseBottomUp(){
         return;
 
     if(m_takeoff != nullptr)
-        m_takeoff->setTakeoffFlight(nullptr);
+        m_takeoff->removeTakeoff();
     if(m_landing != nullptr)
-        m_landing->setReturnFlight(nullptr);
+        m_landing->removeReturn();
 
     delete this;
 }
