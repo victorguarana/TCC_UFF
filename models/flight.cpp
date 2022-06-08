@@ -100,13 +100,20 @@ void Flight::removeDroneStop(DroneStop* t_remove_stop, bool erase){
     DroneStop* t_prev = t_remove_stop->m_prev;
     DroneStop* t_next = t_remove_stop->m_next;
 
+    if(m_first_stop == t_remove_stop){
+        m_first_stop = t_remove_stop->m_next;
+    }
+    if(m_last_stop == t_remove_stop){
+        m_last_stop = t_remove_stop->m_prev;
+    }
+
     t_remove_stop->m_next = nullptr;
     t_remove_stop->m_prev = nullptr;
 
     if(t_prev != nullptr)
         t_prev->m_next = t_next;
     if(t_next != nullptr)
-        t_next->m_prev = t_prev;
+        t_next->m_prev = t_prev;    
 
     if(erase)
         t_remove_stop->eraseUpBottom();

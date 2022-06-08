@@ -107,13 +107,26 @@ class Ils{
         double actual_cost = 0, best_cost_diff = -1, new_cost = 0;
 
         while(p_actual_car_stop->m_next != nullptr){
+
+            // Trying to position new drone stop in this flight
             if (p_actual_car_stop->is_takeoff()){
                 p_drone->takeOff();
                 Flight* p_actual_flight = p_actual_car_stop->getTakeoffFlight();
                 DroneStop* p_actual_drone_stop = p_actual_flight->getFirstStop();
                 actual_cost = p_actual_flight->getTotalCost();
 
-                // TODO: Try to insert before the first stop
+                // Trying to insert in the first position
+                p_actual_flight->appendDroneStopFirst(t_new_drone_stop);
+                p_actual_flight->calcCosts();
+                new_cost = p_actual_flight->getTotalCost();
+                if (best_cost_diff == -1 || (new_cost - actual_cost) < best_cost_diff){
+                    best_cost_diff = new_cost - actual_cost;
+                    best_stop_insertion_position = nullptr;
+                    best_flight_insertion_position = p_actual_car_stop;
+                }
+                p_actual_flight->removeDroneStop(t_new_drone_stop);
+
+                // Trying to insert in all others positions
                 while(p_actual_drone_stop != nullptr){
                     p_actual_flight->insertDroneStop(p_actual_drone_stop, t_new_drone_stop);
                     p_actual_flight->calcCosts();
@@ -129,6 +142,7 @@ class Ils{
                 }
             }
 
+            // Trying to create new flight to position the new drone stop
             else if (p_actual_car_stop->is_return() || !p_drone->isFlying()){
                 p_drone->takeOff();
                 Flight* p_new_flight = Flight::create(p_actual_car_stop, p_drone);
@@ -142,7 +156,6 @@ class Ils{
                     best_stop_insertion_position = nullptr;
                 }
                 p_new_flight->eraseBottomUp();
-
             }
 
             p_actual_car_stop = p_actual_car_stop->m_next;
@@ -153,9 +166,15 @@ class Ils{
             p_best_flight->insertDroneStop(best_stop_insertion_position, t_new_drone_stop);
         }
         else if(best_flight_insertion_position != nullptr){
-            Flight* p_new_flight = Flight::create(best_flight_insertion_position, p_drone);
-            p_new_flight->appendDroneStopFirst(t_new_drone_stop);
-            p_new_flight->setLandingStop(best_flight_insertion_position->m_next);
+            if (best_flight_insertion_position->is_takeoff()){
+                Flight* p_best_flight = best_flight_insertion_position->getTakeoffFlight();
+                p_best_flight->insertDroneStop(best_stop_insertion_position, t_new_drone_stop);
+            }
+            else{
+                Flight* p_new_flight = Flight::create(best_flight_insertion_position, p_drone);
+                p_new_flight->appendDroneStopFirst(t_new_drone_stop);
+                p_new_flight->setLandingStop(best_flight_insertion_position->m_next);
+            }
         }
     }
 

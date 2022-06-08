@@ -85,6 +85,13 @@ void Route::removeCarStop(CarStop* t_remove_stop, bool erase){
     CarStop* t_prev = t_remove_stop->m_prev;
     CarStop* t_next = t_remove_stop->m_next;
 
+    if(m_first_stop == t_remove_stop){
+        m_first_stop = t_remove_stop->m_next;
+    }
+    if(m_last_stop == t_remove_stop){
+        m_last_stop = t_remove_stop->m_prev;
+    }
+
     t_remove_stop->m_next = nullptr;
     t_remove_stop->m_prev = nullptr;
 
