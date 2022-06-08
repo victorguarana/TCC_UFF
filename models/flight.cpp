@@ -114,6 +114,9 @@ void Flight::eraseUpBottom(){
     delete this;
 }
 void Flight::eraseBottomUp(){
+    if (m_last_stop != m_first_stop)
+        return;
+
     if(m_takeoff != nullptr)
         m_takeoff->setTakeoffFlight(nullptr);
     if(m_landing != nullptr)

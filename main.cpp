@@ -70,9 +70,8 @@ int main(){
 
     cout << "\n\n" << endl;
 
-    // Verificar a falta da adição de stop do carro
-    // Verificar se é possivel redusir a quantidade de lógica na ils linha 55
-    // Passar lógica de adição e remoção  de stops para a route/flight?
+    // Verificar se é possivel reduzir a quantidade de lógica na ils linha 155
+    // Passar lógica de adição e remoção de stops para a route/flight?
 
     cout << "Swap Worsts Stops (Second):" << endl;
     Ils::printWorstsStops(&route);
@@ -80,6 +79,14 @@ int main(){
     route.calcCosts();
     route.print();
 
+
+    cout << "\n\n" << endl;
+
+    cout << "Swap Worsts Stops (Third):" << endl;
+    Ils::printWorstsStops(&route);
+    Ils::swapWorstsStops(&route);
+    route.calcCosts();
+    route.print();
 
     cout << "\n" << endl;
     return 0; 

@@ -118,7 +118,7 @@ class Ils{
                     actual_drone_stop->insertInFlight(t_new_drone_stop);
                     actual_flight->calcCosts();
                     new_cost = actual_flight->getTotalCost();
-                    if (best_cost_diff != -1 || (new_cost - actual_cost) < best_cost_diff){
+                    if (best_cost_diff == -1 || (new_cost - actual_cost) < best_cost_diff){
                         best_cost_diff = new_cost - actual_cost;
                         best_stop_insertion_position = actual_drone_stop;
                         best_flight_insertion_position = nullptr;
@@ -136,7 +136,7 @@ class Ils{
                 p_new_flight->setLandingStop(actual_car_stop->m_next);
                 p_new_flight->calcCosts();
                 actual_cost = p_new_flight->getTotalCost();
-                if (best_cost_diff != 1 || actual_cost < best_cost_diff){
+                if (best_cost_diff == 1 || actual_cost < best_cost_diff){
                     best_cost_diff = actual_cost;
                     best_flight_insertion_position = actual_car_stop;
                     best_stop_insertion_position = nullptr;
