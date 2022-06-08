@@ -12,26 +12,48 @@ using namespace std;
 class Flight {
     private:
     // DATA //
-    DroneStop* m_first_point;
-    DroneStop* m_last_point;
+    DroneStop* m_first_stop;
+    DroneStop* m_last_stop;
     Drone* m_drone;
     // Pointers to main route
-    CarStop* m_begin;
-    CarStop* m_end;
-
-    // PUBLIC INITIALIZER //
-    Flight(CarStop*, Drone*);
-
-    public:
-    int size;
+    CarStop* m_takeoff;
+    CarStop* m_landing;
+    double m_total_cost;
 
     // PRIVATE INITIALIZER //
+    Flight(CarStop*, Drone*);
+
+
+    public:
+    // PUBLIC INITIALIZER //
     static Flight* create(CarStop*, Drone*);
 
-    // SETTER //
+
+    // GETTERS //
+    DroneStop* getFirstStop();
+    double getTotalCost();
+    CarStop* getTakeoffStop();
+    CarStop* getLandingStop();
+
+
+    // SETTERS //
     void setTakeoffStop(CarStop*);
-    void setReturnStop(CarStop*);
-    void appendDroneStop(DroneStop*);
+    void setLandingStop(CarStop*);
+    void setTotalCost(double);
+
+
+    // LINKED LIST FUNCTIONS //
+    void appendDroneStopFirst(DroneStop*);
+    void appendDroneStopLast(DroneStop*);
+    void insertDroneStop(DroneStop*, DroneStop*);
+    void removeDroneStop(DroneStop*, bool=false);
+
+
+    // OTHER FUNCTIONS //
+    void calcCosts();
+    void eraseUpBottom();
+    void eraseBottomUp();
+    void attachFlight(Flight*);
 
     // PRINTING //
     void print(int);

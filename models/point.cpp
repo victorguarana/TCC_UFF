@@ -3,6 +3,8 @@
 
 #include <cmath>
 #include <string>
+#include <iomanip>
+#include <sstream>
 
 using namespace std;
 
@@ -50,6 +52,8 @@ class Point{
         return new Point(t_point);
     }
 
+
+    // GETTERS //
     bool is_deposit(){
         return m_type == Deposit;
     }
@@ -61,19 +65,30 @@ class Point{
         return m_package;
     }
 
+
+    // STRINGFY //
     string toString(){
-        string str = m_name + " (Pos: " + to_string(m_latitude) +  " : " + to_string(m_longitude) + ")";
+        std::stringstream latitude, longitude, package;
+        latitude << std::fixed << std::setprecision(2) << m_latitude;
+        longitude << std::fixed << std::setprecision(2) << m_longitude;
+        package << std::fixed << std::setprecision(2) << m_package;
+
+        string str = m_name + " (Pos: " + latitude.str() +  " : " + longitude.str() + ")";
         if (is_client())
-            str += " Pacote: " + to_string(m_package);
+            str += " Pacote: " + package.str();
 
         return str;
     }
+
+    // OPERATIONS //
     bool equal(Point t_point){
         if (m_latitude == t_point.m_latitude && m_longitude == t_point.m_longitude && m_name == t_point.m_name && m_package == t_point.m_package && m_type  == t_point.m_type)
             return true;
         return false;
     }
-
+    void erase(){
+        delete this;
+    }
     static double distanceBetweenPoints(Point t_p1, Point t_p2){
         return sqrt( ((t_p1.m_latitude - t_p2.m_latitude)*(t_p1.m_latitude - t_p2.m_latitude)) + ((t_p1.m_longitude - t_p2.m_longitude)*(t_p1.m_longitude - t_p2.m_longitude)) * 1.0);
     }

@@ -71,7 +71,7 @@ class Greedy{
         // Append initial point to route
         Point* p_point = Point::create(t_initial_position);
         CarStop* p_car_stop = CarStop::create(&route, p_point);
-        route.appendCarStop(p_car_stop);
+        route.appendCarStopBack(p_car_stop);
 
         while (!t_map.clients.empty()){
             // OPTIMIZATION: Use the remainig car range when setting the nearest client?
@@ -93,7 +93,7 @@ class Greedy{
 
             // Create car stop and append it to route
             CarStop* p_car_stop = CarStop::create(&route, p_point);
-            route.appendCarStop(p_car_stop);
+            route.appendCarStopBack(p_car_stop);
             actual_position = *p_point;
             t_car->deliver(actual_position, nearest_client_distance);
 
@@ -103,7 +103,7 @@ class Greedy{
         Point nearest_deposit = find_nearest_point(&t_initial_position, &t_map.deposits).point;
         p_point = Point::create(nearest_deposit);
         p_car_stop = CarStop::create(&route, p_point);
-        route.appendCarStop(p_car_stop);
+        route.appendCarStopBack(p_car_stop);
         t_car->deliver(nearest_deposit, 0);
 
         return route;
@@ -140,18 +140,20 @@ class Greedy{
                         p_actual_flight = Flight::create(p_last_car_stop, p_drone);
                         p_last_car_stop->setTakeoffFlight(p_actual_flight);
                     }
-                    DroneStop* new_drone_stop = DroneStop::create(p_actual_flight, p_actual_point);
-                    p_actual_flight->appendDroneStop(new_drone_stop);
+                    Point* p_point = Point::create(*p_actual_point);
+                    DroneStop* new_drone_stop = DroneStop::create(p_actual_flight, p_point);
+                    p_actual_flight->appendDroneStopLast(new_drone_stop);
 
                     p_drone->deliver(*p_actual_point, distance_delivery);
 
-                    route.removeCarStop(p_actual_car_stop);
+                    route.removeCarStop(p_actual_car_stop, true);
+                    p_actual_car_stop = nullptr;
                 }
                 else{
                     if (p_drone->isFlying()){
                         p_drone->land();
                         p_actual_car_stop->setReturnFlight(p_actual_flight);
-                        p_actual_flight->setReturnStop(p_actual_car_stop);
+                        p_actual_flight->setLandingStop(p_actual_car_stop);
                         p_actual_flight = nullptr;
 
                     }
@@ -161,12 +163,13 @@ class Greedy{
                 if (p_drone->isFlying()){
                     p_drone->land();
                     p_actual_car_stop->setReturnFlight(p_actual_flight);
-                    p_actual_flight->setReturnStop(p_actual_car_stop);
+                    p_actual_flight->setLandingStop(p_actual_car_stop);
                     p_actual_flight = nullptr;
                 }
             }
 
-            p_last_car_stop = p_actual_car_stop;
+            if (p_actual_car_stop != nullptr)
+                p_last_car_stop = p_actual_car_stop;
             p_actual_car_stop = p_next_car_stop;
         }
     }

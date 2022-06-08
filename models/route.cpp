@@ -14,13 +14,14 @@
 
 using namespace std;
 
+
 // INITIALIZER //
 Route::Route(Car* t_car){
     m_car = t_car;
     m_first_stop = nullptr;
     m_last_stop = nullptr;
-    size = 0;
 }
+
 
 // GETTER //
 CarStop* Route::getFirstStop(){
@@ -32,33 +33,113 @@ CarStop* Route::getLastStop(){
 Car* Route::getCar(){
     return m_car;
 }
+double Route::getTotalCost(){
+    return m_total_cost;
+}
+
 
 // SETTER //
-void Route::appendCarStop(CarStop* t_p_car_stop){
-    if (size == 0){
-        m_first_stop = t_p_car_stop;
+void Route::setTotalCost(double t_total_cost){
+    m_total_cost = t_total_cost;
+}
+
+
+// LINKED LIST FUNCTIONS //
+// Add to first position
+void Route::appendCarStopFront(CarStop* t_car_stop){
+    if (m_last_stop == nullptr){
+        m_last_stop = t_car_stop;
+    }
+    else{
+        CarStop* p_first_stop = m_first_stop;
+        p_first_stop->m_prev = t_car_stop;
+        t_car_stop->m_next = p_first_stop;
+    }
+    m_first_stop = t_car_stop;
+}
+// Add to last position
+void Route::appendCarStopBack(CarStop* t_car_stop){
+    if (m_first_stop == nullptr){
+        m_first_stop = t_car_stop;
     }
     else{
         CarStop* p_last_stop = m_last_stop;
-        p_last_stop->m_next = t_p_car_stop;
-        t_p_car_stop->m_prev = p_last_stop;
+        p_last_stop->m_next = t_car_stop;
+        t_car_stop->m_prev = p_last_stop;
     }
-    m_last_stop = t_p_car_stop;
-    size++;
+    m_last_stop = t_car_stop;
+}
+// Insert Car Stop after an existing stop
+void Route::insertCarStop(CarStop* t_previous_stop, CarStop* t_new_stop){
+    CarStop* p_next_stop = t_previous_stop->m_next;
+    if (p_next_stop != nullptr)
+        p_next_stop->m_prev = t_new_stop;
+
+    t_previous_stop->m_next = t_new_stop;
+
+    t_new_stop->m_next = p_next_stop;
+    t_new_stop->m_prev = t_previous_stop;
+}
+// Remove from route (To erase this instance, set erase = true)
+void Route::removeCarStop(CarStop* t_remove_stop, bool erase){
+    CarStop* t_prev = t_remove_stop->m_prev;
+    CarStop* t_next = t_remove_stop->m_next;
+
+    if(m_first_stop == t_remove_stop){
+        m_first_stop = t_remove_stop->m_next;
+    }
+    if(m_last_stop == t_remove_stop){
+        m_last_stop = t_remove_stop->m_prev;
+    }
+
+    t_remove_stop->m_next = nullptr;
+    t_remove_stop->m_prev = nullptr;
+
+    if(t_prev != nullptr)
+        t_prev->m_next = t_next;
+    if(t_next != nullptr)
+        t_next->m_prev = t_prev;
+
+    if(erase)
+        t_remove_stop->eraseUpBottom();
 }
 
-// OPERATIONS //
-void Route::removeCarStop(CarStop* t_car_stop){
-    CarStop* next_car_stop = t_car_stop->m_next;
-    CarStop* prev_car_stop = t_car_stop->m_prev;
-    next_car_stop->m_prev = prev_car_stop;
-    prev_car_stop->m_next = next_car_stop;
-    size--;
+
+// OTHER FUNCTIONS //
+void Route::calcCosts(){
+    m_total_cost = 0;
+    double car_speed = m_car->getSpeed();
+
+    CarStop* last_stop = m_first_stop;
+    CarStop* actual_stop = last_stop->m_next;
+    CarStop* next_stop = actual_stop->m_next;
+    double distance_backward, distance_forward;
+
+    while (actual_stop->m_next != nullptr){
+        distance_backward = Point::distanceBetweenPoints(*last_stop->getPoint(), *actual_stop->getPoint());
+        distance_forward = Point::distanceBetweenPoints(*actual_stop->getPoint(), *next_stop->getPoint());
+
+        // TODO: Make cost calculation a stop responsability
+        actual_stop->setCost(distance_backward + distance_forward);
+        m_total_cost += distance_backward / car_speed;
+
+        if (actual_stop->is_takeoff()){
+            Flight* p_actual_flight = actual_stop->getTakeoffFlight();
+            p_actual_flight->calcCosts();
+            m_total_cost += p_actual_flight->getTotalCost();
+        }
+
+        last_stop = actual_stop;
+        actual_stop = last_stop->m_next;
+        next_stop = actual_stop->m_next;
+    }
+    m_total_cost += distance_forward / car_speed;
 }
+
 
 // PRINTING //
 void Route::print(){
-    if (size < 1)
+    if (m_first_stop == nullptr)
         return;
 
     int index = 1;
@@ -72,6 +153,10 @@ void Route::print(){
         actual_stop = actual_stop->m_next;
         index++;
     }
+
+    std::stringstream total_cost;
+    total_cost << std::fixed << std::setprecision(2) << m_total_cost;
+    cout << "Route Total Cost: " << total_cost.str() << endl;
 }
 
 #endif

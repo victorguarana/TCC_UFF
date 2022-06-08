@@ -19,10 +19,9 @@ class Route {
     Car* m_car;
     CarStop* m_first_stop;
     CarStop* m_last_stop;
+    double m_total_cost;
 
     public:
-    int size;
-
     // INITIALIZER //
     Route(Car*);
 
@@ -30,12 +29,20 @@ class Route {
     CarStop* getFirstStop();
     CarStop* getLastStop();
     Car* getCar();
+    double getTotalCost();
 
     // SETTER //
-    void appendCarStop(CarStop*);
+    void setTotalCost(double);
 
-    // OPERATIONS //
-    void removeCarStop(CarStop*);
+    // LINKED LIST FUNCTIONS //
+    void appendCarStopFront(CarStop*);
+    void appendCarStopBack(CarStop*);
+    void insertCarStop(CarStop*, CarStop*);
+    void removeCarStop(CarStop*, bool=false);
+
+
+    // OTHER FUNCTIONS //
+    void calcCosts();
 
     // PRINTING //
     void print();
