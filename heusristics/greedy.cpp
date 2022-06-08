@@ -142,7 +142,7 @@ class Greedy{
                     }
                     Point* p_point = Point::create(*p_actual_point);
                     DroneStop* new_drone_stop = DroneStop::create(p_actual_flight, p_point);
-                    p_actual_flight->appendDroneStop(new_drone_stop);
+                    p_actual_flight->appendDroneStopLast(new_drone_stop);
 
                     p_drone->deliver(*p_actual_point, distance_delivery);
 

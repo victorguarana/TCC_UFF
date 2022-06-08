@@ -36,14 +36,20 @@ class Flight {
     CarStop* getLandingStop();
 
 
-    // SETTER //
+    // SETTERS //
     void setTakeoffStop(CarStop*);
     void setLandingStop(CarStop*);
-    void appendDroneStop(DroneStop*);
     void setTotalCost(double);
 
 
-    // OPERATIONS //
+    // LINKED LIST FUNCTIONS //
+    void appendDroneStopFirst(DroneStop*);
+    void appendDroneStopLast(DroneStop*);
+    void insertDroneStop(DroneStop*, DroneStop*);
+    void removeDroneStop(DroneStop*, bool=false);
+
+
+    // OTHER FUNCTIONS //
     void calcCosts();
     void eraseUpBottom();
     void eraseBottomUp();

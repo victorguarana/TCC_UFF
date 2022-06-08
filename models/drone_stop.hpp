@@ -35,6 +35,7 @@ class DroneStop {
     bool is_last();
     double getCost();
     Point* getPoint();
+    Flight* getFlight();
 
 
     // SETTERS //
@@ -43,8 +44,6 @@ class DroneStop {
 
 
     // OPERATIONS //
-    void removeFromFlight();
-    void insertInFlight(DroneStop*);
     void eraseUpBottom();
     void eraseBottomUp();
 

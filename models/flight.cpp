@@ -42,12 +42,10 @@ CarStop* Flight::getLandingStop(){
 }
 
 
-// SETTER //
+// SETTERS //
 void Flight::setTotalCost(double t_total_cost){
     m_total_cost = t_total_cost;
 }
-
-// SETTER //
 void Flight::setTakeoffStop(CarStop* t_car_stop){
     m_takeoff = t_car_stop;
     t_car_stop->setTakeoffFlight(this);
@@ -57,20 +55,65 @@ void Flight::setLandingStop(CarStop* t_car_stop){
     t_car_stop->setReturnFlight(this);
 }
 
-void Flight::appendDroneStop(DroneStop* t_drone_stop){
+
+// LINKED LIST FUNCTIONS //
+// Add to first position
+void Flight::appendDroneStopFirst(DroneStop* t_drone_stop){
+    if (m_last_stop == nullptr){
+        m_last_stop = t_drone_stop;
+    }
+    else{
+        DroneStop* p_first_stop = m_first_stop;
+        p_first_stop->m_prev = t_drone_stop;
+        t_drone_stop->m_next = p_first_stop;
+    }
+    m_first_stop = t_drone_stop;
+    t_drone_stop->setFlight(this);
+}
+// Add to last position
+void Flight::appendDroneStopLast(DroneStop* t_drone_stop){
     if (m_first_stop == nullptr){
         m_first_stop = t_drone_stop;
     }
-    else {
-        m_last_stop->m_next = t_drone_stop;
-        t_drone_stop->m_prev = m_last_stop;
+    else{
+        DroneStop* p_last_stop = m_last_stop;
+        p_last_stop->m_next = t_drone_stop;
+        t_drone_stop->m_prev = p_last_stop;
     }
     m_last_stop = t_drone_stop;
     t_drone_stop->setFlight(this);
 }
+// Insert Car Stop after an existing stop
+void Flight::insertDroneStop(DroneStop* t_previous_stop, DroneStop* t_new_stop){
+    DroneStop* p_next_stop = t_previous_stop->m_next;
+    if (p_next_stop != nullptr)
+        p_next_stop->m_prev = t_new_stop;
+
+    t_previous_stop->m_next = t_new_stop;
+
+    t_new_stop->m_next = p_next_stop;
+    t_new_stop->m_prev = t_previous_stop;
+    t_new_stop->setFlight(this);
+}
+// Remove from route (To erase this instance, set erase = true)
+void Flight::removeDroneStop(DroneStop* t_remove_stop, bool erase){
+    DroneStop* t_prev = t_remove_stop->m_prev;
+    DroneStop* t_next = t_remove_stop->m_next;
+
+    t_remove_stop->m_next = nullptr;
+    t_remove_stop->m_prev = nullptr;
+
+    if(t_prev != nullptr)
+        t_prev->m_next = t_next;
+    if(t_next != nullptr)
+        t_next->m_prev = t_prev;
+
+    if(erase)
+        t_remove_stop->eraseUpBottom();
+}
 
 
-// OPERATIONS //
+// OTHER FUNCTIONS //
 void Flight::calcCosts(){
     m_total_cost = 0;
     double drone_speed = m_drone->getSpeed();

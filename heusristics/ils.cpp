@@ -101,59 +101,60 @@ class Ils{
     static void addDroneStopToRoute(Route* t_route, DroneStop* t_new_drone_stop){
         Drone* p_drone = t_route->getCar()->getDrone();
 
-        CarStop* actual_car_stop = t_route->getFirstStop();
+        CarStop* p_actual_car_stop = t_route->getFirstStop();
         DroneStop* best_stop_insertion_position = nullptr;
         CarStop* best_flight_insertion_position = nullptr;
         double actual_cost = 0, best_cost_diff = -1, new_cost = 0;
 
-        while(actual_car_stop->m_next != nullptr){
-            if (actual_car_stop->is_takeoff()){
+        while(p_actual_car_stop->m_next != nullptr){
+            if (p_actual_car_stop->is_takeoff()){
                 p_drone->takeOff();
-                Flight* actual_flight = actual_car_stop->getTakeoffFlight();
-                DroneStop* actual_drone_stop = actual_flight->getFirstStop();
-                actual_cost = actual_flight->getTotalCost();
-                // TODO: Try to insert before the first stop
+                Flight* p_actual_flight = p_actual_car_stop->getTakeoffFlight();
+                DroneStop* p_actual_drone_stop = p_actual_flight->getFirstStop();
+                actual_cost = p_actual_flight->getTotalCost();
 
-                while(actual_drone_stop != nullptr){
-                    actual_drone_stop->insertInFlight(t_new_drone_stop);
-                    actual_flight->calcCosts();
-                    new_cost = actual_flight->getTotalCost();
+                // TODO: Try to insert before the first stop
+                while(p_actual_drone_stop != nullptr){
+                    p_actual_flight->insertDroneStop(p_actual_drone_stop, t_new_drone_stop);
+                    p_actual_flight->calcCosts();
+                    new_cost = p_actual_flight->getTotalCost();
                     if (best_cost_diff == -1 || (new_cost - actual_cost) < best_cost_diff){
                         best_cost_diff = new_cost - actual_cost;
-                        best_stop_insertion_position = actual_drone_stop;
+                        best_stop_insertion_position = p_actual_drone_stop;
                         best_flight_insertion_position = nullptr;
                     }
-                    t_new_drone_stop->removeFromFlight();
+                    p_actual_flight->removeDroneStop(t_new_drone_stop);
 
-                    actual_drone_stop = actual_drone_stop->m_next;
+                    p_actual_drone_stop = p_actual_drone_stop->m_next;
                 }
             }
 
-            else if (actual_car_stop->is_return() || !p_drone->isFlying()){
+            else if (p_actual_car_stop->is_return() || !p_drone->isFlying()){
                 p_drone->takeOff();
-                Flight* p_new_flight = Flight::create(actual_car_stop, p_drone);
-                p_new_flight->appendDroneStop(t_new_drone_stop);
-                p_new_flight->setLandingStop(actual_car_stop->m_next);
+                Flight* p_new_flight = Flight::create(p_actual_car_stop, p_drone);
+                p_new_flight->appendDroneStopFirst(t_new_drone_stop);
+                p_new_flight->setLandingStop(p_actual_car_stop->m_next);
                 p_new_flight->calcCosts();
                 actual_cost = p_new_flight->getTotalCost();
                 if (best_cost_diff == 1 || actual_cost < best_cost_diff){
                     best_cost_diff = actual_cost;
-                    best_flight_insertion_position = actual_car_stop;
+                    best_flight_insertion_position = p_actual_car_stop;
                     best_stop_insertion_position = nullptr;
                 }
                 p_new_flight->eraseBottomUp();
 
             }
 
-            actual_car_stop = actual_car_stop->m_next;
+            p_actual_car_stop = p_actual_car_stop->m_next;
         }
 
         if (best_stop_insertion_position != nullptr){
-            best_stop_insertion_position->insertInFlight(t_new_drone_stop);
+            Flight* p_best_flight = best_stop_insertion_position->getFlight();
+            p_best_flight->insertDroneStop(best_stop_insertion_position, t_new_drone_stop);
         }
         else if(best_flight_insertion_position != nullptr){
             Flight* p_new_flight = Flight::create(best_flight_insertion_position, p_drone);
-            p_new_flight->appendDroneStop(t_new_drone_stop);
+            p_new_flight->appendDroneStopFirst(t_new_drone_stop);
             p_new_flight->setLandingStop(best_flight_insertion_position->m_next);
         }
     }
