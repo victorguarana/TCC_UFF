@@ -6,7 +6,6 @@
 #include "point.cpp"
 #include "flight.cpp"
 
-// TODO: Utilzar uma classe Stop para agrupar todos métodos iguais
 // Future: When implementing multiple drones, use vectors to represent flights and return and takeoff (?)
 // PRIVATE INITIALIZER //
 CarStop::CarStop(Route* t_route, Point* t_point){

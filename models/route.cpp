@@ -119,7 +119,6 @@ void Route::calcCosts(){
         distance_backward = Point::distanceBetweenPoints(*last_stop->getPoint(), *actual_stop->getPoint());
         distance_forward = Point::distanceBetweenPoints(*actual_stop->getPoint(), *next_stop->getPoint());
 
-        // TODO: Make cost calculation a stop responsability
         actual_stop->setCost(distance_backward + distance_forward);
         m_total_cost += distance_backward / car_speed;
 
