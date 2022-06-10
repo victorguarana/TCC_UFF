@@ -3,7 +3,7 @@
 #include "heusristics/greedy.cpp"
 #include "heusristics/ils.cpp"
 
-
+/**
 int main(){
     Point deposit("Deposito", 0, 0);
 
@@ -58,3 +58,39 @@ int main(){
     cout << "\n" << endl;
     return 0; 
 }
+/*/
+#include <vector>
+
+int main(){
+
+    Map initial_map = initializeMap();
+    Point initial_point = initial_map.deposits.at(0);
+
+    vector<Car*> cars;
+    Car* carro1 = new Car("Carro1", initial_point);
+    Car* carro2 = new Car("Carro2", initial_point);
+
+    cars.push_back(carro1);
+    cars.push_back(carro2);
+
+    Drone* drone1 = new Drone("Drone 1");
+    Drone* drone2 = new Drone("Drone 2");
+
+    carro1->setDrone(drone1);
+    carro2->setDrone(drone2);
+
+    cout << "Initial Greedy Route (Car only):" << endl;
+    Greedy::multiple_car_greedy(initial_map, cars, initial_point);
+    carro1->getRoute()->calcCosts();
+    carro1->getRoute()->print();
+    cout << endl;
+    carro2->getRoute()->calcCosts();
+    carro2->getRoute()->print();
+    //route.calcCosts();
+    //route.print();
+
+
+    cout << "\n\n" << endl;
+}
+
+/**/

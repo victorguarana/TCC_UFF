@@ -14,11 +14,7 @@ class Greedy{
         int index;
     };
 
-    /**
-        Finds the nearest unvisited client to the actual position, allways considering that the car can go back to any deposit
-        @param t_points vector of points to be searched
-        @param t_actual_position drivers actual position (usually is the same as the last client)
-    */
+    // Returns the nearest point, distance and index
     static PointReturn find_nearest_point(Point* t_actual_position, vector<Point>* t_points){
         Point nearest_point = t_points->at(0);
         int nearest_index = 0;
@@ -40,75 +36,72 @@ class Greedy{
     }
 
     // TODO: Change this function to an car function?
-    static bool validate_next_client(Point t_actual_position, Point t_nearest_client, vector<Point> t_deposits, Car t_car){
+    static bool validate_next_client(Point* t_actual_position, Point t_nearest_client, vector<Point> t_deposits, Car* t_car){
         // Storage validation
-        if (t_car.getRemainingStorage() < t_nearest_client.getPackage()) 
+        if (t_car->getRemainingStorage() < t_nearest_client.getPackage()) 
             return false;
 
         // Fuel validation
-        double actual_to_nearest_point_distance = Point::distanceBetweenPoints(t_actual_position, t_nearest_client);
+        double actual_to_nearest_point_distance = Point::distanceBetweenPoints(*t_actual_position, t_nearest_client);
 
         PointReturn nearest_client_to_nearest_deposit_return = find_nearest_point(&t_nearest_client, &t_deposits);
         double nearest_client_to_deposit_distance = nearest_client_to_nearest_deposit_return.distance;
         double total_range = actual_to_nearest_point_distance + nearest_client_to_deposit_distance;
 
-        return total_range <= t_car.getRemainingRange();
+        return total_range <= t_car->getRemainingRange();
     }
+    public:
 
-    public: 
-    /**
-        Implements a greedy algorithm to get an good route only using a single car
-        @param t_map map struct to define the environment
-        @param t_initial_position starting point of the car
-        @param t_car car to be used in the route
-    */
-    static Route single_car_greedy(Map t_map, Car* t_car, Point t_initial_position){
-        // TODO: Validate if all clients are reachable from any deposit (reachable -> can start from any deposit and to any other?)
-
-        Point actual_position = t_initial_position;
-        Route route(t_car);
-
-        // Append initial point to route
-        Point* p_point = Point::create(t_initial_position);
-        CarStop* p_car_stop = CarStop::create(&route, p_point);
-        route.appendCarStopBack(p_car_stop);
+    static void multiple_car_greedy(Map t_map, vector<Car*> t_car_fleet, Point t_initial_position){
+        int fleet_size = t_car_fleet.size();
+        int car_index = 0;
 
         while (!t_map.clients.empty()){
+            Car* p_actual_car = t_car_fleet.at(car_index);
+            Point* p_actual_position = p_actual_car->getActualPosition();
+
             // OPTIMIZATION: Use the remainig car range when setting the nearest client?
-            PointReturn nearest_client_return = find_nearest_point(&actual_position, &t_map.clients);
+            PointReturn nearest_client_return = find_nearest_point(p_actual_position, &t_map.clients);
             Point nearest_client = nearest_client_return.point;
             int nearest_client_index = nearest_client_return.index;
             double nearest_client_distance = nearest_client_return.distance;
 
             // Decide next point
-            Point* p_point;
-            if (validate_next_client(actual_position, nearest_client, t_map.deposits, *t_car)){
+            Point* p_next_point;
+            if (validate_next_client(p_actual_position, nearest_client, t_map.deposits, p_actual_car)){
                 t_map.clients.erase(t_map.clients.begin() + nearest_client_index);
-                p_point = Point::create(nearest_client);
+                p_next_point = Point::create(nearest_client);
             }
             else {
-                Point nearest_deposit = find_nearest_point(&actual_position, &t_map.deposits).point;
-                p_point = Point::create(nearest_deposit);
+                Point nearest_deposit = find_nearest_point(p_actual_position, &t_map.deposits).point;
+                p_next_point = Point::create(nearest_deposit);
             }
 
-            // Create car stop and append it to route
-            CarStop* p_car_stop = CarStop::create(&route, p_point);
-            route.appendCarStopBack(p_car_stop);
-            actual_position = *p_point;
-            t_car->deliver(actual_position, nearest_client_distance);
+            Point* p_point = Point::create(t_initial_position);
 
+
+            // Create car stop and append it to route
+            p_actual_car->getRoute()->appendPoint(p_next_point);
+            p_actual_car->deliver(p_next_point);
+
+            // Get next car in line
+            car_index++;
+            if (car_index >= fleet_size){
+                car_index = 0;
+            }
         }
 
-        // Add deposit at the end of the route
-        Point nearest_deposit = find_nearest_point(&t_initial_position, &t_map.deposits).point;
-        p_point = Point::create(nearest_deposit);
-        p_car_stop = CarStop::create(&route, p_point);
-        route.appendCarStopBack(p_car_stop);
-        t_car->deliver(nearest_deposit, 0);
+        // Append initial point to all routes
+        for(int i = 0; i < t_car_fleet.size(); i++){
+            Point* p_actual_position = t_car_fleet.at(i)->getActualPosition();
+            Point nearest_deposit = find_nearest_point(p_actual_position, &t_map.deposits).point;
 
-        return route;
+            Point* p_point = Point::create(nearest_deposit);
+            t_car_fleet.at(i)->getRoute()->appendPoint(p_point);
+        }
     }
 
+/*
     static void add_drone_flight(Route& route){
         Car* p_car = route.getCar();
         Drone* p_drone = p_car->getDrone();
@@ -173,6 +166,8 @@ class Greedy{
             p_actual_car_stop = p_next_car_stop;
         }
     }
+*/
+
 };
 
 #endif

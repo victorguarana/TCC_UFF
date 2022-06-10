@@ -43,6 +43,7 @@ class Route {
 
     // OTHER FUNCTIONS //
     void calcCosts();
+    void appendPoint(Point*);
 
     // PRINTING //
     void print();

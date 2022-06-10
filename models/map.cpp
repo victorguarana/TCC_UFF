@@ -34,6 +34,8 @@ Map initializeMap(){
     map.clients.push_back(Point("Client6", 25, 0, 10));
     */
 
+    map.clients.push_back(Point("Last Client", -1, 0, 990));
+
     map.clients.push_back(Point("Client1", 10, 0, 3));
     map.clients.push_back(Point("Client2", 20, 0, 2));
     map.clients.push_back(Point("Client3", 5, 0, 2));
