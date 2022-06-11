@@ -72,16 +72,6 @@ void CarStop::removeReturn(){
 
 
 // OPERATIONS //
-void CarStop::eraseUpBottom(){
-    if(m_point != nullptr)
-        m_point->erase();
-    if(m_takeoff_flight != nullptr)
-        m_takeoff_flight->eraseUpBottom();
-    if(m_return_flight != nullptr)
-        m_return_flight->eraseUpBottom();
-
-    delete this;
-}
 void CarStop::eraseBottomUp(){
     m_this_route->removeCarStop(this);
 
@@ -102,6 +92,9 @@ void CarStop::eraseBottomUp(){
             m_return_flight->setLandingStop(m_prev);
     }
 
+    delete this;
+}
+void CarStop::erase(){
     delete this;
 }
 

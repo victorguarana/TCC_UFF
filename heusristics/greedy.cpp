@@ -133,13 +133,14 @@ class Greedy{
                         p_actual_flight = Flight::create(p_last_car_stop, p_drone);
                         p_last_car_stop->setTakeoffFlight(p_actual_flight);
                     }
-                    Point* p_point = Point::create(*p_actual_point);
+                    Point* p_point = p_actual_car_stop->getPoint();
                     DroneStop* new_drone_stop = DroneStop::create(p_actual_flight, p_point);
                     p_actual_flight->appendDroneStopLast(new_drone_stop);
 
                     p_drone->deliver(p_actual_point);
 
-                    t_route->removeCarStop(p_actual_car_stop, true);
+                    t_route->removeCarStop(p_actual_car_stop);
+                    p_actual_car_stop->erase();
                     p_actual_car_stop = nullptr;
                 }
                 else{

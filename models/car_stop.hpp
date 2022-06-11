@@ -53,9 +53,8 @@ class CarStop {
 
 
     // OPERATIONS //
-    void eraseUpBottom();
     void eraseBottomUp();
-
+    void erase();
 
     // PRINTING //
     string toString();

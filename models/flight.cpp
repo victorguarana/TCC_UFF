@@ -95,8 +95,7 @@ void Flight::insertDroneStop(DroneStop* t_previous_stop, DroneStop* t_new_stop){
     t_new_stop->m_prev = t_previous_stop;
     t_new_stop->setFlight(this);
 }
-// Remove from route (To erase this instance, set erase = true)
-void Flight::removeDroneStop(DroneStop* t_remove_stop, bool erase){
+void Flight::removeDroneStop(DroneStop* t_remove_stop){
     DroneStop* t_prev = t_remove_stop->m_prev;
     DroneStop* t_next = t_remove_stop->m_next;
 
@@ -114,9 +113,6 @@ void Flight::removeDroneStop(DroneStop* t_remove_stop, bool erase){
         t_prev->m_next = t_next;
     if(t_next != nullptr)
         t_next->m_prev = t_prev;    
-
-    if(erase)
-        t_remove_stop->eraseUpBottom();
 }
 
 
@@ -151,20 +147,6 @@ void Flight::calcCosts(){
     m_total_cost += (distance_backward + distance_forward) / drone_speed;
 
     p_actual_stop->setCost(distance_backward + distance_forward);
-}
-void Flight::eraseUpBottom(){
-    if(m_first_stop != nullptr){
-        DroneStop* actual_stop = m_first_stop;
-        while (actual_stop != nullptr){
-            actual_stop = actual_stop->m_next;
-            actual_stop->m_prev->eraseUpBottom();
-        }
-        actual_stop->eraseUpBottom();
-    }
-    if(m_last_stop != nullptr)
-        m_last_stop->eraseUpBottom();
-
-    delete this;
 }
 void Flight::eraseBottomUp(){
     if (m_last_stop == nullptr && m_first_stop == nullptr){

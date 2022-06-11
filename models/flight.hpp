@@ -46,12 +46,11 @@ class Flight {
     void appendDroneStopFirst(DroneStop*);
     void appendDroneStopLast(DroneStop*);
     void insertDroneStop(DroneStop*, DroneStop*);
-    void removeDroneStop(DroneStop*, bool=false);
+    void removeDroneStop(DroneStop*);
 
 
     // OTHER FUNCTIONS //
     void calcCosts();
-    void eraseUpBottom();
     void eraseBottomUp();
     void attachFlight(Flight*);
 
