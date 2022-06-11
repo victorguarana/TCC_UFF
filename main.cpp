@@ -106,16 +106,16 @@ int main(){
 
     cout << endl << endl << endl;
 
-    // cout << "==========================" << endl;
-    // cout << "Swap Worsts Stops (First):" << endl;
-    // cout << "==========================" << endl << endl;
-    // Ils::swapWorstsStops(carro1->getRoute());
-    // carro1->getRoute()->calcCosts();
-    // carro1->getRoute()->print();
-    // cout << endl;
-    // Ils::swapWorstsStops(carro2->getRoute());
-    // carro2->getRoute()->calcCosts();
-    // carro2->getRoute()->print();
+    cout << "==========================" << endl;
+    cout << "Swap Worsts Stops (First):" << endl;
+    cout << "==========================" << endl << endl;
+    Ils::swapWorstsStops(carro1->getRoute());
+    carro1->getRoute()->calcCosts();
+    carro1->getRoute()->print();
+    cout << endl;
+    Ils::swapWorstsStops(carro2->getRoute());
+    carro2->getRoute()->calcCosts();
+    carro2->getRoute()->print();
 }
 
 /**/

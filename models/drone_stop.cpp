@@ -57,13 +57,7 @@ void DroneStop::eraseUpBottom(){
     delete this;
 }
 void DroneStop::eraseBottomUp(){
-    if (m_next != nullptr)
-        m_next->m_prev = m_prev;
-    if (m_prev != nullptr)
-        m_prev->m_next = m_next;
-
-    m_this_flight->eraseBottomUp();
-
+    m_this_flight->removeDroneStop(this);
     delete this;
 }
 

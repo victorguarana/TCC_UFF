@@ -167,15 +167,14 @@ void Flight::eraseUpBottom(){
     delete this;
 }
 void Flight::eraseBottomUp(){
-    if (m_last_stop != m_first_stop)
-        return;
+    if (m_last_stop == nullptr && m_first_stop == nullptr){
+        if(m_takeoff != nullptr)
+            m_takeoff->removeTakeoff();
+        if(m_landing != nullptr)
+            m_landing->removeReturn();
 
-    if(m_takeoff != nullptr)
-        m_takeoff->removeTakeoff();
-    if(m_landing != nullptr)
-        m_landing->removeReturn();
-
-    delete this;
+        delete this;
+    }
 }
 void Flight::attachFlight(Flight* t_flight){
     m_landing = t_flight->getLandingStop();
