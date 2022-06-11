@@ -79,18 +79,43 @@ int main(){
     carro1->setDrone(drone1);
     carro2->setDrone(drone2);
 
+    cout << "================================" << endl;
     cout << "Initial Greedy Route (Car only):" << endl;
+    cout << "================================" << endl << endl;
     Greedy::multiple_car_greedy(initial_map, cars, initial_point);
     carro1->getRoute()->calcCosts();
     carro1->getRoute()->print();
     cout << endl;
     carro2->getRoute()->calcCosts();
     carro2->getRoute()->print();
-    //route.calcCosts();
-    //route.print();
 
 
-    cout << "\n\n" << endl;
+    cout << endl << endl << endl;
+
+    cout << "====================================" << endl;
+    cout << "Hybrid Greedy Route (Car and drone):" << endl;
+    cout << "====================================" << endl << endl;
+    Greedy::add_drone_flight(carro1->getRoute());
+    carro1->getRoute()->calcCosts();
+    carro1->getRoute()->print();
+    cout << endl;
+    Greedy::add_drone_flight(carro2->getRoute());
+    carro2->getRoute()->calcCosts();
+    carro2->getRoute()->print();
+
+
+    cout << endl << endl << endl;
+
+    // cout << "==========================" << endl;
+    // cout << "Swap Worsts Stops (First):" << endl;
+    // cout << "==========================" << endl << endl;
+    // Ils::swapWorstsStops(carro1->getRoute());
+    // carro1->getRoute()->calcCosts();
+    // carro1->getRoute()->print();
+    // cout << endl;
+    // Ils::swapWorstsStops(carro2->getRoute());
+    // carro2->getRoute()->calcCosts();
+    // carro2->getRoute()->print();
 }
 
 /**/
