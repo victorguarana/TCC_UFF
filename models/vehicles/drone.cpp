@@ -43,8 +43,9 @@ class Drone : public Vehicle {
         bool isFlying(){
             return m_flying;
         }
-        void takeOff(){
+        void takeOff(Point* t_point){
             m_flying = true;
+            setActualPosition(t_point);
         }
         void land(){
             m_flying = false;

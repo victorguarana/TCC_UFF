@@ -13,6 +13,7 @@ class Vehicle {
         double m_remaining_range;
         double m_speed;
         string m_name;
+        Point* m_actual_position;
 
     protected:
         /* Setters */
@@ -34,6 +35,9 @@ class Vehicle {
         void setName(string t_name){
             m_name = t_name;
         }
+        void setActualPosition(Point* t_position){
+            m_actual_position = t_position;
+        }
 
     public:
         /* Getters */
@@ -49,15 +53,24 @@ class Vehicle {
         string getName(){
             return m_name;
         }
+        Point* getActualPosition(){
+            return m_actual_position;
+        }
 
-        void deliver(Point t_point, double t_distance_travelled){
-            if (t_point.is_client()){
-                m_remaining_storage -= t_point.getPackage();
-                m_remaining_range -= t_distance_travelled;
+        void deliver(Point* t_point){
+            if (m_actual_position == nullptr){
+                m_actual_position = t_point;
+                return;
             }
-            else if (t_point.is_deposit()){
+
+            if (t_point->is_client()){
+                m_remaining_storage -= t_point->getPackage();
+                m_remaining_range -= Point::distanceBetweenPoints(*m_actual_position, *t_point);;
+            }
+            else if (t_point->is_deposit()){
                 this->resetAttributes();
             }
+            this->setActualPosition(t_point);
         }
         void resetAttributes(){
             m_remaining_storage = m_total_storage;

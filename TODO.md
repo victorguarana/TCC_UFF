@@ -32,3 +32,4 @@
 
 #### Outras ideias:
 - [ ] Drones podem decolar em um veiculo e retornar e outro.
+- [ ] Adicionar uma margem abaixo do limite dos veiculos no algotimo guloso.

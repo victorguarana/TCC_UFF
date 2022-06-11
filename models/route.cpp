@@ -92,9 +92,6 @@ void Route::removeCarStop(CarStop* t_remove_stop, bool erase){
         m_last_stop = t_remove_stop->m_prev;
     }
 
-    t_remove_stop->m_next = nullptr;
-    t_remove_stop->m_prev = nullptr;
-
     if(t_prev != nullptr)
         t_prev->m_next = t_next;
     if(t_next != nullptr)
@@ -134,12 +131,18 @@ void Route::calcCosts(){
     }
     m_total_cost += distance_forward / car_speed;
 }
+void Route::appendPoint(Point* t_point){
+    CarStop* p_new_stop = CarStop::create(this, t_point);
+    appendCarStopBack(p_new_stop);
+}
 
 
 // PRINTING //
 void Route::print(){
     if (m_first_stop == nullptr)
         return;
+
+    cout << "Route of: " + m_car->getName() << endl;
 
     int index = 1;
     CarStop* actual_stop = m_first_stop;

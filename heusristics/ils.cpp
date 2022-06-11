@@ -75,8 +75,7 @@ class Ils{
 
     static void addCarStopToRoute(Route* t_route, CarStop* t_new_car_stop){
         // Do not consider drone route in this method
-        CarStop* last_stop = t_route->getFirstStop();
-        CarStop* actual_stop = last_stop->m_next;
+        CarStop* actual_stop = t_route->getFirstStop();
         CarStop* best_insertion_position = nullptr;
         double actual_cost = 0, best_cost = -1;
 
@@ -87,14 +86,12 @@ class Ils{
             actual_cost = t_route->getTotalCost();
             if (best_cost == -1 || actual_cost < best_cost){
                 best_cost = actual_cost;
-                best_insertion_position = last_stop;
+                best_insertion_position = actual_stop;
             }
             t_route->removeCarStop(t_new_car_stop);
 
-            last_stop = actual_stop;
-            actual_stop = last_stop->m_next;
+            actual_stop = actual_stop->m_next;
         }
-
     t_route->insertCarStop(best_insertion_position, t_new_car_stop);
     }
 
@@ -110,7 +107,7 @@ class Ils{
 
             // Trying to position new drone stop in this flight
             if (p_actual_car_stop->is_takeoff()){
-                p_drone->takeOff();
+                p_drone->takeOff(p_actual_car_stop->getPoint());
                 Flight* p_actual_flight = p_actual_car_stop->getTakeoffFlight();
                 DroneStop* p_actual_drone_stop = p_actual_flight->getFirstStop();
                 actual_cost = p_actual_flight->getTotalCost();
@@ -144,7 +141,7 @@ class Ils{
 
             // Trying to create new flight to position the new drone stop
             else if (p_actual_car_stop->is_return() || !p_drone->isFlying()){
-                p_drone->takeOff();
+                p_drone->takeOff(p_actual_car_stop->getPoint());
                 Flight* p_new_flight = Flight::create(p_actual_car_stop, p_drone);
                 p_new_flight->appendDroneStopFirst(t_new_drone_stop);
                 p_new_flight->setLandingStop(p_actual_car_stop->m_next);
@@ -168,7 +165,7 @@ class Ils{
         else if(best_flight_insertion_position != nullptr){
             if (best_flight_insertion_position->is_takeoff()){
                 Flight* p_best_flight = best_flight_insertion_position->getTakeoffFlight();
-                p_best_flight->insertDroneStop(best_stop_insertion_position, t_new_drone_stop);
+                p_best_flight->appendDroneStopFirst(t_new_drone_stop);
             }
             else{
                 Flight* p_new_flight = Flight::create(best_flight_insertion_position, p_drone);
@@ -180,16 +177,16 @@ class Ils{
 
     public:
 
-    static void printWorstsStops(Route* t_route){
-        Stops stops = findWorstStops(t_route);
-        cout << "Worst Car Stop: " + stops.p_car_stop->toString() << endl;
-        cout << "Worst Drone Stop: " + stops.p_drone_stop->toString() << endl;
+    static void printWorstsStops(Stops t_stops){
+        cout << "Worst Car Stop: " + t_stops.p_car_stop->toString() << endl;
+        cout << "Worst Drone Stop: " + t_stops.p_drone_stop->toString() << endl;
     }
 
 
     // TODO: Adicionar opção de dividir voo do drone na metade (Transformar DroneStop->CarStop)
     static void swapWorstsStops(Route* t_route){
         Stops stops = findWorstStops(t_route);
+        printWorstsStops(stops);
 
         //cout << "Removed Car Stop: " + carstop.toString() << endl;
         //cout << "Removed Drone Stop: " + dronestop.toString() << endl;
