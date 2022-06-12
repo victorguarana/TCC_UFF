@@ -73,6 +73,7 @@ class Ils{
         return p_worst_stop;
     }
 
+    // TODO: Check if carStop can be added to split any flight
     static void addCarStopToRoute(Route* t_route, CarStop* t_new_car_stop){
         // Do not consider drone route in this method
         CarStop* actual_stop = t_route->getFirstStop();
@@ -175,15 +176,14 @@ class Ils{
             }
         }
     }
-
-    public:
-
     static void printWorstsStops(Stops t_stops){
         cout << "Worst Car Stop: " + t_stops.p_car_stop->toString() << endl;
         cout << "Worst Drone Stop: " + t_stops.p_drone_stop->toString() << endl;
     }
 
+    public:
 
+    // TODO: Validate route when swapping stops (Validate route should be a route method?)
     static void swapWorstsStops(Route* t_route){
         Stops stops = findWorstStops(t_route);
         printWorstsStops(stops);

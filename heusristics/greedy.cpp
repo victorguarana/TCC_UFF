@@ -35,7 +35,6 @@ class Greedy{
         return point_return;
     }
 
-    // TODO: Change this function to an car function?
     static bool validate_next_client(Point* t_actual_position, Point t_nearest_client, vector<Point> t_deposits, Car* t_car){
         // Storage validation
         if (t_car->getRemainingStorage() < t_nearest_client.getPackage()) 
