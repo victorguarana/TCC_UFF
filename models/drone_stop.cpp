@@ -50,8 +50,14 @@ void DroneStop::setFlight(Flight* t_flight){
 
 
 // OPERATIONS //
-void DroneStop::eraseBottomUp(){
+void DroneStop::removeFromRoute(){
     m_this_flight->removeDroneStop(this);
+    if (m_this_flight->is_empty()){
+        m_this_flight->removeFromRoute();
+        m_this_flight->erase();
+    }
+}
+void DroneStop::erase(){
     delete this;
 }
 

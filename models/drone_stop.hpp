@@ -44,7 +44,8 @@ class DroneStop {
 
 
     // OPERATIONS //
-    void eraseBottomUp();
+    void removeFromRoute();
+    void erase();
 
 
     // PRINTING //

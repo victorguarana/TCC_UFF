@@ -152,7 +152,8 @@ class Ils{
                     best_flight_insertion_position = p_actual_car_stop;
                     best_stop_insertion_position = nullptr;
                 }
-                p_new_flight->eraseBottomUp();
+                p_new_flight->removeFromRoute();
+                p_new_flight->erase();
             }
 
             p_actual_car_stop = p_actual_car_stop->m_next;
@@ -183,21 +184,25 @@ class Ils{
     }
 
 
-    // TODO: Adicionar opção de dividir voo do drone na metade (Transformar DroneStop->CarStop)
     static void swapWorstsStops(Route* t_route){
         Stops stops = findWorstStops(t_route);
         printWorstsStops(stops);
 
-        //cout << "Removed Car Stop: " + carstop.toString() << endl;
-        //cout << "Removed Drone Stop: " + dronestop.toString() << endl;
-    
         CarStop* remove_car_stop = stops.p_car_stop;
         DroneStop* remove_drone_stop = stops.p_drone_stop;
         CarStop* new_car_stop = CarStop::create(t_route, remove_drone_stop->getPoint());
         DroneStop* new_drone_stop = DroneStop::create(nullptr, remove_car_stop->getPoint());
 
-        remove_drone_stop->eraseBottomUp();
-        remove_car_stop->eraseBottomUp();
+        Flight* p_drone_stop_flight = remove_drone_stop->getFlight();
+        remove_drone_stop->removeFromRoute();
+        remove_drone_stop->erase();
+        if (p_drone_stop_flight->is_empty()){
+            p_drone_stop_flight->removeFromRoute();
+            p_drone_stop_flight->erase();
+        }
+
+        remove_car_stop->removeFromRoute();
+        remove_car_stop->erase();
 
         addCarStopToRoute(t_route, new_car_stop);
         addDroneStopToRoute(t_route, new_drone_stop);

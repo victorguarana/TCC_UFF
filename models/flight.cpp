@@ -148,15 +148,19 @@ void Flight::calcCosts(){
 
     p_actual_stop->setCost(distance_backward + distance_forward);
 }
-void Flight::eraseBottomUp(){
+bool Flight::is_empty(){
+    return m_last_stop == nullptr && m_first_stop == nullptr;
+}
+void Flight::removeFromRoute(){
     if (m_last_stop == nullptr && m_first_stop == nullptr){
         if(m_takeoff != nullptr)
             m_takeoff->removeTakeoff();
         if(m_landing != nullptr)
             m_landing->removeReturn();
-
-        delete this;
     }
+}
+void Flight::erase(){
+    delete this;
 }
 void Flight::attachFlight(Flight* t_flight){
     m_landing = t_flight->getLandingStop();
