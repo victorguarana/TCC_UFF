@@ -3,6 +3,10 @@
 - [X] Inicialmente construir uma rota com algoritmo guloso utilizando apenas os carros.
 - [X] A partir deste ponto, utilizar um algoritmo guloso para substituir entregas de carro por entregas de drones.
 - [x] Depois seguir com as perturbações.
+- [ ] Considerar as cargas dos drones dentro da carga total do carro.
+
+#### Implementação do ILS:
+- [ ] Validar as alterações na rota (Antes ou depois da inserção?)
 
 #### Definir qualidade:
 - [X] Utilizar o tempo como indicador de qualidade.
@@ -22,7 +26,6 @@
     - [X] Adicionar metodos para simular o consumo dos mesmos.
     - [X] Adicionar método para simular a recarga dos drones.
 - [X] Adicionar "relação" entre as classes de carro e drone (Ex: Car has many drones).
-
 
 #### Validador de rota:
 - [ ] Implementar uma função dentro de veiculos para receber a classe de cliente e a posição atual e verificar, de acordo com os atributos do veiculo, se é possivel fazer a entrega.
