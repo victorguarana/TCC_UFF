@@ -38,7 +38,7 @@ class Route {
     void appendCarStopFront(CarStop*);
     void appendCarStopBack(CarStop*);
     void insertCarStop(CarStop*, CarStop*);
-    void removeCarStop(CarStop*, bool=false);
+    void removeCarStop(CarStop*);
 
 
     // OTHER FUNCTIONS //

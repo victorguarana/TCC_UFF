@@ -72,21 +72,8 @@ void CarStop::removeReturn(){
 
 
 // OPERATIONS //
-void CarStop::eraseUpBottom(){
-    if(m_point != nullptr)
-        m_point->erase();
-    if(m_takeoff_flight != nullptr)
-        m_takeoff_flight->eraseUpBottom();
-    if(m_return_flight != nullptr)
-        m_return_flight->eraseUpBottom();
-
-    delete this;
-}
-void CarStop::eraseBottomUp(){
-    m_this_route->removeCarStop(this);
-
+void CarStop::removeFromRoute(){
     if(is_takeoff() && is_return()){
-        // Join both flights
         m_return_flight->attachFlight(m_takeoff_flight);
     }
     else if(is_takeoff()){
@@ -102,6 +89,9 @@ void CarStop::eraseBottomUp(){
             m_return_flight->setLandingStop(m_prev);
     }
 
+    m_this_route->removeCarStop(this);
+}
+void CarStop::erase(){
     delete this;
 }
 

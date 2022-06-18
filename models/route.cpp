@@ -80,8 +80,7 @@ void Route::insertCarStop(CarStop* t_previous_stop, CarStop* t_new_stop){
     t_new_stop->m_next = p_next_stop;
     t_new_stop->m_prev = t_previous_stop;
 }
-// Remove from route (To erase this instance, set erase = true)
-void Route::removeCarStop(CarStop* t_remove_stop, bool erase){
+void Route::removeCarStop(CarStop* t_remove_stop){
     CarStop* t_prev = t_remove_stop->m_prev;
     CarStop* t_next = t_remove_stop->m_next;
 
@@ -96,9 +95,6 @@ void Route::removeCarStop(CarStop* t_remove_stop, bool erase){
         t_prev->m_next = t_next;
     if(t_next != nullptr)
         t_next->m_prev = t_prev;
-
-    if(erase)
-        t_remove_stop->eraseUpBottom();
 }
 
 
