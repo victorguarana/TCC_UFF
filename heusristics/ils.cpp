@@ -81,19 +81,25 @@ class Ils{
         double actual_cost = 0, best_cost = -1;
 
         while(actual_stop->m_next != nullptr){
-
             t_route->insertCarStop(actual_stop, t_new_car_stop);
             t_route->calcCosts();
             actual_cost = t_route->getTotalCost();
             if (best_cost == -1 || actual_cost < best_cost){
-                best_cost = actual_cost;
-                best_insertion_position = actual_stop;
+                if(t_route->isValid()){
+                    best_cost = actual_cost;
+                    best_insertion_position = actual_stop;
+                }
             }
             t_route->removeCarStop(t_new_car_stop);
 
             actual_stop = actual_stop->m_next;
         }
-    t_route->insertCarStop(best_insertion_position, t_new_car_stop);
+
+        if(best_insertion_position != nullptr)
+            t_route->insertCarStop(best_insertion_position, t_new_car_stop);
+        else
+            cout << "# WARNING!\nCould not find any new insertion position for the worst point." << endl;
+
     }
 
     static void addDroneStopToRoute(Route* t_route, DroneStop* t_new_drone_stop){
@@ -118,9 +124,11 @@ class Ils{
                 p_actual_flight->calcCosts();
                 new_cost = p_actual_flight->getTotalCost();
                 if (best_cost_diff == -1 || (new_cost - actual_cost) < best_cost_diff){
-                    best_cost_diff = new_cost - actual_cost;
-                    best_stop_insertion_position = nullptr;
-                    best_flight_insertion_position = p_actual_car_stop;
+                    if(t_route->isValid()){
+                        best_cost_diff = new_cost - actual_cost;
+                        best_stop_insertion_position = nullptr;
+                        best_flight_insertion_position = p_actual_car_stop;
+                    }
                 }
                 p_actual_flight->removeDroneStop(t_new_drone_stop);
 
@@ -130,9 +138,11 @@ class Ils{
                     p_actual_flight->calcCosts();
                     new_cost = p_actual_flight->getTotalCost();
                     if (best_cost_diff == -1 || (new_cost - actual_cost) < best_cost_diff){
-                        best_cost_diff = new_cost - actual_cost;
-                        best_stop_insertion_position = p_actual_drone_stop;
-                        best_flight_insertion_position = nullptr;
+                        if(t_route->isValid()){
+                            best_cost_diff = new_cost - actual_cost;
+                            best_stop_insertion_position = p_actual_drone_stop;
+                            best_flight_insertion_position = nullptr;
+                        }
                     }
                     p_actual_flight->removeDroneStop(t_new_drone_stop);
 
@@ -149,9 +159,11 @@ class Ils{
                 p_new_flight->calcCosts();
                 actual_cost = p_new_flight->getTotalCost();
                 if (best_cost_diff == 1 || actual_cost < best_cost_diff){
-                    best_cost_diff = actual_cost;
-                    best_flight_insertion_position = p_actual_car_stop;
-                    best_stop_insertion_position = nullptr;
+                    if(t_route->isValid()){
+                        best_cost_diff = actual_cost;
+                        best_flight_insertion_position = p_actual_car_stop;
+                        best_stop_insertion_position = nullptr;
+                    }
                 }
                 p_new_flight->removeFromRoute();
                 p_new_flight->erase();
@@ -174,6 +186,9 @@ class Ils{
                 p_new_flight->appendDroneStopFirst(t_new_drone_stop);
                 p_new_flight->setLandingStop(best_flight_insertion_position->m_next);
             }
+        }
+        else {
+            cout << "# WARNING!\nCould not find any new insertion position for the worst point." << endl;
         }
     }
     static void printWorstsStops(Stops t_stops){

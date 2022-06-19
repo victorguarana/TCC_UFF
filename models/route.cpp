@@ -131,6 +131,33 @@ void Route::appendPoint(Point* t_point){
     CarStop* p_new_stop = CarStop::create(this, t_point);
     appendCarStopBack(p_new_stop);
 }
+bool Route::isValid(){
+    CarStop* actual_stop = m_first_stop;
+    Car* actual_car = m_car;
+
+    // Move car to first position in route
+    actual_car->deliver(actual_stop->getPoint());
+
+    double actual_distance_required;
+    double actual_storage_required;
+
+    while(actual_stop != m_last_stop){
+
+        actual_distance_required = Point::distanceBetweenPoints(*actual_stop->getPoint(), *actual_stop->m_next->getPoint());
+        actual_storage_required = actual_stop->getPoint()->getPackage();
+        if (!actual_car->canDeliver(actual_distance_required, actual_storage_required))
+            return false;
+
+        actual_car->deliver(actual_stop->getPoint());
+        if(actual_stop->is_takeoff())
+            if (!actual_stop->getTakeoffFlight()->isValid())
+                return false;
+
+        actual_stop = actual_stop->m_next;
+    }
+
+    return true;
+}
 
 
 // PRINTING //

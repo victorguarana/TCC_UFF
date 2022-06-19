@@ -55,6 +55,7 @@ class Flight {
     void removeFromRoute();
     void erase();
     void attachFlight(Flight*);
+    bool isValid();
 
     // PRINTING //
     void print(int);

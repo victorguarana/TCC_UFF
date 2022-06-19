@@ -182,6 +182,34 @@ void Flight::attachFlight(Flight* t_flight){
 
     delete t_flight;
 }
+bool Flight::isValid(){
+    DroneStop* p_actual_stop = m_first_stop;
+    Drone* p_drone = m_drone;
+    p_drone->takeOff(m_takeoff->getPoint());
+
+    double actual_distance_required = Point::distanceBetweenPoints(*p_actual_stop->getPoint(), *m_takeoff->getPoint());
+    double actual_storage_required = p_actual_stop->getPoint()->getPackage();
+
+    while (p_actual_stop != m_last_stop){
+        // TODO: Chec if car can support
+        if(!m_drone->canDeliver(actual_distance_required, actual_storage_required)){
+            p_drone->land();
+            return false;
+        }
+
+        p_drone->deliver(p_actual_stop->getPoint());
+
+
+        p_actual_stop = p_actual_stop->m_next;
+        actual_distance_required = Point::distanceBetweenPoints(*p_actual_stop->getPoint(), *m_takeoff->getPoint());
+        actual_storage_required = p_actual_stop->getPoint()->getPackage();
+    }
+
+    // TODO: Validate last step (last client to returning point)
+
+    p_drone->land();
+    return true;
+}
 
 
 
