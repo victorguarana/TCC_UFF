@@ -28,8 +28,11 @@ class Car : public Vehicle {
 
 
     // OPERATIONS //
+    bool canDeliver(double, double);
+    bool canSupport(double);
     void deliver(Point*);
-    void useStorage(double);
+    void support(double);
+
 
 };
 

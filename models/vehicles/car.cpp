@@ -46,6 +46,9 @@ void Car::setDrone(Drone* t_drone){
 
 
 // OPERATIONS //
+bool Car::canDeliver(double t_required_distance, double t_required_storage){
+    return (getRemainingStorage() >= t_required_storage && getRemainingRange() >= t_required_distance);
+}
 void Car::deliver(Point* t_point){
     Point* last_position = getActualPosition();
 
@@ -63,10 +66,12 @@ void Car::deliver(Point* t_point){
 
     setActualPosition(t_point);
 }
-void Car::useStorage(double t_used_storage){
+bool Car::canSupport(double t_used_storage){
+    return t_used_storage <= getRemainingStorage();
+}
+void Car::support(double t_used_storage){
     double remaining_storage = getRemainingStorage() - t_used_storage;
     setRemainingStorage(remaining_storage);
 }
-
 
 #endif

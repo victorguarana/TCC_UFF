@@ -13,7 +13,6 @@
 class Drone : public Vehicle {
     private:
         bool m_flying;
-        Car* m_car;
 
     public:
         // INITIALIZER //
@@ -38,9 +37,7 @@ class Drone : public Vehicle {
         }
 
     public:
-        bool canDeliver(double t_distance, double t_package){
-            return (t_package <= getRemainingStorage() && t_distance <= getRemainingRange());
-        }
+        // OPERATIONS //
         bool isFlying(){
             return m_flying;
         }
@@ -53,7 +50,6 @@ class Drone : public Vehicle {
             resetAttributes();
         }
 
-        // OPERATIONS //
         void deliver(Point* t_point){
             Point* last_position = getActualPosition();
 
@@ -62,9 +58,6 @@ class Drone : public Vehicle {
                 double remaining_range = getRemainingRange() - Point::distanceBetweenPoints(*t_point, *t_point);
                 setRemainingStorage(remaining_storage);
                 setRemainingRange(remaining_range);
-
-                //Debit from car storage too
-                m_car->useStorage(t_point->getPackage());
             }
             setActualPosition(t_point);
         }

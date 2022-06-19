@@ -61,8 +61,9 @@ class Vehicle {
             m_remaining_range = m_total_range;
         }
 
-        bool isValid(){
-            m_remaining_storage >= 0 && m_remaining_range >= 0;
+        // Operations //
+        bool canDeliver(double t_distance, double t_package){
+            return (t_package <= m_remaining_storage && t_distance <= m_remaining_range);
         }
 };
 
