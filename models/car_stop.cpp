@@ -32,6 +32,9 @@ double CarStop::getCost(){
 Point* CarStop::getPoint(){
     return m_point;
 }
+Route* CarStop::getRoute(){
+    return m_this_route;
+}
 bool CarStop::is_takeoff(){
     return m_takeoff_flight != nullptr;
 }
