@@ -45,4 +45,28 @@ void Car::setDrone(Drone* t_drone){
 }
 
 
+// OPERATIONS //
+void Car::deliver(Point* t_point){
+    Point* last_position = getActualPosition();
+
+    if(last_position != nullptr){
+        if (t_point->is_client()){
+            double remaining_storage = getRemainingStorage() - t_point->getPackage();
+            double remaining_range = getRemainingRange() - Point::distanceBetweenPoints(*t_point, *t_point);
+            setRemainingStorage(remaining_storage);
+            setRemainingRange(remaining_range);
+        }
+        else if (t_point->is_deposit()){
+            resetAttributes();
+        }
+    }
+
+    setActualPosition(t_point);
+}
+void Car::useStorage(double t_used_storage){
+    double remaining_storage = getRemainingStorage() - t_used_storage;
+    setRemainingStorage(remaining_storage);
+}
+
+
 #endif

@@ -26,6 +26,11 @@ class Car : public Vehicle {
     // SETTERS //
     void setDrone(Drone*);
 
+
+    // OPERATIONS //
+    void deliver(Point*);
+    void useStorage(double);
+
 };
 
 #endif
