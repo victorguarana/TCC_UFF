@@ -166,10 +166,7 @@ void Flight::attachFlight(Flight* t_flight){
     m_landing = t_flight->getLandingStop();
 
     // Get last drone stop
-    DroneStop* p_last_stop = m_first_stop;
-    while(p_last_stop->m_next != nullptr)
-        p_last_stop = p_last_stop->m_next;
-
+    DroneStop* p_last_stop = m_last_stop;
 
     DroneStop* p_actual_stop = t_flight->getFirstStop();
     while(p_actual_stop != nullptr){
@@ -178,38 +175,121 @@ void Flight::attachFlight(Flight* t_flight){
 
         p_last_stop = p_actual_stop;
         p_actual_stop = p_actual_stop->m_next;
+
     }
+    m_last_stop = p_last_stop;
 
     delete t_flight;
 }
-bool Flight::isValid(){
+void Flight::splitToValidFlights(){
+    Point* p_last_point = m_takeoff->getPoint();
+    Route* p_route = m_takeoff->getRoute();
     DroneStop* p_actual_stop = m_first_stop;
-    Drone* p_drone = m_drone;
+
+    // Used inside loop
+    double actual_distance_required, actual_storage_required;
+    Point* p_actual_point = p_actual_stop->getPoint();
+
+    // Find breakpoint
+    m_drone->takeOff(p_actual_point);
+    while(m_drone->isFlying()){
+
+        actual_distance_required = Point::distanceBetweenPoints(*p_last_point, *p_actual_point);
+        actual_storage_required = p_actual_point->getPackage();
+
+        if(m_drone->canDeliver(actual_distance_required, actual_storage_required)){
+            m_drone->deliver(p_actual_point);
+
+            p_last_point = p_actual_point;
+            p_actual_stop = p_actual_stop->m_next;
+            p_actual_point = p_actual_stop->getPoint();
+        }
+        else{
+            m_drone->land();
+        }
+    }
+    
+    // Remove actual stop from flight route
+    m_last_stop = p_actual_stop->m_prev;
+    m_last_stop->m_next = nullptr;
+    p_actual_stop->m_prev = nullptr;
+
+    CarStop* p_new_car_stop = CarStop::create(p_route, p_actual_point);
+    // Adicionar car stop to route
+    p_route->insertCarStop(m_takeoff, p_new_car_stop);
+
+    // Case when breaking stop is the last stop
+    if(p_actual_stop->m_next == nullptr){
+        m_landing->removeReturn();
+        m_landing = p_new_car_stop;
+        p_new_car_stop->setReturnFlight(this);
+
+        // delete p_actual_stop;
+    }
+    else{
+        // Create new car stop and new flight
+        Flight* p_new_flight = Flight::create(p_new_car_stop, m_drone);
+
+        // Set Landing stops
+        p_new_flight->setLandingStop(m_landing);
+        m_landing->setReturnFlight(p_new_flight);
+        m_landing = p_new_car_stop;
+        p_new_car_stop->setReturnFlight(this);
+
+        p_actual_stop = p_actual_stop->m_next;
+        delete p_actual_stop->m_prev;
+
+        // Move remaining drone stops to new flight
+        while(p_actual_stop != nullptr){
+            p_new_flight->appendDroneStopLast(p_actual_stop);
+            p_actual_stop = p_actual_stop->m_next;
+        }
+
+        // Recurion until the new flight is valid
+        if(!p_new_flight->isValid()){
+            p_new_flight->splitToValidFlights();
+        }
+    }
+}
+bool Flight::isValid(){
+    Point* p_last_point = m_takeoff->getPoint();
+    DroneStop* p_actual_stop = m_first_stop;
     Car* p_car = m_takeoff->getRoute()->getCar();
-    p_drone->takeOff(m_takeoff->getPoint());
 
-    double actual_distance_required = Point::distanceBetweenPoints(*p_actual_stop->getPoint(), *m_takeoff->getPoint());
-    double actual_storage_required = p_actual_stop->getPoint()->getPackage();
+    m_drone->takeOff(m_takeoff->getPoint());
 
-    while (p_actual_stop != m_last_stop){
+    Point* p_actual_point = nullptr;
+    double actual_distance_required, actual_storage_required;
+
+    while (p_actual_stop != nullptr){
+        p_actual_point = p_actual_stop->getPoint();
+
+        actual_distance_required = Point::distanceBetweenPoints(*p_last_point, *p_actual_point);
+        actual_storage_required = p_actual_point->getPackage();
+
         if(!m_drone->canDeliver(actual_distance_required, actual_storage_required) || !p_car->canSupport(actual_storage_required)){
-            p_drone->land();
+            m_drone->land();
             return false;
         }
 
-        p_drone->deliver(p_actual_stop->getPoint());
+        m_drone->deliver(p_actual_point);
 
+        p_last_point = p_actual_point;
         p_actual_stop = p_actual_stop->m_next;
-        actual_distance_required = Point::distanceBetweenPoints(*p_actual_stop->getPoint(), *m_takeoff->getPoint());
-        actual_storage_required = p_actual_stop->getPoint()->getPackage();
     }
 
-    // TODO: Validate last step (last client to returning point)
+    // Check if drone can reach the landing position
+    p_last_point = m_last_stop->getPoint();
+    p_actual_point = m_landing->getPoint();
 
-    p_drone->land();
+    actual_distance_required = Point::distanceBetweenPoints(*p_last_point, *p_actual_point);
+    if(!m_drone->canDeliver(actual_distance_required, 0))
+        return false;
+
+
+    m_drone->land();
     return true;
 }
-
 
 
 // PRINTING //

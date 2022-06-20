@@ -55,6 +55,8 @@ class Flight {
     void removeFromRoute();
     void erase();
     void attachFlight(Flight*);
+    // Spit the flight in one or more valid flights
+    void splitToValidFlights();
     bool isValid();
 
     // PRINTING //
