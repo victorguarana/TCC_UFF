@@ -29,11 +29,11 @@
 - [X] Adicionar "relação" entre as classes de carro e drone (EX: Car has many drones).
 
 #### Validador de rota:
-- [ ] Implementar uma função dentro de veiculos para receber a classe de cliente e a posição atual e verificar, de acordo com os atributos do veiculo, se é possivel fazer a entrega.
+- [X] Implementar uma função dentro de veiculos para receber a classe de cliente e a posição atual e verificar, de acordo com os atributos do veiculo, se é possivel fazer a entrega.
 
 #### Múltiplos Carros:
 - [X] Refatorar para a rota pertencer ao carro.
 
 #### Outras ideias:
 - [ ] Drones podem decolar em um veiculo e retornar e outro.
-- [ ] Adicionar uma margem abaiXo do limite dos veiculos no algotimo guloso.
+- [ ] Adicionar uma margem abaixo do limite dos veiculos no algotimo guloso.
