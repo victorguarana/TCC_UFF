@@ -20,7 +20,6 @@ class Ils{
         DroneStop* p_drone_stop;
     };
 
-    // TODO: Change to worsts swappable stops
     static Stops findWorstStops(Route* t_route){
         CarStop* p_actual_car_stop = t_route->getFirstStop();
         CarStop* p_worst_car_stop = p_actual_car_stop;
@@ -75,7 +74,6 @@ class Ils{
     }
 
     // TODO: Check if carStop can be added to split any flight
-    // TODO: Check if is considering drone and tae offs and returns
     static void addCarStopToRoute(Route* t_route, CarStop* t_new_car_stop){
         // Do not consider drone route in this method
         CarStop* actual_stop = t_route->getFirstStop();
