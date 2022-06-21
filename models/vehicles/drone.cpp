@@ -37,9 +37,7 @@ class Drone : public Vehicle {
         }
 
     public:
-        bool canDeliver(double t_distance, double t_package){
-            return (t_package <= getRemainingStorage() && t_distance <= getRemainingRange());
-        }
+        // OPERATIONS //
         bool isFlying(){
             return m_flying;
         }
@@ -50,6 +48,18 @@ class Drone : public Vehicle {
         void land(){
             m_flying = false;
             resetAttributes();
+        }
+
+        void deliver(Point* t_point){
+            Point* last_position = getActualPosition();
+
+            if(last_position != nullptr){
+                double remaining_storage = getRemainingStorage() - t_point->getPackage();
+                double remaining_range = getRemainingRange() - Point::distanceBetweenPoints(*t_point, *t_point);
+                setRemainingStorage(remaining_storage);
+                setRemainingRange(remaining_range);
+            }
+            setActualPosition(t_point);
         }
 };
 

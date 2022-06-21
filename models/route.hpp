@@ -44,6 +44,7 @@ class Route {
     // OTHER FUNCTIONS //
     void calcCosts();
     void appendPoint(Point*);
+    bool isValid();
 
     // PRINTING //
     void print();

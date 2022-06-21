@@ -36,10 +36,6 @@ class Greedy{
     }
 
     static bool validate_next_client(Point* t_actual_position, Point t_nearest_client, vector<Point> t_deposits, Car* t_car){
-        // Storage validation
-        if (t_car->getRemainingStorage() < t_nearest_client.getPackage()) 
-            return false;
-
         // Fuel validation
         double actual_to_nearest_point_distance = Point::distanceBetweenPoints(*t_actual_position, t_nearest_client);
 
@@ -47,7 +43,7 @@ class Greedy{
         double nearest_client_to_deposit_distance = nearest_client_to_nearest_deposit_return.distance;
         double total_range = actual_to_nearest_point_distance + nearest_client_to_deposit_distance;
 
-        return total_range <= t_car->getRemainingRange();
+        return t_car->canDeliver(total_range, t_nearest_client.getPackage());
     }
     public:
 
@@ -126,6 +122,7 @@ class Greedy{
                 double distance_back = Point::distanceBetweenPoints(*p_actual_point, *p_next_point);
                 double total_distance = distance_delivery + distance_back;
 
+                // Do not need to check to validate car storage
                 if (p_drone->canDeliver(total_distance, package)){
                     if (!p_drone->isFlying()){
                         p_drone->takeOff(p_last_car_stop->getPoint());

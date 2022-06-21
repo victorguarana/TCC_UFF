@@ -32,6 +32,9 @@ double CarStop::getCost(){
 Point* CarStop::getPoint(){
     return m_point;
 }
+Route* CarStop::getRoute(){
+    return m_this_route;
+}
 bool CarStop::is_takeoff(){
     return m_takeoff_flight != nullptr;
 }
@@ -75,6 +78,10 @@ void CarStop::removeReturn(){
 void CarStop::removeFromRoute(){
     if(is_takeoff() && is_return()){
         m_return_flight->attachFlight(m_takeoff_flight);
+        // DOUBT: Maybe use a 'while invalid'?
+        if (!m_return_flight->isValid()){
+            m_return_flight->splitToValidFlights();
+        }
     }
     else if(is_takeoff()){
         if(m_prev != nullptr)

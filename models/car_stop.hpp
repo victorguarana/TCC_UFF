@@ -35,6 +35,7 @@ class CarStop {
 
     // GETTERS//
     Point* getPoint();
+    Route* getRoute();
     double getCost();
     bool is_takeoff();
     bool is_return();

@@ -56,25 +56,14 @@ class Vehicle {
         Point* getActualPosition(){
             return m_actual_position;
         }
-
-        void deliver(Point* t_point){
-            if (m_actual_position == nullptr){
-                m_actual_position = t_point;
-                return;
-            }
-
-            if (t_point->is_client()){
-                m_remaining_storage -= t_point->getPackage();
-                m_remaining_range -= Point::distanceBetweenPoints(*m_actual_position, *t_point);;
-            }
-            else if (t_point->is_deposit()){
-                this->resetAttributes();
-            }
-            this->setActualPosition(t_point);
-        }
         void resetAttributes(){
             m_remaining_storage = m_total_storage;
             m_remaining_range = m_total_range;
+        }
+
+        // Operations //
+        bool canDeliver(double t_distance, double t_package){
+            return (t_package <= m_remaining_storage && t_distance <= m_remaining_range);
         }
 };
 
