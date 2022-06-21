@@ -2,7 +2,10 @@
 #define MAP_CPP
 
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <vector>
+#include <sstream>
 
 #include "point.cpp"
 
@@ -14,39 +17,48 @@ struct Map{
     vector<Point> deposits;
 };
 
+void insertPoint(Map &t_map, vector<string> t_point){
+    if(t_point.size() < 3)
+        return;
 
-Map initializeMap(){
+    string name = t_point.at(0);
+    double lat = stod(t_point.at(1));
+    double lon = stod(t_point.at(2));
+    double package = -1;
+
+    if (t_point.size() == 3){
+        t_map.deposits.push_back(Point(name, lat, lon));
+    }
+    else if (t_point.size() == 4){
+        package = stod(t_point.at(3));
+        t_map.clients.push_back(Point(name, lat, lon, package));
+    }
+}
+
+
+Map initializeMap(string t_filename){
     Map map;
 
-    map.deposits.push_back(Point("Deposito", 0, 0));
+    vector<string> row;
+    string line, word;
+ 
+    fstream file (t_filename, ios::in);
 
-    /*
-    Point client1("Client1", 10, 11, 10);
-    Point client2("Client2", 20, 21, 10);
-    Point client3("Client3", 5, 6, 10);
-    Point client4("Client4", 15, 16, 10);
+    if(file.is_open()){
+        while(getline(file, line)){
+            row.clear();
 
-    map.clients.push_back(Point("Client1", 10, 0, 10));
-    map.clients.push_back(Point("Client2", 20, 0, 10));
-    map.clients.push_back(Point("Client3", 5, 0, 10));
-    map.clients.push_back(Point("Client4", 15, 0, 10));
-    map.clients.push_back(Point("Client5", 30, 0, 10));
-    map.clients.push_back(Point("Client6", 25, 0, 10));
-    */
+            stringstream str(line);
+ 
+            while(getline(str, word, ';'))
+                row.push_back(word);
 
-    map.clients.push_back(Point("Last Client", -1, 0, 990));
-
-    map.clients.push_back(Point("Client1", 10, 0, 3));
-    map.clients.push_back(Point("Client2", 20, 0, 2));
-    map.clients.push_back(Point("Client3", 5, 0, 2));
-    map.clients.push_back(Point("Client4", 15, 0, 4));
-    map.clients.push_back(Point("Client5", 30, 0, 8));
-    map.clients.push_back(Point("Client6", 25, 0, 5));
-    map.clients.push_back(Point("Client7", 10, 5, 2));
-    map.clients.push_back(Point("Client8", 17, 7, 6));
-    map.clients.push_back(Point("Client9", 7, 4, 8));
-    map.clients.push_back(Point("Client10", 18, 10, 1));
-    map.clients.push_back(Point("Client11", 22, 3, 2));
+            insertPoint(map, row);
+        }
+    }
+    else
+        cout<<"Could not open the file\n";
+ 
 
     return map;
 }
