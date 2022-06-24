@@ -16,7 +16,6 @@
 #### Tipos de operações de pertubação (Podem ser feitas mais de uma por vez (?) ):
 - [X] Fazer Swap das piores entregas de cada veiculo.
 - [X] Transformar parada de drone em parada de carro.
-- [ ] Trocar ordem de entregas.
 - [ ] Remover ou alterar as posições dos depósitos nas rotas.
 - [X] Verificar se alteração continua com boa qualidade.
 
@@ -27,6 +26,8 @@
     - [X] Adicionar metodos para simular o consumo dos mesmos.
     - [X] Adicionar método para simular a recarga dos drones.
 - [X] Adicionar "relação" entre as classes de carro e drone (EX: Car has many drones).
+- [ ] Remover a necessidade do vôo terminar no carstop seguinte.
+- [ ] Adicionar validação (somente de peso) no método que procura um carstop para transformar em dronestop
 
 #### Validador de rota:
 - [X] Implementar uma função dentro de veiculos para receber a classe de cliente e a posição atual e verificar, de acordo com os atributos do veiculo, se é possivel fazer a entrega.
