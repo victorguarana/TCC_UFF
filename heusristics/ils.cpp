@@ -226,6 +226,61 @@ class Ils{
         addDroneStopToRoute(t_route, new_drone_stop);
 
     }
+
+    // OPTIMIZATION: Use a find method that only search for Car Stops
+    static void swapWorstsCarStops(Route* t_route1, Route* t_route2){
+        CarStop* p_worst_car_stop_1 = findWorstStops(t_route1).p_car_stop;
+        CarStop* p_worst_car_stop_2 = findWorstStops(t_route2).p_car_stop;
+
+        cout << "Worst Car Stop 1: " + p_worst_car_stop_1->toString() << endl;
+        cout << "Worst Car Stop 2: " + p_worst_car_stop_2->toString() << endl;
+
+        CarStop* p_new_car_stop_1 = CarStop::create(t_route1, p_worst_car_stop_2->getPoint());
+        CarStop* p_new_car_stop_2 = CarStop::create(t_route2, p_worst_car_stop_1->getPoint());
+
+        p_worst_car_stop_1->removeFromRoute();
+        p_worst_car_stop_1->erase();
+        p_worst_car_stop_2->removeFromRoute();
+        p_worst_car_stop_2->erase();
+
+        addCarStopToRoute(t_route1, p_new_car_stop_1);
+        addCarStopToRoute(t_route2, p_new_car_stop_2);
+
+    }
+
+    // OPTIMIZATION: Use a find method that only search for Drone Stops
+    static void swapWorstsDroneStops(Route* t_route1, Route* t_route2){
+        DroneStop* p_worst_drone_stop_1 = findWorstStops(t_route1).p_drone_stop;
+        DroneStop* p_worst_drone_stop_2 = findWorstStops(t_route2).p_drone_stop;
+
+        cout << "Worst Drone Stop 1: " + p_worst_drone_stop_1->toString() << endl;
+        cout << "Worst Drone Stop 2: " + p_worst_drone_stop_2->toString() << endl;
+
+        DroneStop* p_new_drone_stop_1 = DroneStop::create(nullptr, p_worst_drone_stop_2->getPoint());
+        DroneStop* p_new_drone_stop_2 = DroneStop::create(nullptr, p_worst_drone_stop_1->getPoint());
+
+
+        Flight* p_drone_stop_flight = p_worst_drone_stop_1->getFlight();
+        p_worst_drone_stop_1->removeFromRoute();
+        p_worst_drone_stop_1->erase();
+        if (p_drone_stop_flight->is_empty()){
+            p_drone_stop_flight->removeFromRoute();
+            p_drone_stop_flight->erase();
+        }
+
+        p_drone_stop_flight = p_worst_drone_stop_2->getFlight();
+        p_worst_drone_stop_2->removeFromRoute();
+        p_worst_drone_stop_2->erase();
+        if (p_drone_stop_flight->is_empty()){
+            p_drone_stop_flight->removeFromRoute();
+            p_drone_stop_flight->erase();
+        }
+
+
+        addDroneStopToRoute(t_route1, p_new_drone_stop_1);
+        addDroneStopToRoute(t_route2, p_new_drone_stop_2);
+
+    }
 };
 
 #endif
