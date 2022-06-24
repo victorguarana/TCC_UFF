@@ -3,10 +3,10 @@
 - [X] Inicialmente construir uma rota com algoritmo guloso utilizando apenas os carros.
 - [X] A partir deste ponto, utilizar um algoritmo guloso para substituir entregas de carro por entregas de drones.
 - [X] Depois seguir com as perturbações.
-- [ ] Considerar as cargas dos drones dentro da carga total do carro.
+- [X] Considerar as cargas dos drones dentro da carga total do carro.
 
 #### Implementação do ILS:
-- [ ] Validar as alterações na rota (Antes ou depois da inserção?)
+- [X] Validar as alterações na rota (Antes ou depois da inserção?)
 
 #### Definir qualidade:
 - [X] Utilizar o tempo como indicador de qualidade.
@@ -15,12 +15,12 @@
 
 #### Tipos de operações de pertubação (Podem ser feitas mais de uma por vez (?) ):
 - [X] Fazer Swap das piores entregas de cada veiculo.
-- [ ] Transformar parada de drone em parada de carro.
+- [X] Transformar parada de drone em parada de carro.
 - [ ] Trocar ordem de entregas.
 - [ ] Remover ou alterar as posições dos depósitos nas rotas.
 - [X] Verificar se alteração continua com boa qualidade.
 
-#### Pontos eXtras:
+#### Pontos extras:
 - [X] Verificar como melhorar a manipulação dos arrays.
 - [X] Adicionar peso da carga na estrutura do cliente (E utilizar como criterio de validação da rota).
 - [X] Adicionar combustivel/carga ao veiculos.
