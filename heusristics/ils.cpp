@@ -21,7 +21,7 @@ class Ils{
 
     static CarStop* findWorstCarStop(Route* t_route){
         CarStop* p_actual_car_stop = t_route->getFirstStop();
-        CarStop* p_worst_car_stop;
+        CarStop* p_worst_car_stop = nullptr;
         double actual_car_cost, worst_car_cost=-1;
 
         while(p_actual_car_stop != nullptr){
@@ -43,7 +43,7 @@ class Ils{
 
     static DroneStop* findWorstDroneStop(Route* t_route){
         CarStop* p_actual_car_stop = t_route->getFirstStop();
-        DroneStop* p_actual_drone_stop, *p_worst_drone_stop;
+        DroneStop* p_actual_drone_stop, *p_worst_drone_stop = nullptr;
         double actual_drone_cost, worst_drone_cost=-1;
 
         while(p_actual_car_stop != nullptr){
@@ -65,8 +65,8 @@ class Ils{
 
     static Stops findWorstStops(Route* t_route){
         CarStop* p_actual_car_stop = t_route->getFirstStop();
-        CarStop* p_worst_car_stop = p_actual_car_stop;
-        DroneStop* p_actual_drone_stop, *p_worst_drone_stop;
+        CarStop* p_worst_car_stop = nullptr;
+        DroneStop* p_actual_drone_stop, *p_worst_drone_stop = nullptr;
         double actual_car_cost, actual_drone_cost, worst_drone_cost=-1, worst_car_cost=-1;
 
         while(p_actual_car_stop != nullptr){
@@ -84,9 +84,11 @@ class Ils{
             if(p_actual_car_stop->is_takeoff()){
                 p_actual_drone_stop = findWorstDroneStopInFlight(p_actual_car_stop->getTakeoffFlight());
                 actual_drone_cost = p_actual_drone_stop->getCost();
-                if(actual_drone_cost > worst_drone_cost){
-                    worst_drone_cost = actual_drone_cost;
-                    p_worst_drone_stop = p_actual_drone_stop;
+                // Avoid to select a stop that cant be delivered by a drone
+                if (p_actual_car_stop->getPoint()->getPackage() <= Drone::defaultStorage())
+                    if(actual_drone_cost > worst_drone_cost){
+                        worst_drone_cost = actual_drone_cost;
+                        p_worst_drone_stop = p_actual_drone_stop;
                 }
             }
 
