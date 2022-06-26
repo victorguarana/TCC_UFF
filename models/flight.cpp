@@ -296,11 +296,14 @@ bool Flight::isValid(){
 void Flight::print(int index){
     DroneStop* p_actual_stop = m_first_stop;
     int index2 = 1;
+        cout << " |- Take off -> " << m_takeoff->getPoint()->getName() << endl;
     while(p_actual_stop != nullptr){
-        cout << " |- STOP #" << to_string(index)<< "." << to_string(index2) << " -> " << p_actual_stop->toString() << endl; 
+        cout << " |-- STOP #" << to_string(index)<< "." << to_string(index2) << " -> " << p_actual_stop->toString() << endl; 
         p_actual_stop = p_actual_stop->m_next;
         index2++;
     }
+    cout << " |- Return -> " << m_landing->getPoint()->getName() << endl;
+
 }
 
 #endif

@@ -61,5 +61,3 @@ int main(){
     carro2->getRoute()->calcCosts();
     carro2->getRoute()->print();
 }
-
-/**/

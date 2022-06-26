@@ -65,6 +65,10 @@ class Point{
         return m_package;
     }
 
+    string getName(){
+        return m_name;
+    }
+
 
     // STRINGFY //
     string toString(){
