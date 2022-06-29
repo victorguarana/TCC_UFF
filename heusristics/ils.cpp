@@ -89,7 +89,7 @@ class Ils{
                     if(actual_drone_cost > worst_drone_cost){
                         worst_drone_cost = actual_drone_cost;
                         p_worst_drone_stop = p_actual_drone_stop;
-                }
+                    }
             }
 
             p_actual_car_stop = p_actual_car_stop->m_next;
@@ -118,7 +118,7 @@ class Ils{
         return p_worst_stop;
     }
 
-    // TODO: Check if carStop can be added to split any flight
+    // TODO: Check if carStop can be added to split any flight?
     static void addCarStopToRoute(Route* t_route, CarStop* t_new_car_stop){
         // Do not consider drone route in this method
         CarStop* actual_stop = t_route->getFirstStop();
@@ -144,7 +144,6 @@ class Ils{
             t_route->insertCarStop(best_insertion_position, t_new_car_stop);
         else
             cout << "# WARNING!\nCould not find any new insertion position for the worst Drone Stop." << endl;
-
     }
 
     static void addDroneStopToRoute(Route* t_route, DroneStop* t_new_drone_stop){

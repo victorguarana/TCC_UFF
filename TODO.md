@@ -26,8 +26,8 @@
     - [X] Adicionar metodos para simular o consumo dos mesmos.
     - [X] Adicionar método para simular a recarga dos drones.
 - [X] Adicionar "relação" entre as classes de carro e drone (EX: Car has many drones).
-- [ ] Remover a necessidade do vôo terminar no carstop seguinte.
-- [ ] Adicionar validação (somente de peso) no método que procura um carstop para transformar em dronestop
+- [X] Remover a necessidade do vôo terminar no carstop seguinte.
+- [X] Adicionar validação (somente de peso) no método que procura um carstop para transformar em dronestop
 
 #### Validador de rota:
 - [X] Implementar uma função dentro de veiculos para receber a classe de cliente e a posição atual e verificar, de acordo com os atributos do veiculo, se é possivel fazer a entrega.
@@ -36,5 +36,4 @@
 - [X] Refatorar para a rota pertencer ao carro.
 
 #### Outras ideias:
-- [ ] Drones podem decolar em um veiculo e retornar e outro.
 - [ ] Adicionar uma margem abaixo do limite dos veiculos no algotimo guloso.

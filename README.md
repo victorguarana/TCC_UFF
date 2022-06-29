@@ -35,3 +35,7 @@ Trabalho de conclusão de curso
 ## Considerações:
 - O tempo de recarga e reabastecimento dos veiculos é instantâneo.
 - O Custo total da rota é calculado somando todos os tempos de entregas (Considerando entregas paralelas).
+
+
+### Próximos estudos
+- Drones podem decolar em um veiculo e retornar e outro.
