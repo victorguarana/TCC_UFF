@@ -23,15 +23,15 @@ int main(){
     carro1->setDrone(drone1);
     carro2->setDrone(drone2);
 
-    // cout << "================================" << endl;
-    // cout << "Initial Greedy Route (Car only):" << endl;
-    // cout << "================================" << endl << endl;
+    cout << "================================" << endl;
+    cout << "Initial Greedy Route (Car only):" << endl;
+    cout << "================================" << endl << endl;
     Greedy::multiple_car_greedy(initial_map, cars, initial_point);
     carro1->getRoute()->calcCosts();
-    // carro1->getRoute()->print();
+    carro1->getRoute()->print();
     cout << endl;
     carro2->getRoute()->calcCosts();
-    // carro2->getRoute()->print();
+    carro2->getRoute()->print();
 
 
     cout << endl << endl << endl;
