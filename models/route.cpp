@@ -102,24 +102,39 @@ void Route::removeCarStop(CarStop* t_remove_stop){
 void Route::calcCosts(){
     m_total_cost = 0;
     double car_speed = m_car->getSpeed();
+    Drone* p_drone = m_car->getDrone();
 
     CarStop* last_stop = m_first_stop;
     CarStop* actual_stop = last_stop->m_next;
     CarStop* next_stop = actual_stop->m_next;
-    double distance_backward, distance_forward;
+    double distance_backward, distance_forward, flight_cost, car_cost_withourt_drone;
 
     while (actual_stop->m_next != nullptr){
         distance_backward = Point::distanceBetweenPoints(*last_stop->getPoint(), *actual_stop->getPoint());
         distance_forward = Point::distanceBetweenPoints(*actual_stop->getPoint(), *next_stop->getPoint());
 
         actual_stop->setCost(distance_backward + distance_forward);
-        m_total_cost += distance_backward / car_speed;
 
+        if(p_drone->isFlying()){
+            car_cost_withourt_drone += distance_backward / car_speed;
+        }
+        else{
+            m_total_cost += distance_backward / car_speed;
+        }
+
+
+        if(actual_stop->is_return()){
+            p_drone->land();
+            m_total_cost += std::max(flight_cost, car_cost_withourt_drone);
+        }
         if (actual_stop->is_takeoff()){
+            p_drone->takeOff(actual_stop->getPoint());
             Flight* p_actual_flight = actual_stop->getTakeoffFlight();
             p_actual_flight->calcCosts();
-            m_total_cost += p_actual_flight->getTotalCost();
+            flight_cost = p_actual_flight->getTotalCost();
+            car_cost_withourt_drone = 0;
         }
+
 
         last_stop = actual_stop;
         actual_stop = last_stop->m_next;
