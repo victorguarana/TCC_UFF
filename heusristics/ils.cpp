@@ -130,10 +130,10 @@ class Ils{
             t_route->calcCosts();
             actual_cost = t_route->getTotalCost();
             if (best_cost == -1 || actual_cost < best_cost){
-                //if(t_route->isValid()){
+                if(t_route->isValid()){
                     best_cost = actual_cost;
                     best_insertion_position = actual_stop;
-                //}
+                }
             }
             t_route->removeCarStop(t_new_car_stop);
 
@@ -169,11 +169,11 @@ class Ils{
                 p_actual_flight->calcCosts();
                 new_cost = p_actual_flight->getTotalCost();
                 if (best_cost_diff == -1 || (new_cost - actual_cost) < best_cost_diff){
-                    //if(t_route->isValid()){
+                    if(t_route->isValid()){
                         best_cost_diff = new_cost - actual_cost;
                         best_stop_insertion_position = nullptr;
                         best_flight_insertion_position = p_actual_car_stop;
-                    //}
+                    }
                 }
                 p_actual_flight->removeDroneStop(t_new_drone_stop);
 
@@ -183,11 +183,11 @@ class Ils{
                     p_actual_flight->calcCosts();
                     new_cost = p_actual_flight->getTotalCost();
                     if (best_cost_diff == -1 || (new_cost - actual_cost) < best_cost_diff){
-                        //if(t_route->isValid()){
+                        if(t_route->isValid()){
                             best_cost_diff = new_cost - actual_cost;
                             best_stop_insertion_position = p_actual_drone_stop;
                             best_flight_insertion_position = nullptr;
-                        //}
+                        }
                     }
                     p_actual_flight->removeDroneStop(t_new_drone_stop);
 
@@ -204,11 +204,11 @@ class Ils{
                 p_new_flight->calcCosts();
                 actual_cost = p_new_flight->getTotalCost();
                 if (best_cost_diff == -1 || actual_cost < best_cost_diff){
-                    //if(t_route->isValid()){
+                    if(t_route->isValid()){
                         best_cost_diff = actual_cost;
                         best_flight_insertion_position = p_actual_car_stop;
                         best_stop_insertion_position = nullptr;
-                    //}
+                    }
                 }
                 p_new_flight->removeFromRoute();
                 p_new_flight->erase();
