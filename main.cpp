@@ -86,4 +86,7 @@ int main(){
     cout << endl;
     carro2->getRoute()->calcCosts();
     carro2->getRoute()->print();
+
+    cout << endl;
+
 }

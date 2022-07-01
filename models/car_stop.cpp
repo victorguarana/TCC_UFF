@@ -107,7 +107,7 @@ void CarStop::erase(){
 string CarStop::toString(){
     std::stringstream cost;
     cost << std::fixed << std::setprecision(2) << m_cost;
-    string str = "Point: " + m_point->toString() + " - Total cost: " + cost.str();
+    string str = "Point: " + m_point->toString() + " - Stop cost: " + cost.str();
     return str;
 }
 
