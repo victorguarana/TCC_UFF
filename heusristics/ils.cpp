@@ -271,7 +271,6 @@ class Ils{
 
     }
 
-    // OPTIMIZATION: Use a find method that only search for Car Stops
     static void swapWorstsCarStops(Route* t_route1, Route* t_route2){
         CarStop* p_worst_car_stop_1 = findWorstCarStop(t_route1);
         CarStop* p_worst_car_stop_2 = findWorstCarStop(t_route2);
@@ -292,7 +291,6 @@ class Ils{
 
     }
 
-    // OPTIMIZATION: Use a find method that only search for Drone Stops
     static void swapWorstsDroneStops(Route* t_route1, Route* t_route2){
         DroneStop* p_worst_drone_stop_1 = findWorstDroneStop(t_route1);
         DroneStop* p_worst_drone_stop_2 = findWorstDroneStop(t_route2);
