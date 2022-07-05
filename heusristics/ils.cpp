@@ -9,7 +9,6 @@
 #include "../models/route.hpp"
 #include "../models/flight.hpp"
 #include "../models/point.cpp"
-//#include "../models/point.cpp"
 
 using namespace std;
 
@@ -20,10 +19,54 @@ class Ils{
         DroneStop* p_drone_stop;
     };
 
+    static CarStop* findWorstCarStop(Route* t_route){
+        CarStop* p_actual_car_stop = t_route->getFirstStop();
+        CarStop* p_worst_car_stop = nullptr;
+        double actual_car_cost, worst_car_cost=-1;
+
+        while(p_actual_car_stop != nullptr){
+            actual_car_cost = p_actual_car_stop->getCost();
+
+            // Define CarStop cost
+            if (p_actual_car_stop->getPoint()->is_client()){
+                if (actual_car_cost > worst_car_cost){
+                    worst_car_cost = actual_car_cost;
+                    p_worst_car_stop = p_actual_car_stop;
+                }
+            }
+
+            p_actual_car_stop = p_actual_car_stop->m_next;
+        }
+
+        return p_worst_car_stop;
+    }
+
+    static DroneStop* findWorstDroneStop(Route* t_route){
+        CarStop* p_actual_car_stop = t_route->getFirstStop();
+        DroneStop* p_actual_drone_stop, *p_worst_drone_stop = nullptr;
+        double actual_drone_cost, worst_drone_cost=-1;
+
+        while(p_actual_car_stop != nullptr){
+            //Define DroneStop cost
+            if(p_actual_car_stop->is_takeoff()){
+                p_actual_drone_stop = findWorstDroneStopInFlight(p_actual_car_stop->getTakeoffFlight());
+                actual_drone_cost = p_actual_drone_stop->getCost();
+                if(actual_drone_cost > worst_drone_cost){
+                    worst_drone_cost = actual_drone_cost;
+                    p_worst_drone_stop = p_actual_drone_stop;
+                }
+            }
+
+            p_actual_car_stop = p_actual_car_stop->m_next;
+        }
+    
+        return p_worst_drone_stop;
+    }
+
     static Stops findWorstStops(Route* t_route){
         CarStop* p_actual_car_stop = t_route->getFirstStop();
-        CarStop* p_worst_car_stop = p_actual_car_stop;
-        DroneStop* p_actual_drone_stop, *p_worst_drone_stop;
+        CarStop* p_worst_car_stop = nullptr;
+        DroneStop* p_actual_drone_stop, *p_worst_drone_stop = nullptr;
         double actual_car_cost, actual_drone_cost, worst_drone_cost=-1, worst_car_cost=-1;
 
         while(p_actual_car_stop != nullptr){
@@ -41,18 +84,20 @@ class Ils{
             if(p_actual_car_stop->is_takeoff()){
                 p_actual_drone_stop = findWorstDroneStopInFlight(p_actual_car_stop->getTakeoffFlight());
                 actual_drone_cost = p_actual_drone_stop->getCost();
-                if(actual_drone_cost > worst_drone_cost){
-                    worst_drone_cost = actual_drone_cost;
-                    p_worst_drone_stop = p_actual_drone_stop;
-                }
+                // Avoid to select a stop that cant be delivered by a drone
+                if (p_actual_car_stop->getPoint()->getPackage() <= Drone::defaultStorage())
+                    if(actual_drone_cost > worst_drone_cost){
+                        worst_drone_cost = actual_drone_cost;
+                        p_worst_drone_stop = p_actual_drone_stop;
+                    }
             }
 
             p_actual_car_stop = p_actual_car_stop->m_next;
         }
     
-    Stops stops = { p_worst_car_stop, p_worst_drone_stop };
+        Stops stops = { p_worst_car_stop, p_worst_drone_stop };
 
-    return stops;
+        return stops;
     }
 
     static DroneStop* findWorstDroneStopInFlight(Flight* t_flight){
@@ -73,7 +118,7 @@ class Ils{
         return p_worst_stop;
     }
 
-    // TODO: Check if carStop can be added to split any flight
+    // TODO: Check if carStop can be added to split any flight?
     static void addCarStopToRoute(Route* t_route, CarStop* t_new_car_stop){
         // Do not consider drone route in this method
         CarStop* actual_stop = t_route->getFirstStop();
@@ -99,7 +144,6 @@ class Ils{
             t_route->insertCarStop(best_insertion_position, t_new_car_stop);
         else
             cout << "# WARNING!\nCould not find any new insertion position for the worst Drone Stop." << endl;
-
     }
 
     static void addDroneStopToRoute(Route* t_route, DroneStop* t_new_drone_stop){
@@ -194,6 +238,7 @@ class Ils{
             cout << "# WARNING!\nCould not find any new insertion position for the worst Car Stop." << endl;
         }
     }
+
     static void printWorstsStops(Stops t_stops){
         cout << "Worst Car Stop: " + t_stops.p_car_stop->toString() << endl;
         cout << "Worst Drone Stop: " + t_stops.p_drone_stop->toString() << endl;
@@ -223,6 +268,59 @@ class Ils{
 
         addCarStopToRoute(t_route, new_car_stop);
         addDroneStopToRoute(t_route, new_drone_stop);
+
+    }
+
+    static void swapWorstsCarStops(Route* t_route1, Route* t_route2){
+        CarStop* p_worst_car_stop_1 = findWorstCarStop(t_route1);
+        CarStop* p_worst_car_stop_2 = findWorstCarStop(t_route2);
+
+        cout << "Worst Car Stop 1: " + p_worst_car_stop_1->toString() << endl;
+        cout << "Worst Car Stop 2: " + p_worst_car_stop_2->toString() << endl;
+
+        CarStop* p_new_car_stop_1 = CarStop::create(t_route1, p_worst_car_stop_2->getPoint());
+        CarStop* p_new_car_stop_2 = CarStop::create(t_route2, p_worst_car_stop_1->getPoint());
+
+        p_worst_car_stop_1->removeFromRoute();
+        p_worst_car_stop_1->erase();
+        p_worst_car_stop_2->removeFromRoute();
+        p_worst_car_stop_2->erase();
+
+        addCarStopToRoute(t_route1, p_new_car_stop_1);
+        addCarStopToRoute(t_route2, p_new_car_stop_2);
+
+    }
+
+    static void swapWorstsDroneStops(Route* t_route1, Route* t_route2){
+        DroneStop* p_worst_drone_stop_1 = findWorstDroneStop(t_route1);
+        DroneStop* p_worst_drone_stop_2 = findWorstDroneStop(t_route2);
+
+        cout << "Worst Drone Stop 1: " + p_worst_drone_stop_1->toString() << endl;
+        cout << "Worst Drone Stop 2: " + p_worst_drone_stop_2->toString() << endl;
+
+        DroneStop* p_new_drone_stop_1 = DroneStop::create(nullptr, p_worst_drone_stop_2->getPoint());
+        DroneStop* p_new_drone_stop_2 = DroneStop::create(nullptr, p_worst_drone_stop_1->getPoint());
+
+
+        Flight* p_drone_stop_flight = p_worst_drone_stop_1->getFlight();
+        p_worst_drone_stop_1->removeFromRoute();
+        p_worst_drone_stop_1->erase();
+        if (p_drone_stop_flight->is_empty()){
+            p_drone_stop_flight->removeFromRoute();
+            p_drone_stop_flight->erase();
+        }
+
+        p_drone_stop_flight = p_worst_drone_stop_2->getFlight();
+        p_worst_drone_stop_2->removeFromRoute();
+        p_worst_drone_stop_2->erase();
+        if (p_drone_stop_flight->is_empty()){
+            p_drone_stop_flight->removeFromRoute();
+            p_drone_stop_flight->erase();
+        }
+
+
+        addDroneStopToRoute(t_route1, p_new_drone_stop_1);
+        addDroneStopToRoute(t_route2, p_new_drone_stop_2);
 
     }
 };

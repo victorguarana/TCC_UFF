@@ -302,7 +302,8 @@ void Flight::print(int index){
         p_actual_stop = p_actual_stop->m_next;
         index2++;
     }
-    cout << " |- Return -> " << m_landing->getPoint()->getName() << endl;
+    cout << " |- Return -> " << m_landing->getPoint()->getName() << " - Total Flight Cost: " << to_string(m_total_cost) << endl;
+    cout << " |- Total Flight Cost: " << to_string(m_total_cost) << endl;
 
 }
 

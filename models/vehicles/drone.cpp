@@ -61,6 +61,10 @@ class Drone : public Vehicle {
             }
             setActualPosition(t_point);
         }
+
+        static double defaultStorage(){
+            return DEFAULT_DRONE_TOTAL_STORAGE;
+        }
 };
 
 #endif
