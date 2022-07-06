@@ -40,6 +40,9 @@ CarStop* Flight::getTakeoffStop(){
 CarStop* Flight::getLandingStop(){
     return m_landing;
 }
+Drone* Flight::getDrone(){
+    return m_drone;
+}
 
 
 // SETTERS //
@@ -48,11 +51,11 @@ void Flight::setTotalCost(double t_total_cost){
 }
 void Flight::setTakeoffStop(CarStop* t_car_stop){
     m_takeoff = t_car_stop;
-    t_car_stop->setTakeoffFlight(this);
+    t_car_stop->addTakeoffFlight(this);
 }
 void Flight::setLandingStop(CarStop* t_car_stop){
     m_landing = t_car_stop;
-    t_car_stop->setReturnFlight(this);
+    t_car_stop->addReturnFlight(this);
 }
 
 
@@ -154,9 +157,9 @@ bool Flight::is_empty(){
 void Flight::removeFromRoute(){
     if (m_last_stop == nullptr && m_first_stop == nullptr){
         if(m_takeoff != nullptr)
-            m_takeoff->removeTakeoff();
+            m_takeoff->removeTakeoff(this);
         if(m_landing != nullptr)
-            m_landing->removeReturn();
+            m_landing->removeReturn(this);
     }
 }
 void Flight::erase(){
@@ -220,9 +223,9 @@ void Flight::splitToValidFlights(){
 
     // Case when breaking stop is the last stop
     if(p_actual_stop->m_next == nullptr){
-        m_landing->removeReturn();
+        m_landing->removeReturn(this);
         m_landing = p_new_car_stop;
-        p_new_car_stop->setReturnFlight(this);
+        p_new_car_stop->addReturnFlight(this);
 
         // delete p_actual_stop;
     }
@@ -232,9 +235,9 @@ void Flight::splitToValidFlights(){
 
         // Set Landing stops
         p_new_flight->setLandingStop(m_landing);
-        m_landing->setReturnFlight(p_new_flight);
+        m_landing->addReturnFlight(p_new_flight);
         m_landing = p_new_car_stop;
-        p_new_car_stop->setReturnFlight(this);
+        p_new_car_stop->addReturnFlight(this);
 
         p_actual_stop = p_actual_stop->m_next;
         delete p_actual_stop->m_prev;
@@ -296,14 +299,16 @@ bool Flight::isValid(){
 void Flight::print(int index){
     DroneStop* p_actual_stop = m_first_stop;
     int index2 = 1;
-        cout << " |- Take off -> " << m_takeoff->getPoint()->getName() << endl;
+    cout << " |- Flight of: " << m_drone->getName() << endl;
+    cout << " |- |- Take off -> " << m_takeoff->getPoint()->getName() << endl;
+
     while(p_actual_stop != nullptr){
-        cout << " |-- STOP #" << to_string(index)<< "." << to_string(index2) << " -> " << p_actual_stop->toString() << endl; 
+        cout << " |- |-- STOP #" << to_string(index)<< "." << to_string(index2) << " -> " << p_actual_stop->toString() << endl; 
         p_actual_stop = p_actual_stop->m_next;
         index2++;
     }
-    cout << " |- Return -> " << m_landing->getPoint()->getName() << " - Total Flight Cost: " << to_string(m_total_cost) << endl;
-    cout << " |- Total Flight Cost: " << to_string(m_total_cost) << endl;
+    cout << " |- |- Return -> " << m_landing->getPoint()->getName() << " - Total Flight Cost: " << to_string(m_total_cost) << endl;
+    cout << " |- |- Total Flight Cost: " << to_string(m_total_cost) << endl;
 
 }
 

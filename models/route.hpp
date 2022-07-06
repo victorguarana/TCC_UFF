@@ -21,6 +21,10 @@ class Route {
     CarStop* m_last_stop;
     double m_total_cost;
 
+    private:
+    // OTHER FUNCTIONS //
+    double calcFlightDelay(Flight*);
+
     public:
     // INITIALIZER //
     Route(Car*);

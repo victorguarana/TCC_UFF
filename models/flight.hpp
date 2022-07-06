@@ -34,6 +34,7 @@ class Flight {
     double getTotalCost();
     CarStop* getTakeoffStop();
     CarStop* getLandingStop();
+    Drone* getDrone();
 
 
     // SETTERS //

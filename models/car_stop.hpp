@@ -14,8 +14,8 @@ class CarStop {
     private:
     // DATA //
     Point* m_point;
-    Flight* m_takeoff_flight;
-    Flight* m_return_flight;
+    vector<Flight*> m_takeoff_flights;
+    vector<Flight*> m_return_flights;
     double m_cost;
     Route* m_this_route;
 
@@ -41,16 +41,16 @@ class CarStop {
     bool is_return();
     bool is_first();
     bool is_last();
-    Flight* getTakeoffFlight();
-    Flight* getReturnFlight();
+    vector<Flight*> getTakeoffFlights();
+    vector<Flight*> getReturnFlights();
 
 
     // SETTERS //
     void setCost(double);
-    void setTakeoffFlight(Flight*);
-    void setReturnFlight(Flight*);
-    void removeTakeoff();
-    void removeReturn();
+    void addTakeoffFlight(Flight*);
+    void addReturnFlight(Flight*);
+    void removeTakeoff(Flight*);
+    void removeReturn(Flight*);
 
 
     // OPERATIONS //

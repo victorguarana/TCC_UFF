@@ -1,7 +1,9 @@
 #include "models/point.cpp"
 #include "models/map.cpp"
-#include "heusristics/greedy.cpp"
-#include "heusristics/ils.cpp"
+#include "models/vehicles/car.cpp"
+#include "models/vehicles/drone.cpp"
+//#include "heusristics/greedy.cpp"
+//#include "heusristics/ils.cpp"
 
 #include <vector>
 
@@ -12,26 +14,20 @@ int main(){
 
     vector<Car*> cars;
     Car* carro1 = new Car("Carro1", initial_point);
-    Car* carro2 = new Car("Carro2", initial_point);
-
     cars.push_back(carro1);
-    cars.push_back(carro2);
 
     Drone* drone1 = new Drone("Drone 1");
     Drone* drone2 = new Drone("Drone 2");
 
-    carro1->setDrone(drone1);
-    carro2->setDrone(drone2);
-
+    carro1->addDrone(drone1);
+    carro1->addDrone(drone2);
+/*
     cout << "================================" << endl;
     cout << "Initial Greedy Route (Car only):" << endl;
     cout << "================================" << endl << endl;
     Greedy::multiple_car_greedy(initial_map, cars, initial_point);
     carro1->getRoute()->calcCosts();
     carro1->getRoute()->print();
-    cout << endl;
-    carro2->getRoute()->calcCosts();
-    carro2->getRoute()->print();
 
 
     cout << endl << endl << endl;
@@ -42,12 +38,8 @@ int main(){
     Greedy::add_drone_flight(carro1->getRoute());
     carro1->getRoute()->calcCosts();
     carro1->getRoute()->print();
-    cout << endl;
-    Greedy::add_drone_flight(carro2->getRoute());
-    carro2->getRoute()->calcCosts();
-    carro2->getRoute()->print();
 
-
+/*
     cout << endl << endl << endl;
 
     cout << "==========================" << endl;
@@ -56,12 +48,8 @@ int main(){
     Ils::swapWorstsStops(carro1->getRoute());
     carro1->getRoute()->calcCosts();
     carro1->getRoute()->print();
-    cout << endl;
-    Ils::swapWorstsStops(carro2->getRoute());
-    carro2->getRoute()->calcCosts();
-    carro2->getRoute()->print();
 
-
+/*
     cout << endl << endl << endl;
 
     cout << "==========================" << endl;
@@ -86,6 +74,7 @@ int main(){
     cout << endl;
     carro2->getRoute()->calcCosts();
     carro2->getRoute()->print();
+*/
 
     cout << endl;
 

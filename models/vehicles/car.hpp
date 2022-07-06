@@ -11,7 +11,7 @@ class Route;
 
 class Car : public Vehicle {
     private:
-    Drone* m_drone;
+    vector<Drone*> m_drone;
     Route* m_route;
 
     public:
@@ -20,11 +20,11 @@ class Car : public Vehicle {
     Car(string, Point);
 
     // GETTERS //
-    Drone* getDrone();
+    vector<Drone*> getDrones();
     Route* getRoute();
 
     // SETTERS //
-    void setDrone(Drone*);
+    void addDrone(Drone*);
 
 
     // OPERATIONS //

@@ -11,8 +11,6 @@
 CarStop::CarStop(Route* t_route, Point* t_point){
     m_this_route = t_route;
     m_point = t_point;
-    m_takeoff_flight = nullptr;
-    m_return_flight = nullptr;
     m_cost = 0;
     m_next = nullptr;
     m_prev = nullptr;
@@ -36,10 +34,10 @@ Route* CarStop::getRoute(){
     return m_this_route;
 }
 bool CarStop::is_takeoff(){
-    return m_takeoff_flight != nullptr;
+    return !m_takeoff_flights.empty();
 }
 bool CarStop::is_return(){
-    return m_return_flight != nullptr;
+    return !m_return_flights.empty();
 }
 bool CarStop::is_first(){
     return m_prev == nullptr;
@@ -47,11 +45,11 @@ bool CarStop::is_first(){
 bool CarStop::is_last(){
     return m_next == nullptr;
 }
-Flight* CarStop::getTakeoffFlight(){
-    return m_takeoff_flight;
+vector<Flight*> CarStop::getTakeoffFlights(){
+    return m_takeoff_flights;
 }
-Flight* CarStop::getReturnFlight(){
-    return m_return_flight;
+vector<Flight*> CarStop::getReturnFlights(){
+    return m_return_flights;
 }
 
 
@@ -59,40 +57,69 @@ Flight* CarStop::getReturnFlight(){
 void CarStop::setCost(double t_cost){
     m_cost = t_cost;
 }
-void CarStop::setTakeoffFlight(Flight* t_flight){
-    m_takeoff_flight = t_flight;
+void CarStop::addTakeoffFlight(Flight* t_flight){
+    m_takeoff_flights.push_back(t_flight);
 }
-void CarStop::setReturnFlight(Flight* t_flight){
-    m_return_flight = t_flight;
+void CarStop::addReturnFlight(Flight* t_flight){
+    m_return_flights.push_back(t_flight);
 }
 
-void CarStop::removeTakeoff(){
-    m_takeoff_flight = nullptr;
+void CarStop::removeTakeoff(Flight* t_flight){
+    for(int i = 0; m_takeoff_flights.size(); i++){
+        if (t_flight == m_takeoff_flights.at(i)){
+            m_takeoff_flights.erase(m_takeoff_flights.begin() + i);
+            return;
+        }
+    }
 }
-void CarStop::removeReturn(){
-    m_return_flight = nullptr;
+void CarStop::removeReturn(Flight* t_flight){
+        for(int i = 0; m_return_flights.size(); i++){
+        if (t_flight == m_return_flights.at(i)){
+            m_return_flights.erase(m_return_flights.begin() + i);
+            return;
+        }
+    }
 }
 
 
 // OPERATIONS //
 void CarStop::removeFromRoute(){
-    if(is_takeoff() && is_return()){
-        m_return_flight->attachFlight(m_takeoff_flight);
-        if (!m_return_flight->isValid()){
-            m_return_flight->splitToValidFlights();
+
+// DOUBT: Será que não posso assumir que não é possivel remover carstops que tem flight landind ou taking off?
+
+    // When a drone return and takeoff at this stop
+    for(int i = 0; m_return_flights.size(); i++){
+        Flight* p_flight = m_return_flights.at(i);
+
+        for(int j = 0; m_takeoff_flights.size(); j++){
+            if (p_flight == m_takeoff_flights.at(j)){
+                p_flight->attachFlight(m_takeoff_flights.at(j));
+
+                if (!p_flight->isValid())
+                    p_flight->splitToValidFlights();
+
+                m_takeoff_flights.erase(m_takeoff_flights.begin() + j);
+                m_return_flights.erase(m_return_flights.begin() + i);
+                i--; 
+            }
         }
     }
-    else if(is_takeoff()){
-        if(m_prev != nullptr)
-            m_takeoff_flight->setTakeoffStop(m_prev);
-        else 
-            m_takeoff_flight->setTakeoffStop(m_next);
-    }
-    else if(is_return()){
+
+    // TODO: This changes can invalidate the route?
+    for(int i = 0; m_return_flights.size(); i++){
+        Flight* p_flight = m_return_flights.at(i);
         if(m_next != nullptr)
-            m_return_flight->setLandingStop(m_next);
+            p_flight->setLandingStop(m_next);
         else 
-            m_return_flight->setLandingStop(m_prev);
+            p_flight->setLandingStop(m_prev);
+    }
+
+    for(int i = 0; m_takeoff_flights.size(); i++){
+        Flight* p_flight = m_takeoff_flights.at(i);
+        if(m_prev != nullptr)
+            p_flight->setTakeoffStop(m_prev);
+        else 
+            p_flight->setTakeoffStop(m_next);
     }
 
     m_this_route->removeCarStop(this);

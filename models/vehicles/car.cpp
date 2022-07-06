@@ -25,14 +25,13 @@ Car::Car(string t_name, Point t_position){
     setSpeed(DEFAULT_CAR_SPEED);
     setName(t_name);
     setActualPosition(new Point(t_position));
-    m_drone = nullptr;
     m_route = new Route(this);
     m_route->appendPoint(getActualPosition());
 }
 
 
 // GETTERS //
-Drone* Car::getDrone(){
+vector<Drone*> Car::getDrones(){
     return m_drone;
 }
 Route* Car::getRoute(){
@@ -40,8 +39,8 @@ Route* Car::getRoute(){
 }
 
 // SETTERS //
-void Car::setDrone(Drone* t_drone){
-    m_drone = t_drone;
+void Car::addDrone(Drone* t_drone){
+    m_drone.push_back(t_drone);
 }
 
 
