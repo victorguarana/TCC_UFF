@@ -36,8 +36,9 @@
 - [X] Refatorar para a rota pertencer ao carro.
 
 #### Múltiplos Drones:
-- [ ] Refatorar modelos
-- [ ] Refatorar Greedy
+- [X] Refatorar modelos
+- [X] Refatorar Greedy
+- [ ] Considerar multiplos delays de voos durante calculo de custo
 - [ ] Refatorar ILS
 
 #### Outras ideias:
