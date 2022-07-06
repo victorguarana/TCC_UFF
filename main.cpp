@@ -2,7 +2,7 @@
 #include "models/map.cpp"
 #include "models/vehicles/car.cpp"
 #include "models/vehicles/drone.cpp"
-//#include "heusristics/greedy.cpp"
+#include "heusristics/greedy.cpp"
 //#include "heusristics/ils.cpp"
 
 #include <vector>
@@ -21,7 +21,7 @@ int main(){
 
     carro1->addDrone(drone1);
     carro1->addDrone(drone2);
-/*
+
     cout << "================================" << endl;
     cout << "Initial Greedy Route (Car only):" << endl;
     cout << "================================" << endl << endl;
