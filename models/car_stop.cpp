@@ -65,7 +65,7 @@ void CarStop::addReturnFlight(Flight* t_flight){
 }
 
 void CarStop::removeTakeoff(Flight* t_flight){
-    for(int i = 0; m_takeoff_flights.size(); i++){
+    for(int i = 0; i < m_takeoff_flights.size(); i++){
         if (t_flight == m_takeoff_flights.at(i)){
             m_takeoff_flights.erase(m_takeoff_flights.begin() + i);
             return;
@@ -73,7 +73,7 @@ void CarStop::removeTakeoff(Flight* t_flight){
     }
 }
 void CarStop::removeReturn(Flight* t_flight){
-        for(int i = 0; m_return_flights.size(); i++){
+        for(int i = 0; i < m_return_flights.size(); i++){
         if (t_flight == m_return_flights.at(i)){
             m_return_flights.erase(m_return_flights.begin() + i);
             return;
@@ -88,10 +88,10 @@ void CarStop::removeFromRoute(){
 // DOUBT: Será que não posso assumir que não é possivel remover carstops que tem flight landind ou taking off?
 
     // When a drone return and takeoff at this stop
-    for(int i = 0; m_return_flights.size(); i++){
+    for(int i = 0; i < m_return_flights.size(); i++){
         Flight* p_flight = m_return_flights.at(i);
 
-        for(int j = 0; m_takeoff_flights.size(); j++){
+        for(int j = 0; j < m_takeoff_flights.size(); j++){
             if (p_flight == m_takeoff_flights.at(j)){
                 p_flight->attachFlight(m_takeoff_flights.at(j));
 
@@ -106,7 +106,7 @@ void CarStop::removeFromRoute(){
     }
 
     // TODO: This changes can invalidate the route?
-    for(int i = 0; m_return_flights.size(); i++){
+    for(int i = 0; i < m_return_flights.size(); i++){
         Flight* p_flight = m_return_flights.at(i);
         if(m_next != nullptr)
             p_flight->setLandingStop(m_next);
@@ -114,7 +114,7 @@ void CarStop::removeFromRoute(){
             p_flight->setLandingStop(m_prev);
     }
 
-    for(int i = 0; m_takeoff_flights.size(); i++){
+    for(int i = 0; i < m_takeoff_flights.size(); i++){
         Flight* p_flight = m_takeoff_flights.at(i);
         if(m_prev != nullptr)
             p_flight->setTakeoffStop(m_prev);

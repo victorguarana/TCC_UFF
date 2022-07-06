@@ -133,7 +133,7 @@ void Route::calcCosts(){
 
         if (actual_stop->is_takeoff()){
             vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
-            for(int i = 0; takeoff_flights.size(); i++){
+            for(int i = 0; i < takeoff_flights.size(); i++){
                 Flight* p_actual_flight = takeoff_flights.at(i);
                 p_actual_flight->calcCosts();
             }
@@ -141,7 +141,7 @@ void Route::calcCosts(){
         // Add return flight wait time
         if(actual_stop->is_return()){
             vector<Flight*> return_flights = actual_stop->getReturnFlights();
-            for(int i = 0; return_flights.size(); i++){
+            for(int i = 0; i < return_flights.size(); i++){
                 m_total_cost += calcFlightDelay(return_flights.at(i));
             }
         }
@@ -176,7 +176,7 @@ bool Route::isValid(){
         actual_car->deliver(actual_stop->getPoint());
         if(actual_stop->is_takeoff()){
             vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
-            for(int i = 0; takeoff_flights.size(); i++){
+            for(int i = 0; i < takeoff_flights.size(); i++){
                 if (!takeoff_flights.at(i)->isValid())
                     return false;
             }
@@ -203,7 +203,7 @@ void Route::print(){
 
         if (actual_stop->is_takeoff()){
             vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
-            for(int i = 0; takeoff_flights.size(); i++)
+            for(int i = 0; i < takeoff_flights.size(); i++)
                 takeoff_flights.at(i)->print(index);
         }
         actual_stop = actual_stop->m_next;
