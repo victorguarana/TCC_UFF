@@ -27,7 +27,7 @@ int main(){
     cout << "================================" << endl << endl;
     Greedy::multiple_car_greedy(initial_map, cars, initial_point);
     carro1->getRoute()->calcCosts();
-    //carro1->getRoute()->print();
+    carro1->getRoute()->print();
 
 
     cout << endl << endl << endl;
@@ -39,51 +39,51 @@ int main(){
     carro1->getRoute()->calcCosts();
     carro1->getRoute()->print();
 
-/*
-    cout << endl << endl << endl;
+    // Switcher cases:
+    //  0 -> Shift DroneStop to CarStop
+    //  1 -> Shift CarStop to DroneStop
+    //  2 -> Swap DroneStops
+    //  3 -> Swap DroneStop and CarStop
 
-    cout << "========================" << endl;
-    cout << "Shift Stop: Drone to Car" << endl;
-    cout << "========================" << endl << endl;
-    Ils::shiftWorstDroneToCarStop(carro1->getRoute());
-    carro1->getRoute()->calcCosts();
-    carro1->getRoute()->print();
-*/
-
+    int switcher = 0;
 
     cout << endl << endl << endl;
+    switch (switcher){
+    case 1:
+        cout << "========================" << endl;
+        cout << "Shift Stop: Drone to Car" << endl;
+        cout << "========================" << endl << endl;
+        Ils::shiftWorstDroneToCarStop(carro1->getRoute());
+        break;
+    
+    case 2:
+        cout << "========================" << endl;
+        cout << "Shift Stop: Car to Drone" << endl;
+        cout << "========================" << endl << endl;
+        Ils::shiftWorstCarToDroneStop(carro1->getRoute());
+        break;
 
-    cout << "========================" << endl;
-    cout << "Shift Stop: Car to Drone" << endl;
-    cout << "========================" << endl << endl;
-    Ils::shiftWorstCarToDroneStop(carro1->getRoute());
+    case 3:
+        cout << "================" << endl;
+        cout << "Swap Drone Stops" << endl;
+        cout << "================" << endl << endl;
+        Ils::swapWorstsDroneStops(carro1->getRoute());
+        break;
+
+    case 4:
+        cout << "=================================" << endl;
+        cout << "Swap Worsts Stops: Car and Drone:" << endl;
+        cout << "=================================" << endl << endl;
+        Ils::swapWorstsStops(carro1->getRoute());
+        Ils::shiftWorstCarToDroneStop(carro1->getRoute());
+        break;
+    default:
+        break;
+    }
+
     carro1->getRoute()->calcCosts();
     carro1->getRoute()->print();
-
-
-/*
-    cout << endl << endl << endl;
-
-    cout << "================" << endl;
-    cout << "Swap Drone Stops" << endl;
-    cout << "================" << endl << endl;
-    Ils::swapWorstsDroneStops(carro1->getRoute());
-    carro1->getRoute()->calcCosts();
-    carro1->getRoute()->print();
-*/
-
-    /*
-    cout << endl << endl << endl;
-
-    cout << "=================================" << endl;
-    cout << "Swap Worsts Stops: Car and Drone:" << endl;
-    cout << "=================================" << endl << endl;
-    Ils::swapWorstsStops(carro1->getRoute());
-    carro1->getRoute()->calcCosts();
-    carro1->getRoute()->print();
-    */
-
-
+    
     cout << endl;
 
 }
