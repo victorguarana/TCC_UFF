@@ -12,12 +12,11 @@
 #### Definir qualidade:
 - [X] Utilizar o tempo como indicador de qualidade.
 - [X] Calcular qualidade da rota.
-- [ ] Durante entregas simultâneas, ignorar a rota de menor tempo.
+- [X] Durante entregas simultâneas, ignorar a rota de menor tempo.
 
 #### Tipos de operações de pertubação (Podem ser feitas mais de uma por vez (?) ):
 - [X] Fazer Swap das piores entregas de cada veiculo.
 - [X] Transformar parada de drone em parada de carro.
-- [ ] Remover ou alterar as posições dos depósitos nas rotas.
 - [X] Verificar se alteração continua com boa qualidade.
 
 #### Pontos extras:
@@ -35,6 +34,12 @@
 
 #### Múltiplos Carros:
 - [X] Refatorar para a rota pertencer ao carro.
+
+#### Múltiplos Drones:
+- [X] Refatorar modelos
+- [X] Refatorar Greedy
+- [ ] Considerar multiplos delays de voos durante calculo de custo
+- [ ] Refatorar ILS
 
 #### Outras ideias:
 - [ ] Adicionar uma margem abaixo do limite dos veiculos no algotimo guloso.

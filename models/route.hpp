@@ -20,6 +20,15 @@ class Route {
     CarStop* m_first_stop;
     CarStop* m_last_stop;
     double m_total_cost;
+    struct ActiveFlights{
+        Flight* flight;
+        double ground_delay_time;
+    };
+
+
+    private:
+    // OTHER FUNCTIONS //
+    double calcFlightDelay(Flight*, double);
 
     public:
     // INITIALIZER //

@@ -99,42 +99,74 @@ void Route::removeCarStop(CarStop* t_remove_stop){
 
 
 // OTHER FUNCTIONS //
+double Route::calcFlightDelay(Flight* t_flight, double t_actual_delay){
+    double drone_speed = t_flight->getDrone()->getSpeed();
+    double car_speed = t_flight->getLandingStop()->getRoute()->getCar()->getSpeed();
+    double drone_time = t_flight->getTotalCost();
+    double car_time = 0, zero = 0;
+    CarStop* p_actual_car_stop = t_flight->getTakeoffStop();
+    CarStop* p_last_car_stop = t_flight->getTakeoffStop();
+
+    while(p_actual_car_stop != p_last_car_stop){
+        car_time += Point::distanceBetweenPoints(*p_actual_car_stop->getPoint(), *p_actual_car_stop->m_next->getPoint());
+        p_actual_car_stop = p_actual_car_stop->m_next;
+    }
+
+    return std::max(zero, drone_time-(car_time+t_actual_delay));
+}
+
 void Route::calcCosts(){
     m_total_cost = 0;
     double car_speed = m_car->getSpeed();
-    Drone* p_drone = m_car->getDrone();
 
     CarStop* last_stop = m_first_stop;
     CarStop* actual_stop = last_stop->m_next;
     CarStop* next_stop = actual_stop->m_next;
-    double distance_backward, distance_forward, flight_cost, car_cost_withourt_drone;
+    double distance_backward, distance_forward, flight_cost;
+
+    vector<ActiveFlights> active_flights;
 
     while (actual_stop->m_next != nullptr){
         distance_backward = Point::distanceBetweenPoints(*last_stop->getPoint(), *actual_stop->getPoint());
         distance_forward = Point::distanceBetweenPoints(*actual_stop->getPoint(), *next_stop->getPoint());
 
         actual_stop->setCost(distance_backward + distance_forward);
+        m_total_cost += distance_backward / car_speed;
 
-        if(p_drone->isFlying()){
-            car_cost_withourt_drone += distance_backward / car_speed;
-        }
-        else{
-            m_total_cost += distance_backward / car_speed;
-        }
-
-
-        if(actual_stop->is_return()){
-            p_drone->land();
-            m_total_cost += std::max(flight_cost, car_cost_withourt_drone);
-        }
         if (actual_stop->is_takeoff()){
-            p_drone->takeOff(actual_stop->getPoint());
-            Flight* p_actual_flight = actual_stop->getTakeoffFlight();
-            p_actual_flight->calcCosts();
-            flight_cost = p_actual_flight->getTotalCost();
-            car_cost_withourt_drone = 0;
+            vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
+            for(int i = 0; i < takeoff_flights.size(); i++){
+                Flight* p_actual_flight = takeoff_flights.at(i);
+                p_actual_flight->calcCosts();
+                active_flights.push_back({p_actual_flight, 0});
+            }
         }
+        // Add return flight wait time
+        if(actual_stop->is_return()){
+            vector<Flight*> return_flights = actual_stop->getReturnFlights();
+            for(int i = 0; i < return_flights.size(); i++){
+                Flight* p_return_flight = return_flights.at(i);
+                double ground_delay, zero = 0;
 
+                // Get flight ground delay
+                for(int j = 0; j < active_flights.size(); j++){
+                    if(active_flights.at(j).flight == p_return_flight){
+                        ground_delay = active_flights.at(j).ground_delay_time;
+                        active_flights.erase(active_flights.begin() + j);
+                        break;
+                    }
+                }
+
+                double flight_delay = calcFlightDelay(return_flights.at(i), ground_delay);
+
+                // Add flight ground delay for other active flights
+                for(int j = 0; j < active_flights.size(); j++){
+                    active_flights.at(j).ground_delay_time = active_flights.at(j).ground_delay_time + flight_delay;
+                }
+
+                m_total_cost += flight_delay;
+            }
+        }
 
         last_stop = actual_stop;
         actual_stop = last_stop->m_next;
@@ -164,9 +196,13 @@ bool Route::isValid(){
             return false;
 
         actual_car->deliver(actual_stop->getPoint());
-        if(actual_stop->is_takeoff())
-            if (!actual_stop->getTakeoffFlight()->isValid())
-                return false;
+        if(actual_stop->is_takeoff()){
+            vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
+            for(int i = 0; i < takeoff_flights.size(); i++){
+                if (!takeoff_flights.at(i)->isValid())
+                    return false;
+            }
+        }
 
         actual_stop = actual_stop->m_next;
     }
@@ -188,7 +224,9 @@ void Route::print(){
         cout << "STOP #" << to_string(index) << " -> " << actual_stop->toString() << endl;
 
         if (actual_stop->is_takeoff()){
-            actual_stop->getTakeoffFlight()->print(index);
+            vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
+            for(int i = 0; i < takeoff_flights.size(); i++)
+                takeoff_flights.at(i)->print(index);
         }
         actual_stop = actual_stop->m_next;
         index++;
