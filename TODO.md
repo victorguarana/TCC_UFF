@@ -28,6 +28,7 @@
 - [X] Adicionar "relação" entre as classes de carro e drone (EX: Car has many drones).
 - [X] Remover a necessidade do vôo terminar no carstop seguinte.
 - [X] Adicionar validação (somente de peso) no método que procura um carstop para transformar em dronestop
+- [ ] Adicionar Switcher para realizar apenas uma operação do ILS por vez
 
 #### Validador de rota:
 - [X] Implementar uma função dentro de veiculos para receber a classe de cliente e a posição atual e verificar, de acordo com os atributos do veiculo, se é possivel fazer a entrega.
@@ -38,8 +39,8 @@
 #### Múltiplos Drones:
 - [X] Refatorar modelos
 - [X] Refatorar Greedy
-- [ ] Considerar multiplos delays de voos durante calculo de custo
-- [ ] Refatorar ILS
+- [X] Considerar multiplos delays de voos durante calculo de custo
+- [X] Refatorar ILS
 
 #### Outras ideias:
 - [ ] Adicionar uma margem abaixo do limite dos veiculos no algotimo guloso.
