@@ -45,32 +45,32 @@ int main(){
     //  2 -> Swap DroneStops
     //  3 -> Swap DroneStop and CarStop
 
-    int switcher = 0;
+    int switcher = 1;
 
     cout << endl << endl << endl;
     switch (switcher){
-    case 1:
+    case 0:
         cout << "========================" << endl;
         cout << "Shift Stop: Drone to Car" << endl;
         cout << "========================" << endl << endl;
         Ils::shiftWorstDroneToCarStop(carro1->getRoute());
         break;
     
-    case 2:
+    case 1:
         cout << "========================" << endl;
         cout << "Shift Stop: Car to Drone" << endl;
         cout << "========================" << endl << endl;
         Ils::shiftWorstCarToDroneStop(carro1->getRoute());
         break;
 
-    case 3:
+    case 2:
         cout << "================" << endl;
         cout << "Swap Drone Stops" << endl;
         cout << "================" << endl << endl;
         Ils::swapWorstsDroneStops(carro1->getRoute());
         break;
 
-    case 4:
+    case 3:
         cout << "=================================" << endl;
         cout << "Swap Worsts Stops: Car and Drone:" << endl;
         cout << "=================================" << endl << endl;
@@ -78,7 +78,7 @@ int main(){
         Ils::shiftWorstCarToDroneStop(carro1->getRoute());
         break;
     default:
-        break;
+        return 0;
     }
 
     carro1->getRoute()->calcCosts();
@@ -86,4 +86,6 @@ int main(){
     
     cout << endl;
 
+
+    return 0;
 }
