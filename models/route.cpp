@@ -99,7 +99,7 @@ void Route::removeCarStop(CarStop* t_remove_stop){
 
 
 // OTHER FUNCTIONS //
-double Route::calcFlightDelay(Flight* t_flight){
+double Route::calcFlightDelay(Flight* t_flight, double t_actual_delay){
     double drone_speed = t_flight->getDrone()->getSpeed();
     double car_speed = t_flight->getLandingStop()->getRoute()->getCar()->getSpeed();
     double drone_time = t_flight->getTotalCost();
@@ -112,7 +112,7 @@ double Route::calcFlightDelay(Flight* t_flight){
         p_actual_car_stop = p_actual_car_stop->m_next;
     }
 
-    return std::max(zero, drone_time-car_time);
+    return std::max(zero, drone_time-(car_time+t_actual_delay));
 }
 
 void Route::calcCosts(){
@@ -124,25 +124,47 @@ void Route::calcCosts(){
     CarStop* next_stop = actual_stop->m_next;
     double distance_backward, distance_forward, flight_cost;
 
+    vector<ActiveFlights> active_flights;
+
     while (actual_stop->m_next != nullptr){
         distance_backward = Point::distanceBetweenPoints(*last_stop->getPoint(), *actual_stop->getPoint());
         distance_forward = Point::distanceBetweenPoints(*actual_stop->getPoint(), *next_stop->getPoint());
 
         actual_stop->setCost(distance_backward + distance_forward);
-        m_total_cost += distance_forward / car_speed;
+        m_total_cost += distance_backward / car_speed;
 
         if (actual_stop->is_takeoff()){
             vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
             for(int i = 0; i < takeoff_flights.size(); i++){
                 Flight* p_actual_flight = takeoff_flights.at(i);
                 p_actual_flight->calcCosts();
+                active_flights.push_back({p_actual_flight, 0});
             }
         }
         // Add return flight wait time
         if(actual_stop->is_return()){
             vector<Flight*> return_flights = actual_stop->getReturnFlights();
             for(int i = 0; i < return_flights.size(); i++){
-                m_total_cost += calcFlightDelay(return_flights.at(i));
+                Flight* p_return_flight = return_flights.at(i);
+                double ground_delay, zero = 0;
+
+                // Get flight ground delay
+                for(int j = 0; j < active_flights.size(); j++){
+                    if(active_flights.at(j).flight == p_return_flight){
+                        ground_delay = active_flights.at(j).ground_delay_time;
+                        active_flights.erase(active_flights.begin() + j);
+                        break;
+                    }
+                }
+
+                double flight_delay = calcFlightDelay(return_flights.at(i), ground_delay);
+
+                // Add flight ground delay for other active flights
+                for(int j = 0; j < active_flights.size(); j++){
+                    active_flights.at(j).ground_delay_time = active_flights.at(j).ground_delay_time + flight_delay;
+                }
+
+                m_total_cost += flight_delay;
             }
         }
 
