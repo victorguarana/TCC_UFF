@@ -92,7 +92,7 @@ void CarStop::removeFromRoute(){
         Flight* p_flight = m_return_flights.at(i);
 
         for(int j = 0; j < m_takeoff_flights.size(); j++){
-            if (p_flight == m_takeoff_flights.at(j)){
+            if (p_flight->getDrone() == m_takeoff_flights.at(j)->getDrone()){
                 p_flight->attachFlight(m_takeoff_flights.at(j));
 
                 if (!p_flight->isValid())
