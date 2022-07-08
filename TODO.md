@@ -7,7 +7,6 @@
 
 #### Implementação do ILS:
 - [X] Validar as alterações na rota (Antes ou depois da inserção?)
-- [ ] Cancelar operação ou find quando não existir stops.
 
 #### Definir qualidade:
 - [X] Utilizar o tempo como indicador de qualidade.
