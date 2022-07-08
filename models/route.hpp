@@ -36,16 +36,11 @@ class Route {
 
     // GETTER //
     CarStop* getFirstStop();
-    CarStop* getLastStop();
     Car* getCar();
     double getTotalCost();
 
-    // SETTER //
-    void setTotalCost(double);
-
     // LINKED LIST FUNCTIONS //
-    void appendCarStopFront(CarStop*);
-    void appendCarStopBack(CarStop*);
+    void appendCarStop(CarStop*);
     void insertCarStop(CarStop*, CarStop*);
     void removeCarStop(CarStop*);
 

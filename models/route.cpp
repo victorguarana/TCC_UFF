@@ -27,9 +27,6 @@ Route::Route(Car* t_car){
 CarStop* Route::getFirstStop(){
     return m_first_stop;
 }
-CarStop* Route::getLastStop(){
-    return m_last_stop;
-}
 Car* Route::getCar(){
     return m_car;
 }
@@ -37,28 +34,9 @@ double Route::getTotalCost(){
     return m_total_cost;
 }
 
-
-// SETTER //
-void Route::setTotalCost(double t_total_cost){
-    m_total_cost = t_total_cost;
-}
-
-
 // LINKED LIST FUNCTIONS //
-// Add to first position
-void Route::appendCarStopFront(CarStop* t_car_stop){
-    if (m_last_stop == nullptr){
-        m_last_stop = t_car_stop;
-    }
-    else{
-        CarStop* p_first_stop = m_first_stop;
-        p_first_stop->m_prev = t_car_stop;
-        t_car_stop->m_next = p_first_stop;
-    }
-    m_first_stop = t_car_stop;
-}
 // Add to last position
-void Route::appendCarStopBack(CarStop* t_car_stop){
+void Route::appendCarStop(CarStop* t_car_stop){
     if (m_first_stop == nullptr){
         m_first_stop = t_car_stop;
     }
@@ -179,7 +157,7 @@ void Route::calcCosts(){
 }
 void Route::appendPoint(Point* t_point){
     CarStop* p_new_stop = CarStop::create(this, t_point);
-    appendCarStopBack(p_new_stop);
+    appendCarStop(p_new_stop);
 }
 bool Route::isValid(){
     CarStop* actual_stop = m_first_stop;
