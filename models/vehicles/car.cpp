@@ -68,9 +68,5 @@ void Car::deliver(Point* t_point){
 bool Car::canSupport(double t_used_storage){
     return t_used_storage <= getRemainingStorage();
 }
-void Car::support(double t_used_storage){
-    double remaining_storage = getRemainingStorage() - t_used_storage;
-    setRemainingStorage(remaining_storage);
-}
 
 #endif

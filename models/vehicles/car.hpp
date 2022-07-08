@@ -31,8 +31,6 @@ class Car : public Vehicle {
     bool canDeliver(double, double);
     bool canSupport(double);
     void deliver(Point*);
-    void support(double);
-
 
 };
 
