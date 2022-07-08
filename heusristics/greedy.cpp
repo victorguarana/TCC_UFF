@@ -126,7 +126,6 @@ class Greedy{
 
     public:
 
-    // TODO: Review this method, and p_point var inside it
     static void nearest_client_greedy(Map t_map, vector<Car*> t_car_fleet, Point t_initial_position){
         int fleet_size = t_car_fleet.size();
         int car_index = 0;
@@ -151,9 +150,6 @@ class Greedy{
                 Point nearest_deposit = find_nearest_point(p_actual_position, &t_map.deposits).point;
                 p_next_point = Point::create(nearest_deposit);
             }
-
-            Point* p_point = Point::create(t_initial_position);
-
 
             // Create car stop and append it to route
             p_actual_car->getRoute()->appendPoint(p_next_point);
