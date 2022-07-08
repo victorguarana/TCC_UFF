@@ -25,7 +25,8 @@ int main(){
     cout << "================================" << endl;
     cout << "Initial Greedy Route (Car only):" << endl;
     cout << "================================" << endl << endl;
-    Greedy::multiple_car_greedy(initial_map, cars, initial_point);
+    Greedy::nearest_client_greedy(initial_map, cars, initial_point);
+    //Greedy::best_insertion_greedy(initial_map, cars, initial_point);
     carro1->getRoute()->calcCosts();
     carro1->getRoute()->print();
 

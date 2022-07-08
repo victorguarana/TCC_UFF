@@ -67,9 +67,67 @@ class Greedy{
         return drones_to_land;
     }
 
+
+    static CarStop* getBestInsertionPoint(Route* t_route, Point* t_next_client){
+        CarStop* p_best_insertion_point = nullptr;
+        CarStop* p_actual_stop = t_route->getFirstStop();
+        CarStop* p_new_car_stop = CarStop::create(t_route, t_next_client);
+        double min_cost = -1, actual_cost;
+
+        while(p_actual_stop != nullptr){
+            t_route->insertCarStop(p_actual_stop, p_new_car_stop);
+            t_route->calcCosts();
+            actual_cost = t_route->getTotalCost();
+
+            if(min_cost == -1 || min_cost > actual_cost){
+                min_cost = actual_cost;
+                p_best_insertion_point = p_actual_stop;
+            }
+
+            p_new_car_stop->removeFromRoute();
+
+            p_actual_stop = p_actual_stop->m_next;
+        }
+
+        p_new_car_stop->erase();
+        return p_best_insertion_point;
+    }
+
+    static void makeRouteValid(Route* t_route, vector<Point> t_deposits){
+        CarStop* p_best_insertion_point = nullptr;
+        CarStop* p_actual_stop = t_route->getFirstStop();
+        double min_cost = -1, actual_cost;
+
+        while(p_actual_stop != nullptr){
+
+            Point nearest_deposit = find_nearest_point(p_actual_stop->getPoint(), &t_deposits).point; 
+            CarStop* p_new_deposit_stop = CarStop::create(t_route, &nearest_deposit);
+            t_route->insertCarStop(p_actual_stop, p_new_deposit_stop);
+            t_route->calcCosts();
+            actual_cost = t_route->getTotalCost();
+
+            if(t_route->isValid() && (min_cost == -1 || min_cost > actual_cost)){
+                min_cost = actual_cost;
+                p_best_insertion_point = p_actual_stop;
+            }
+
+            p_new_deposit_stop->removeFromRoute();
+
+            p_actual_stop = p_actual_stop->m_next;
+            p_new_deposit_stop->erase();
+        }
+
+        Point nearest_deposit = find_nearest_point(p_best_insertion_point->getPoint(), &t_deposits).point;
+        
+        CarStop* p_deposit = CarStop::create(t_route, Point::create(nearest_deposit));
+        t_route->insertCarStop(p_best_insertion_point, p_deposit);
+
+    }
+
     public:
 
-    static void multiple_car_greedy(Map t_map, vector<Car*> t_car_fleet, Point t_initial_position){
+    // TODO: Review this method, and p_point var inside it
+    static void nearest_client_greedy(Map t_map, vector<Car*> t_car_fleet, Point t_initial_position){
         int fleet_size = t_car_fleet.size();
         int car_index = 0;
 
@@ -100,6 +158,41 @@ class Greedy{
             // Create car stop and append it to route
             p_actual_car->getRoute()->appendPoint(p_next_point);
             p_actual_car->deliver(p_next_point);
+
+            // Get next car in line
+            car_index++;
+            if (car_index >= fleet_size){
+                car_index = 0;
+            }
+        }
+
+        // Append initial point to all routes
+        for(int i = 0; i < t_car_fleet.size(); i++){
+            Point* p_actual_position = t_car_fleet.at(i)->getActualPosition();
+            Point nearest_deposit = find_nearest_point(p_actual_position, &t_map.deposits).point;
+
+            Point* p_point = Point::create(nearest_deposit);
+            t_car_fleet.at(i)->getRoute()->appendPoint(p_point);
+        }
+    }
+
+    static void best_insertion_greedy(Map t_map, vector<Car*> t_car_fleet, Point t_initial_position){
+        int fleet_size = t_car_fleet.size();
+        int car_index = 0;
+
+        while (!t_map.clients.empty()){
+            Car* p_actual_car = t_car_fleet.at(car_index);
+
+            Point* p_next_client = Point::create(t_map.clients.at(0));
+            CarStop* p_new_car_stop = CarStop::create(p_actual_car->getRoute(), p_next_client);
+            t_map.clients.erase(t_map.clients.begin());
+
+            CarStop* best_insertion_point = getBestInsertionPoint(p_actual_car->getRoute(), p_next_client);
+            p_actual_car->getRoute()->insertCarStop(best_insertion_point, p_new_car_stop);
+
+            if(!p_actual_car->getRoute()->isValid())
+                makeRouteValid(p_actual_car->getRoute(), t_map.deposits);
+
 
             // Get next car in line
             car_index++;
