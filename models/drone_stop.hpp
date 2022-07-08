@@ -31,7 +31,6 @@ class DroneStop {
 
 
     // GETTERS//
-    bool is_first();
     bool is_last();
     double getCost();
     Point* getPoint();

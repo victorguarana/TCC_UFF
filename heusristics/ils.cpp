@@ -164,7 +164,7 @@ class Ils{
         CarStop* best_insertion_position = nullptr;
         double actual_cost = 0, best_cost = -1;
 
-        while(actual_stop->m_next != nullptr){
+        while(!actual_stop->is_last()){
             t_route->insertCarStop(actual_stop, t_new_car_stop);
             t_route->calcCosts();
             actual_cost = t_route->getTotalCost();
@@ -197,7 +197,7 @@ class Ils{
         double actual_cost = 0, best_cost_diff = -1, new_cost = 0;
 
         // Getting best insertion point
-        while(p_actual_car_stop->m_next != nullptr){
+        while(!p_actual_car_stop->is_last()){
 
             // Trying to position new drone stop in all flights
             if (p_actual_car_stop->is_takeoff()){

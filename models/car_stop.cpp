@@ -108,7 +108,7 @@ void CarStop::removeFromRoute(){
     // TODO: This changes can invalidate the route?
     for(int i = 0; i < m_return_flights.size(); i++){
         Flight* p_flight = m_return_flights.at(i);
-        if(m_next != nullptr)
+        if(!is_last())
             p_flight->setLandingStop(m_next);
         else 
             p_flight->setLandingStop(m_prev);
@@ -116,7 +116,7 @@ void CarStop::removeFromRoute(){
 
     for(int i = 0; i < m_takeoff_flights.size(); i++){
         Flight* p_flight = m_takeoff_flights.at(i);
-        if(m_prev != nullptr)
+        if(!is_first())
             p_flight->setTakeoffStop(m_prev);
         else 
             p_flight->setTakeoffStop(m_next);

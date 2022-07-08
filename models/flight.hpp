@@ -40,7 +40,6 @@ class Flight {
     // SETTERS //
     void setTakeoffStop(CarStop*);
     void setLandingStop(CarStop*);
-    void setTotalCost(double);
 
 
     // LINKED LIST FUNCTIONS //

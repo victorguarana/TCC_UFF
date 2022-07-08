@@ -27,6 +27,7 @@ Route::Route(Car* t_car){
 CarStop* Route::getFirstStop(){
     return m_first_stop;
 }
+
 Car* Route::getCar(){
     return m_car;
 }
@@ -107,7 +108,7 @@ void Route::calcCosts(){
 
     vector<ActiveFlights> active_flights;
 
-    while (actual_stop->m_next != nullptr){
+    while (!actual_stop->is_last()){
         distance_backward = Point::distanceBetweenPoints(*last_stop->getPoint(), *actual_stop->getPoint());
         distance_forward = Point::distanceBetweenPoints(*actual_stop->getPoint(), *next_stop->getPoint());
 

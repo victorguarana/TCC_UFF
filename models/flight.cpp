@@ -46,9 +46,6 @@ Drone* Flight::getDrone(){
 
 
 // SETTERS //
-void Flight::setTotalCost(double t_total_cost){
-    m_total_cost = t_total_cost;
-}
 void Flight::setTakeoffStop(CarStop* t_car_stop){
     m_takeoff = t_car_stop;
     t_car_stop->addTakeoffFlight(this);
@@ -130,7 +127,7 @@ void Flight::calcCosts(){
     DroneStop* p_actual_stop = m_first_stop;
     double distance_backward, distance_forward;
 
-    while (p_actual_stop->m_next != nullptr){
+    while (!p_actual_stop->is_last()){
         p_next_point = p_actual_stop->m_next->getPoint();
 
         distance_backward = Point::distanceBetweenPoints(*p_last_point, *p_actual_point);

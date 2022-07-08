@@ -26,9 +26,6 @@ DroneStop* DroneStop::create(Flight* t_flight, Point* t_point){
 double DroneStop::getCost(){
     return m_cost;
 }
-bool DroneStop::is_first(){
-    return m_prev == nullptr;
-}
 bool DroneStop::is_last(){
     return m_next == nullptr;
 }
@@ -67,14 +64,7 @@ string DroneStop::toString(){
     std::stringstream cost;
     cost << std::fixed << std::setprecision(2) << m_cost;
     string str = "Point: " + m_point->toString() + " - Stop cost: " + cost.str();
-    //if(m_prev != nullptr)
-    //    str += " | Prev: " + m_prev->getPoint()->getName();
-    //else
-    //    str += " | Prev: NULL ";
-    //if(m_next != nullptr)
-    //    str += " / Next: " + m_next->getPoint()->getName();
-    //else
-    //    str += " / Next: NULL ";
+
     return str;
 }
 

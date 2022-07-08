@@ -233,7 +233,7 @@ class Greedy{
                 // Do not need to validate car storage
                 // Get Drones that need to land in next point
                 vector<DroneStats> drones_to_land;
-                if (p_next_car_stop->m_next != nullptr)
+                if (!p_next_car_stop->is_last())
                     drones_to_land = getDronesToLand(p_next_car_stop->m_next->getPoint(), drones_flying);
 
                 if (drones_to_land.empty()){
