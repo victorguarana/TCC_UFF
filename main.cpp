@@ -6,10 +6,14 @@
 #include "heusristics/ils.cpp"
 
 #include <vector>
+#include <string>
 
-int main(){
+int foo(string t_filename){
 
-    Map initial_map = initializeMap("all_maps//map1.csv");
+    cout << "================================" << endl;
+    cout << t_filename << endl;
+
+    Map initial_map = initializeMap(t_filename);
     Point initial_point = initial_map.deposits.at(0);
 
     vector<Car*> cars;
@@ -22,20 +26,20 @@ int main(){
     carro1->addDrone(drone1);
     carro1->addDrone(drone2);
 
-    cout << "================================" << endl;
-    cout << "Initial Greedy Route (Car only):" << endl;
-    cout << "================================" << endl << endl;
+    // cout << "================================" << endl;
+    cout << "Initial Client Greedy Route (Car only):" << endl;
+    // cout << "================================" << endl << endl;
     Greedy::nearest_client_greedy(initial_map, cars, initial_point);
     //Greedy::best_insertion_greedy(initial_map, cars, initial_point);
     carro1->getRoute()->calcCosts();
     carro1->getRoute()->print();
 
 
-    cout << endl << endl << endl;
+    // cout << endl << endl << endl;
 
-    cout << "====================================" << endl;
-    cout << "Hybrid Greedy Route (Car and drone):" << endl;
-    cout << "====================================" << endl << endl;
+    // cout << "====================================" << endl;
+    cout << "Hybrid Client Greedy Route (Car and drone):" << endl;
+    // cout << "====================================" << endl << endl;
     Greedy::add_drone_flight(carro1->getRoute());
     carro1->getRoute()->calcCosts();
     carro1->getRoute()->print();
@@ -46,7 +50,7 @@ int main(){
     //  2 -> Swap DroneStops
     //  3 -> Swap DroneStop and CarStop
 
-    int switcher = 1;
+    int switcher = 4;
 
     cout << endl << endl << endl;
     switch (switcher){
@@ -89,4 +93,27 @@ int main(){
 
 
     return 0;
+}
+
+int main(){
+    // foo("all_maps//map1.csv");
+    // foo("all_maps//map2.csv");
+    // foo("all_maps//map3.csv");
+    // foo("all_maps//map4.csv");
+    // foo("all_maps//map5.csv");
+    // foo("all_maps//map6.csv");
+    // foo("all_maps//map7.csv");
+    // foo("all_maps//map8.csv");
+    // foo("all_maps//map9.csv");
+    // foo("all_maps//map10.csv");
+    // foo("all_maps//map11.csv");
+    // foo("all_maps//map12.csv");
+    // foo("all_maps//map13.csv");
+    // foo("all_maps//map14.csv");
+    // foo("all_maps//map15.csv");
+    // foo("all_maps//map16.csv");
+    // foo("all_maps//map17.csv");
+    // foo("all_maps//map18.csv");
+    // foo("all_maps//map19.csv");
+    foo("all_maps//map20.csv");
 }

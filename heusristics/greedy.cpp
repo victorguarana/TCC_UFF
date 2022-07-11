@@ -20,6 +20,14 @@ class Greedy{
         int rejected_deliveries;
     };
 
+    static DroneStats drone_stats(Drone* t_drone, Flight* t_flight, int t_reject){
+        DroneStats stats;
+        stats.drone = t_drone;
+        stats.actual_flight = t_flight;
+        stats.rejected_deliveries = t_reject;
+        return stats;
+    }
+
     // Returns the nearest point, distance and index
     static PointReturn find_nearest_point(Point* t_actual_position, vector<Point>* t_points){
         Point nearest_point = t_points->at(0);
@@ -61,8 +69,9 @@ class Greedy{
             int rejected_deliveries = t_drones_flying.at(i).rejected_deliveries;
             Point* p_actual_position = p_drone->getActualPosition();
             double distance = Point::distanceBetweenPoints(*t_nearest_client, *p_actual_position);
-            if(p_drone->getRemainingRange() < distance || rejected_deliveries > 2 || p_drone->getRemainingStorage() == 0)
-                drones_to_land.push_back({p_drone, p_flight, 0});
+            if(p_drone->getRemainingRange() < distance || rejected_deliveries > 2 || p_drone->getRemainingStorage() == 0){
+                drones_to_land.push_back(drone_stats(p_drone, p_flight, 0));
+            }
         }
         return drones_to_land;
     }
@@ -269,7 +278,7 @@ class Greedy{
                             p_actual_car_stop->erase();
                             p_actual_car_stop = nullptr;
 
-                            drones_flying.push_back({p_drone, p_actual_flight, 0});
+                            drones_flying.push_back(drone_stats(p_drone, p_actual_flight, 0));
                         }
                     }
                     else{
@@ -287,7 +296,7 @@ class Greedy{
 
                                     // Move to last position to respect priority
                                     drones_flying.erase(drones_flying.begin() + i);
-                                    drones_flying.push_back({p_drone, p_flight, 0});
+                                    drones_flying.push_back(drone_stats(p_drone, p_flight, 0));
                                 }
                             }
                             else{

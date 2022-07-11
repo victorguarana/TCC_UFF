@@ -153,7 +153,10 @@ void Route::calcCosts(){
             for(int i = 0; i < takeoff_flights.size(); i++){
                 Flight* p_actual_flight = takeoff_flights.at(i);
                 p_actual_flight->calcCosts();
-                active_flights.push_back({p_actual_flight, 0});
+                ActiveFlights af;
+                af.flight = p_actual_flight;
+                af.ground_delay_time = 0;
+                active_flights.push_back(af);
             }
         }
         // Add return flight wait time
@@ -231,25 +234,25 @@ void Route::print(){
     if (m_first_stop == nullptr)
         return;
 
-    cout << "Route of: " + m_car->getName() << endl;
+    // cout << "Route of: " + m_car->getName() << endl;
 
-    int index = 1;
-    CarStop* actual_stop = m_first_stop;
-    while (actual_stop != nullptr){
-        cout << "STOP #" << to_string(index) << " -> " << actual_stop->toString() << endl;
+    // int index = 1;
+    // CarStop* actual_stop = m_first_stop;
+    // while (actual_stop != nullptr){
+    //     cout << "STOP #" << to_string(index) << " -> " << actual_stop->toString() << endl;
 
-        if (actual_stop->is_takeoff()){
-            vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
-            for(int i = 0; i < takeoff_flights.size(); i++)
-                takeoff_flights.at(i)->print(index);
-        }
-        actual_stop = actual_stop->m_next;
-        index++;
-    }
+    //     if (actual_stop->is_takeoff()){
+    //         vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
+    //         for(int i = 0; i < takeoff_flights.size(); i++)
+    //             takeoff_flights.at(i)->print(index);
+    //     }
+    //     actual_stop = actual_stop->m_next;
+    //     index++;
+    // }
 
     std::stringstream total_cost;
     total_cost << std::fixed << std::setprecision(2) << m_total_cost;
-    cout << "Route Total Cost: " << total_cost.str() << endl;
+    cout << "Route Total Cost: " << m_total_cost << endl;
 }
 
 #endif
