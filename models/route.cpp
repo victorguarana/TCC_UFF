@@ -71,6 +71,9 @@ void Route::appendCarStopBack(CarStop* t_car_stop){
 }
 // Insert Car Stop after an existing stop
 void Route::insertCarStop(CarStop* t_previous_stop, CarStop* t_new_stop){
+    if (m_last_stop == t_previous_stop)
+        m_last_stop = t_new_stop;
+
     CarStop* p_next_stop = t_previous_stop->m_next;
     if (p_next_stop != nullptr)
         p_next_stop->m_prev = t_new_stop;
