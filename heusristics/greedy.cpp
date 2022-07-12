@@ -291,7 +291,7 @@ class Greedy{
                                 }
                             }
                             else{
-                                drones_flying.at(i).rejected_deliveries = drones_flying.at(i).rejected_deliveries++;
+                                drones_flying.at(i).rejected_deliveries++;
                             }
                         }
 
