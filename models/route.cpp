@@ -129,6 +129,18 @@ void Route::calcCosts(){
 
     vector<ActiveFlights> active_flights;
 
+    if (m_first_stop->is_takeoff()){
+        vector<Flight*> takeoff_flights = m_first_stop->getTakeoffFlights();
+        for(int i = 0; i < takeoff_flights.size(); i++){
+            Flight* p_actual_flight = takeoff_flights.at(i);
+            p_actual_flight->calcCosts();
+            ActiveFlights af;
+            af.flight = p_actual_flight;
+            af.ground_delay_time = 0;
+            active_flights.push_back(af);
+        }
+    }
+
     while (actual_stop->m_next != nullptr){
         distance_backward = Point::distanceBetweenPoints(*last_stop->getPoint(), *actual_stop->getPoint());
         distance_forward = Point::distanceBetweenPoints(*actual_stop->getPoint(), *next_stop->getPoint());
