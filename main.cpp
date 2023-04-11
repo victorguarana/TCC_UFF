@@ -75,8 +75,8 @@ int main(){
         cout << "=================================" << endl;
         cout << "Swap Worsts Stops: Car and Drone:" << endl;
         cout << "=================================" << endl << endl;
+        // TODO: Swap is setting returning flight wrong?
         Ils::swapWorstsStops(carro1->getRoute());
-        Ils::shiftWorstCarToDroneStop(carro1->getRoute());
         break;
     default:
         return 0;
