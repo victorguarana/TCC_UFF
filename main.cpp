@@ -14,22 +14,32 @@ int main(){
 
     vector<Car*> cars;
     Car* carro1 = new Car("Carro1", initial_point);
+    Car* carro2 = new Car("Carro2", initial_point);
     cars.push_back(carro1);
+    cars.push_back(carro2);
 
-    Drone* drone1 = new Drone("Drone 1");
-    Drone* drone2 = new Drone("Drone 2");
+    Drone* drone11 = new Drone("Drone 1.1");
+    Drone* drone12 = new Drone("Drone 1.2");
 
-    carro1->addDrone(drone1);
-    carro1->addDrone(drone2);
+    Drone* drone21 = new Drone("Drone 2.1");
+    Drone* drone22 = new Drone("Drone 2.2");
 
-    cout << "================================" << endl;
+    carro1->addDrone(drone11);
+    carro1->addDrone(drone12);
+    carro2->addDrone(drone21);
+    carro2->addDrone(drone22);
+
+    cout << "================================" << endl; 
     cout << "Initial Greedy Route (Car only):" << endl;
     cout << "================================" << endl << endl;
     Greedy::nearest_client_greedy(initial_map, cars, initial_point);
     //Greedy::best_insertion_greedy(initial_map, cars, initial_point);
-    carro1->getRoute()->calcCosts();
-    carro1->getRoute()->print();
 
+    for(int i = 0; i < cars.size(); i++){
+        cars.at(i)->getRoute()->calcCosts();
+        cars.at(i)->getRoute()->print();
+        cout << endl;
+    }
 
     cout << endl << endl << endl;
 
@@ -37,8 +47,13 @@ int main(){
     cout << "Hybrid Greedy Route (Car and drone):" << endl;
     cout << "====================================" << endl << endl;
     Greedy::add_drone_flight(carro1->getRoute());
-    carro1->getRoute()->calcCosts();
-    carro1->getRoute()->print();
+    Greedy::add_drone_flight(carro2->getRoute());
+
+    for(int i = 0; i < cars.size(); i++){
+        cars.at(i)->getRoute()->calcCosts();
+        cars.at(i)->getRoute()->print();
+        cout << endl;
+    }
 
     // Switcher cases:
     //  0 -> Shift DroneStop to CarStop
@@ -78,12 +93,16 @@ int main(){
         // TODO: Swap is setting returning flight wrong?
         Ils::swapWorstsStops(carro1->getRoute());
         break;
+  
     default:
         return 0;
     }
 
-    carro1->getRoute()->calcCosts();
-    carro1->getRoute()->print();
+    for(int i = 0; i < cars.size(); i++){
+        cars.at(i)->getRoute()->calcCosts();
+        cars.at(i)->getRoute()->print();
+        cout << endl;
+    }
     
     cout << endl;
 
