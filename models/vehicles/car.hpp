@@ -4,8 +4,6 @@
 #include "vehicle.cpp"
 #include "drone.cpp"
 
-#define DEFAULT_CAR_TOTAL_RANGE 500
-#define DEFAULT_CAR_TOTAL_STORAGE 1000
 #define DEFAULT_CAR_SPEED 10
 class Route;
 
