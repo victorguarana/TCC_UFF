@@ -35,6 +35,32 @@ void insertPoint(Map &t_map, vector<string> t_point){
     }
 }
 
+void setNeighbors(Map &t_map){
+    for(int i = 0; i < t_map.clients.size(); i++){
+        Point* actual_point = &t_map.clients.at(i);
+        int nearest_point_distance_1 = -1, nearest_point_distance_2 = -1;
+
+        for(int j = 0; j < t_map.clients.size(); j++){
+            if (i == j) continue;
+            Point* next_point = &t_map.clients.at(j);
+            int next_distance = Point::distanceBetweenPoints(*actual_point, *next_point);
+
+            if (nearest_point_distance_1 == -1 || next_distance < nearest_point_distance_1) {
+                nearest_point_distance_2 = nearest_point_distance_1;
+                nearest_point_distance_1 = next_distance;
+
+                actual_point->setSecondNearestNeigbor(actual_point->getFirstNearestNeigbor());
+                actual_point->setFirstNearestNeigbor(next_point);
+                
+            } else if (nearest_point_distance_2 == -1 || next_distance < nearest_point_distance_2) { 
+                nearest_point_distance_2 = next_distance;
+
+                actual_point->setSecondNearestNeigbor(next_point);
+            }
+        }
+    }
+}
+
 
 Map initializeMap(string t_filename){
     Map map;
@@ -59,6 +85,7 @@ Map initializeMap(string t_filename){
     else
         cout<<"Could not open the file\n";
  
+    setNeighbors(map);
 
     return map;
 }

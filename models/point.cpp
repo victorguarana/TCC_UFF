@@ -5,6 +5,7 @@
 #include <string>
 #include <iomanip>
 #include <sstream>
+#include <list>
 
 using namespace std;
 
@@ -18,6 +19,7 @@ class Point{
     double m_package;
     string m_name;
     pointType m_type;
+    Point* m_nearest_points[2];
 
     // PRIVATE INITIALIZER //
     Point(){
@@ -67,6 +69,22 @@ class Point{
 
     string getName(){
         return m_name;
+    }
+
+    Point* getFirstNearestNeigbor(){
+        return m_nearest_points[0];
+    }
+    Point* getSecondNearestNeigbor(){
+        return m_nearest_points[1];
+    }
+
+
+    // SETTERS //
+    void setFirstNearestNeigbor(Point *neighbor){
+        m_nearest_points[0] = neighbor;
+    }
+    void setSecondNearestNeigbor(Point *neighbor){
+        m_nearest_points[1] = neighbor;
     }
 
 
