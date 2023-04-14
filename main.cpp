@@ -9,7 +9,7 @@
 
 int main(){
 
-    Map initial_map = initializeMap("all_maps//map1.csv");
+    Map initial_map = Map::initializeMap("all_maps//map1.csv");
     Point initial_point = initial_map.deposits.at(0);
 
     vector<Car*> cars;
