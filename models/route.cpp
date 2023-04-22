@@ -6,11 +6,13 @@
 
 #include "route.hpp"
 
-#include "vehicles/car.cpp"
-#include "point.cpp"
-#include "car_stop.cpp"
-#include "drone_stop.cpp"
-#include "flight.cpp"
+#include "vehicles/vehicle.hpp"
+#include "vehicles/car.hpp"
+#include "vehicles/drone.hpp"
+#include "point.hpp"
+#include "car_stop.hpp"
+// #include "drone_stop.cpp"
+#include "flight.hpp"
 
 using namespace std;
 

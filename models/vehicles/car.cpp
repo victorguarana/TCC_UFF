@@ -2,6 +2,7 @@
 #define CAR_CPP
 
 #include "car.hpp"
+#include "../point.hpp"
 #include "../route.hpp"
 
 // CONSTRUCTORS //

@@ -3,8 +3,8 @@
 
 #include "drone_stop.hpp"
 
-#include "point.cpp"
-
+#include "flight.hpp"
+#include "point.hpp"
 
 // PRIVATE INITIALIZER //
 DroneStop::DroneStop(Flight* t_this_flight, Point* t_point){
@@ -67,14 +67,6 @@ string DroneStop::toString(){
     std::stringstream cost;
     cost << std::fixed << std::setprecision(2) << m_cost;
     string str = "Point: " + m_point->toString() + " - Stop cost: " + cost.str();
-    //if(m_prev != nullptr)
-    //    str += " | Prev: " + m_prev->getPoint()->getName();
-    //else
-    //    str += " | Prev: NULL ";
-    //if(m_next != nullptr)
-    //    str += " / Next: " + m_next->getPoint()->getName();
-    //else
-    //    str += " / Next: NULL ";
     return str;
 }
 

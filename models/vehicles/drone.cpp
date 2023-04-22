@@ -2,6 +2,7 @@
 #define DRONE_CPP
 
 #include "drone.hpp"
+#include "../point.hpp"
 
 Drone::Drone(){
     setTotalRange(DEFAULT_DRONE_TOTAL_RANGE);

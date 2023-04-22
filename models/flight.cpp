@@ -5,8 +5,12 @@
 
 #include "flight.hpp"
 
-#include "drone_stop.cpp"
-#include "vehicles/drone.cpp"
+#include "car_stop.hpp"
+#include "drone_stop.hpp"
+#include "point.hpp"
+#include "route.hpp"
+#include "vehicles/car.hpp"
+#include "vehicles/drone.hpp"
 
 using namespace std;
 

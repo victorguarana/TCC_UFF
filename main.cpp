@@ -1,5 +1,11 @@
+// including *.cpp instead of *.hpp to simplify compilation and run
+
+#include "models/car_stop.cpp"
+#include "models/drone_stop.cpp"
+#include "models/flight.cpp"
 #include "models/point.cpp"
 #include "models/map.cpp"
+#include "models/vehicles/vehicle.cpp"
 #include "models/vehicles/car.cpp"
 #include "models/vehicles/drone.cpp"
 #include "heusristics/greedy.cpp"
