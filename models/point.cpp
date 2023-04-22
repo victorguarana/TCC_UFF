@@ -44,10 +44,10 @@ Point* Point::create(Point t_point){
 
 
 // GETTERS //
-bool Point::is_deposit(){
+bool Point::isDeposit(){
     return m_type == Deposit;
 }
-bool Point::is_client(){
+bool Point::isClient(){
     return m_type == Client;
 }
 
@@ -96,7 +96,7 @@ string Point::toString(){
     package << std::fixed << std::setprecision(2) << m_package;
 
     string str = m_name + " (Pos: " + latitude.str() +  " : " + longitude.str() + ")";
-    if (is_client())
+    if (isClient())
         str += " Pacote: " + package.str();
 
     return str;

@@ -43,8 +43,8 @@ class Point{
 
 
     // GETTERS //
-    bool is_deposit();
-    bool is_client();
+    bool isDeposit();
+    bool isClient();
 
     double getPackage();
 

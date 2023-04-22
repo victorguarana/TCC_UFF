@@ -231,7 +231,7 @@ class Greedy{
             p_last_point = p_last_car_stop->getPoint();
             p_actual_point = p_actual_car_stop->getPoint();
 
-            if (p_actual_point->is_client()){
+            if (p_actual_point->isClient()){
                 p_next_point = p_next_car_stop->getPoint();
 
                 // Do not need to validate car storage

@@ -38,10 +38,10 @@ class CarStop {
     Point* getPoint();
     Route* getRoute();
     double getCost();
-    bool is_takeoff();
-    bool is_return();
-    bool is_first();
-    bool is_last();
+    bool isTakeoff();
+    bool isReturn();
+    bool isFirst();
+    bool isLast();
     vector<Flight*> getTakeoffFlights();
     vector<Flight*> getReturnFlights();
 

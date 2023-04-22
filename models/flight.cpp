@@ -155,7 +155,7 @@ void Flight::calcCosts(){
 
     p_actual_stop->setCost(distance_backward + distance_forward);
 }
-bool Flight::is_empty(){
+bool Flight::isEmpty(){
     return m_last_stop == nullptr && m_first_stop == nullptr;
 }
 void Flight::removeFromRoute(){

@@ -26,10 +26,10 @@ DroneStop* DroneStop::create(Flight* t_flight, Point* t_point){
 double DroneStop::getCost(){
     return m_cost;
 }
-bool DroneStop::is_first(){
+bool DroneStop::isFirst(){
     return m_prev == nullptr;
 }
-bool DroneStop::is_last(){
+bool DroneStop::isLast(){
     return m_next == nullptr;
 }
 Point* DroneStop::getPoint(){
@@ -52,7 +52,7 @@ void DroneStop::setFlight(Flight* t_flight){
 // OPERATIONS //
 void DroneStop::removeFromRoute(){
     m_this_flight->removeDroneStop(this);
-    if (m_this_flight->is_empty()){
+    if (m_this_flight->isEmpty()){
         m_this_flight->removeFromRoute();
         m_this_flight->erase();
     }

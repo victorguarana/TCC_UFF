@@ -28,7 +28,7 @@ class Ils{
             actual_car_cost = p_actual_car_stop->getCost();
 
             // Define CarStop cost
-            if (p_actual_car_stop->getPoint()->is_client()){
+            if (p_actual_car_stop->getPoint()->isClient()){
                 if (actual_car_cost > worst_car_cost){
                     worst_car_cost = actual_car_cost;
                     p_worst_car_stop = p_actual_car_stop;
@@ -48,7 +48,7 @@ class Ils{
 
         while(p_actual_car_stop != nullptr){
             //Define DroneStop cost
-            if(p_actual_car_stop->is_takeoff()){
+            if(p_actual_car_stop->isTakeoff()){
                 vector<Flight*> flights = p_actual_car_stop->getTakeoffFlights();
                 for(int i = 0; i < flights.size(); i++){
                     p_actual_drone_stop = findWorstDroneStopInFlight(flights.at(i));
@@ -76,7 +76,7 @@ class Ils{
 
         while(p_actual_car_stop != nullptr){
             //Define DroneStop cost
-            if(p_actual_car_stop->is_takeoff()){
+            if(p_actual_car_stop->isTakeoff()){
                 vector<Flight*> flights = p_actual_car_stop->getTakeoffFlights();
                 for(int i = 0; i < flights.size(); i++){
                     // Ignore flights that belongs to the drone that has the worst stop
@@ -109,7 +109,7 @@ class Ils{
             actual_car_cost = p_actual_car_stop->getCost();
 
             // Define CarStop cost
-            if (p_actual_car_stop->getPoint()->is_client()){
+            if (p_actual_car_stop->getPoint()->isClient()){
                 if (actual_car_cost > worst_car_cost){
                     worst_car_cost = actual_car_cost;
                     p_worst_car_stop = p_actual_car_stop;
@@ -117,7 +117,7 @@ class Ils{
             }
 
             //Define DroneStop cost
-            if(p_actual_car_stop->is_takeoff()){
+            if(p_actual_car_stop->isTakeoff()){
                 vector<Flight*> flights = p_actual_car_stop->getTakeoffFlights();
                 for(int i = 0; i < flights.size(); i++){
                     p_actual_drone_stop = findWorstDroneStopInFlight(flights.at(i));
@@ -200,7 +200,7 @@ class Ils{
         while(p_actual_car_stop->m_next != nullptr){
 
             // Trying to position new drone stop in all flights
-            if (p_actual_car_stop->is_takeoff()){
+            if (p_actual_car_stop->isTakeoff()){
                 //p_drone->takeOff(p_actual_car_stop->getPoint());
 
                 vector<Flight*> flights = p_actual_car_stop->getTakeoffFlights();
@@ -244,7 +244,7 @@ class Ils{
             }
 
             // Trying to create new flight to position the new drone stop
-            else if (p_actual_car_stop->is_return()){
+            else if (p_actual_car_stop->isReturn()){
                 vector<Flight*> flights = p_actual_car_stop->getReturnFlights();
                 for(int i = 0; i < flights.size(); i++){
                     flights.at(i)->getDrone()->land();
@@ -322,7 +322,7 @@ class Ils{
         Flight* p_drone_stop_flight = remove_drone_stop->getFlight();
         remove_drone_stop->removeFromRoute();
         remove_drone_stop->erase();
-        if (p_drone_stop_flight->is_empty()){
+        if (p_drone_stop_flight->isEmpty()){
             p_drone_stop_flight->removeFromRoute();
             p_drone_stop_flight->erase();
         }
@@ -356,7 +356,7 @@ class Ils{
         Flight* p_drone_stop_flight = remove_drone_stop->getFlight();
         remove_drone_stop->removeFromRoute();
         remove_drone_stop->erase();
-        if (p_drone_stop_flight->is_empty()){
+        if (p_drone_stop_flight->isEmpty()){
             p_drone_stop_flight->removeFromRoute();
             p_drone_stop_flight->erase();
         }
@@ -383,7 +383,7 @@ class Ils{
         Flight* p_drone_stop_flight = p_worst_drone_stop_1->getFlight();
         p_worst_drone_stop_1->removeFromRoute();
         p_worst_drone_stop_1->erase();
-        if (p_drone_stop_flight->is_empty()){
+        if (p_drone_stop_flight->isEmpty()){
             p_drone_stop_flight->removeFromRoute();
             p_drone_stop_flight->erase();
         }
@@ -391,7 +391,7 @@ class Ils{
         p_drone_stop_flight = p_worst_drone_stop_2->getFlight();
         p_worst_drone_stop_2->removeFromRoute();
         p_worst_drone_stop_2->erase();
-        if (p_drone_stop_flight->is_empty()){
+        if (p_drone_stop_flight->isEmpty()){
             p_drone_stop_flight->removeFromRoute();
             p_drone_stop_flight->erase();
         }

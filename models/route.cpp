@@ -131,7 +131,7 @@ void Route::calcCosts(){
 
     vector<ActiveFlights> active_flights;
 
-    if (m_first_stop->is_takeoff()){
+    if (m_first_stop->isTakeoff()){
         vector<Flight*> takeoff_flights = m_first_stop->getTakeoffFlights();
         for(int i = 0; i < takeoff_flights.size(); i++){
             Flight* p_actual_flight = takeoff_flights.at(i);
@@ -150,7 +150,7 @@ void Route::calcCosts(){
         actual_stop->setCost(distance_backward + distance_forward);
         m_total_cost += distance_backward / car_speed;
 
-        if (actual_stop->is_takeoff()){
+        if (actual_stop->isTakeoff()){
             vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
             for(int i = 0; i < takeoff_flights.size(); i++){
                 Flight* p_actual_flight = takeoff_flights.at(i);
@@ -159,7 +159,7 @@ void Route::calcCosts(){
             }
         }
         // Add return flight wait time
-        if(actual_stop->is_return()){
+        if(actual_stop->isReturn()){
             vector<Flight*> return_flights = actual_stop->getReturnFlights();
             for(int i = 0; i < return_flights.size(); i++){
                 Flight* p_return_flight = return_flights.at(i);
@@ -213,7 +213,7 @@ bool Route::isValid(){
             return false;
 
         actual_car->deliver(actual_stop->getPoint());
-        if(actual_stop->is_takeoff()){
+        if(actual_stop->isTakeoff()){
             vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
             for(int i = 0; i < takeoff_flights.size(); i++){
                 if (!takeoff_flights.at(i)->isValid())
@@ -240,7 +240,7 @@ void Route::print(){
     while (actual_stop != nullptr){
         cout << "STOP #" << to_string(index) << " -> " << actual_stop->toString() << endl;
 
-        if (actual_stop->is_takeoff()){
+        if (actual_stop->isTakeoff()){
             vector<Flight*> takeoff_flights = actual_stop->getTakeoffFlights();
             for(int i = 0; i < takeoff_flights.size(); i++)
                 takeoff_flights.at(i)->print(index);

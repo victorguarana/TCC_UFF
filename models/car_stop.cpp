@@ -34,16 +34,16 @@ Point* CarStop::getPoint(){
 Route* CarStop::getRoute(){
     return m_this_route;
 }
-bool CarStop::is_takeoff(){
+bool CarStop::isTakeoff(){
     return !m_takeoff_flights.empty();
 }
-bool CarStop::is_return(){
+bool CarStop::isReturn(){
     return !m_return_flights.empty();
 }
-bool CarStop::is_first(){
+bool CarStop::isFirst(){
     return m_prev == nullptr;
 }
-bool CarStop::is_last(){
+bool CarStop::isLast(){
     return m_next == nullptr;
 }
 vector<Flight*> CarStop::getTakeoffFlights(){
