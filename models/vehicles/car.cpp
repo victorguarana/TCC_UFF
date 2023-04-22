@@ -2,7 +2,7 @@
 #define CAR_CPP
 
 #include "car.hpp"
-#include "../route.cpp"
+#include "../route.hpp"
 
 // CONSTRUCTORS //
 // "Clean" constructor
