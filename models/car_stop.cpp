@@ -10,6 +10,7 @@
 // Future: When implementing multiple drones, use vectors to represent flights and return and takeoff (?)
 // PRIVATE INITIALIZER //
 CarStop::CarStop(Route* t_route, Point* t_point){
+    t_point->setCarStop(this);
     m_this_route = t_route;
     m_point = t_point;
     m_cost = 0;
@@ -123,6 +124,7 @@ void CarStop::removeFromRoute(){
             p_flight->setTakeoffStop(m_next);
     }
 
+    m_point->setCarStop(nullptr);
     m_this_route->removeCarStop(this);
 }
 void CarStop::erase(){

@@ -19,6 +19,58 @@ class Ils{
         DroneStop* p_drone_stop;
     };
 
+
+    /* Find worst Car Stop by checking all car stops in route
+     Returns the Car Stop with the the biggest cost and when the nearest client is not in the same route */
+    static CarStop* findWorstCarStopV2(Route* t_route){
+        CarStop* p_actual_car_stop = t_route->getFirstStop();
+        CarStop* p_worst_car_stop = nullptr;
+        double actual_car_cost, worst_car_cost=-1;
+
+        while(p_actual_car_stop != nullptr){
+            //Ignore car stop when closest point is in the same route
+            if (p_actual_car_stop->getPoint()->getFirstNearestNeigbor()->getCarStop()->getRoute() == t_route) continue;
+
+            actual_car_cost = p_actual_car_stop->getCost();
+
+            // Define CarStop cost
+            if (p_actual_car_stop->getPoint()->isClient()){
+                if (actual_car_cost > worst_car_cost){
+                    worst_car_cost = actual_car_cost;
+                    p_worst_car_stop = p_actual_car_stop;
+                }
+            }
+
+            p_actual_car_stop = p_actual_car_stop->m_next;
+        }
+
+        if (p_worst_car_stop != nullptr) return p_worst_car_stop;
+
+        p_actual_car_stop = t_route->getFirstStop();
+        actual_car_cost, worst_car_cost=-1;
+
+        while(p_actual_car_stop != nullptr){
+            //Ignore car stop when closest point is in the same route
+            if (p_actual_car_stop->getPoint()->getSecondNearestNeigbor()->getCarStop()->getRoute() == t_route) continue;
+
+            actual_car_cost = p_actual_car_stop->getCost();
+
+            // Define CarStop cost
+            if (p_actual_car_stop->getPoint()->isClient()){
+                if (actual_car_cost > worst_car_cost){
+                    worst_car_cost = actual_car_cost;
+                    p_worst_car_stop = p_actual_car_stop;
+                }
+            }
+
+            p_actual_car_stop = p_actual_car_stop->m_next;
+        }
+
+        return p_worst_car_stop;
+    }
+
+    /* Find worst Car Stop by checking all car stops in route
+     Returns the Car Stop with the biggest cost */
     static CarStop* findWorstCarStop(Route* t_route){
         CarStop* p_actual_car_stop = t_route->getFirstStop();
         CarStop* p_worst_car_stop = nullptr;
@@ -403,27 +455,21 @@ class Ils{
     }
 
     // This swap is not used anymore
-    /*
     static void swapWorstsCarStops(Route* t_route1, Route* t_route2){
-        CarStop* p_worst_car_stop_1 = findWorstCarStop(t_route1);
         CarStop* p_worst_car_stop_2 = findWorstCarStop(t_route2);
-
-        cout << "Worst Car Stop 1: " + p_worst_car_stop_1->toString() << endl;
         cout << "Worst Car Stop 2: " + p_worst_car_stop_2->toString() << endl;
-
         CarStop* p_new_car_stop_1 = CarStop::create(t_route1, p_worst_car_stop_2->getPoint());
-        CarStop* p_new_car_stop_2 = CarStop::create(t_route2, p_worst_car_stop_1->getPoint());
-
-        p_worst_car_stop_1->removeFromRoute();
-        p_worst_car_stop_1->erase();
         p_worst_car_stop_2->removeFromRoute();
         p_worst_car_stop_2->erase();
-
         addCarStopToRoute(t_route1, p_new_car_stop_1);
-        addCarStopToRoute(t_route2, p_new_car_stop_2);
 
+        CarStop* p_worst_car_stop_1 = findWorstCarStop(t_route1);
+        cout << "Worst Car Stop 1: " + p_worst_car_stop_1->toString() << endl;
+        CarStop* p_new_car_stop_2 = CarStop::create(t_route2, p_worst_car_stop_1->getPoint());
+        p_worst_car_stop_1->removeFromRoute();
+        p_worst_car_stop_1->erase();
+        addCarStopToRoute(t_route2, p_new_car_stop_2);
     }
-    */
 };
 
 #endif

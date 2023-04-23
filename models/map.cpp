@@ -51,7 +51,7 @@ class Map{
 
                         actual_point->setSecondNearestNeigbor(actual_point->getFirstNearestNeigbor());
                         actual_point->setFirstNearestNeigbor(next_point);
-                        
+
                     } else if (nearest_point_distance_2 == -1 || next_distance < nearest_point_distance_2) { 
                         nearest_point_distance_2 = next_distance;
 
