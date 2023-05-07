@@ -1,7 +1,7 @@
 #ifndef DRONESTOP_HPP
 #define DRONESTOP_HPP
 
-#include<string>
+#include <string>
 
 using namespace std;
 
@@ -31,8 +31,8 @@ class DroneStop {
 
 
     // GETTERS//
-    bool is_first();
-    bool is_last();
+    bool isFirst();
+    bool isLast();
     double getCost();
     Point* getPoint();
     Flight* getFlight();

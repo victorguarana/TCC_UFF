@@ -3,8 +3,8 @@
 
 #include "drone_stop.hpp"
 
-#include "point.cpp"
-
+#include "flight.hpp"
+#include "point.hpp"
 
 // PRIVATE INITIALIZER //
 DroneStop::DroneStop(Flight* t_this_flight, Point* t_point){
@@ -26,10 +26,10 @@ DroneStop* DroneStop::create(Flight* t_flight, Point* t_point){
 double DroneStop::getCost(){
     return m_cost;
 }
-bool DroneStop::is_first(){
+bool DroneStop::isFirst(){
     return m_prev == nullptr;
 }
-bool DroneStop::is_last(){
+bool DroneStop::isLast(){
     return m_next == nullptr;
 }
 Point* DroneStop::getPoint(){
@@ -52,7 +52,7 @@ void DroneStop::setFlight(Flight* t_flight){
 // OPERATIONS //
 void DroneStop::removeFromRoute(){
     m_this_flight->removeDroneStop(this);
-    if (m_this_flight->is_empty()){
+    if (m_this_flight->isEmpty()){
         m_this_flight->removeFromRoute();
         m_this_flight->erase();
     }
@@ -67,14 +67,6 @@ string DroneStop::toString(){
     std::stringstream cost;
     cost << std::fixed << std::setprecision(2) << m_cost;
     string str = "Point: " + m_point->toString() + " - Stop cost: " + cost.str();
-    //if(m_prev != nullptr)
-    //    str += " | Prev: " + m_prev->getPoint()->getName();
-    //else
-    //    str += " | Prev: NULL ";
-    //if(m_next != nullptr)
-    //    str += " / Next: " + m_next->getPoint()->getName();
-    //else
-    //    str += " / Next: NULL ";
     return str;
 }
 

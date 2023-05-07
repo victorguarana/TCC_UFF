@@ -31,11 +31,8 @@
 *.out
 *.app
 
-# Ignore files without extension
-*
-!/**/
-!*.*
-!TODO
+# Ignore main file
+main*
 
 # Ignore VS Code files
 /.vscode/*

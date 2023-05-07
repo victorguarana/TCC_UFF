@@ -52,7 +52,7 @@ class Flight {
 
     // OTHER FUNCTIONS //
     void calcCosts();
-    bool is_empty();
+    bool isEmpty();
     void removeFromRoute();
     void erase();
     void attachFlight(Flight*);

@@ -3,12 +3,14 @@
 
 #include "car_stop.hpp"
 
-#include "point.cpp"
-#include "flight.cpp"
+#include "route.hpp"
+#include "point.hpp"
+#include "flight.hpp"
 
 // Future: When implementing multiple drones, use vectors to represent flights and return and takeoff (?)
 // PRIVATE INITIALIZER //
 CarStop::CarStop(Route* t_route, Point* t_point){
+    t_point->setCarStop(this);
     m_this_route = t_route;
     m_point = t_point;
     m_cost = 0;
@@ -33,16 +35,16 @@ Point* CarStop::getPoint(){
 Route* CarStop::getRoute(){
     return m_this_route;
 }
-bool CarStop::is_takeoff(){
+bool CarStop::isTakeoff(){
     return !m_takeoff_flights.empty();
 }
-bool CarStop::is_return(){
+bool CarStop::isReturn(){
     return !m_return_flights.empty();
 }
-bool CarStop::is_first(){
+bool CarStop::isFirst(){
     return m_prev == nullptr;
 }
-bool CarStop::is_last(){
+bool CarStop::isLast(){
     return m_next == nullptr;
 }
 vector<Flight*> CarStop::getTakeoffFlights(){
@@ -122,6 +124,7 @@ void CarStop::removeFromRoute(){
             p_flight->setTakeoffStop(m_next);
     }
 
+    m_point->setCarStop(nullptr);
     m_this_route->removeCarStop(this);
 }
 void CarStop::erase(){

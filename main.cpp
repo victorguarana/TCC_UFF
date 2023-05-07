@@ -1,5 +1,12 @@
+// including *.cpp instead of *.hpp to simplify compilation and run
+
+#include "models/car_stop.cpp"
+#include "models/drone_stop.cpp"
+#include "models/flight.cpp"
 #include "models/point.cpp"
+#include "models/car_stop.cpp"
 #include "models/map.cpp"
+#include "models/vehicles/vehicle.cpp"
 #include "models/vehicles/car.cpp"
 #include "models/vehicles/drone.cpp"
 #include "heusristics/greedy.cpp"
@@ -9,7 +16,7 @@
 
 int main(){
 
-    Map initial_map = initializeMap("all_maps//map1.csv");
+    Map initial_map = Map::initializeMap("all_maps//map1.csv");
     Point initial_point = initial_map.deposits.at(0);
 
     vector<Car*> cars;
@@ -60,8 +67,9 @@ int main(){
     //  1 -> Shift CarStop to DroneStop
     //  2 -> Swap DroneStops
     //  3 -> Swap DroneStop and CarStop
+    //  4 -> Swap CarStops
 
-    int switcher = 1;
+    int switcher = 4;
 
     cout << endl << endl << endl;
     switch (switcher){
@@ -92,6 +100,14 @@ int main(){
         cout << "=================================" << endl << endl;
         // TODO: Swap is setting returning flight wrong?
         Ils::swapWorstsStops(carro1->getRoute());
+        break;
+  
+  
+      case 4:
+        cout << "==============" << endl;
+        cout << "Swap Car Stops" << endl;
+        cout << "==============" << endl << endl;
+        Ils::swapWorstsCarStops(carro1->getRoute(), carro2->getRoute());
         break;
   
     default:

@@ -5,8 +5,12 @@
 
 #include "flight.hpp"
 
-#include "drone_stop.cpp"
-#include "vehicles/drone.cpp"
+#include "car_stop.hpp"
+#include "drone_stop.hpp"
+#include "point.hpp"
+#include "route.hpp"
+#include "vehicles/car.hpp"
+#include "vehicles/drone.hpp"
 
 using namespace std;
 
@@ -151,7 +155,7 @@ void Flight::calcCosts(){
 
     p_actual_stop->setCost(distance_backward + distance_forward);
 }
-bool Flight::is_empty(){
+bool Flight::isEmpty(){
     return m_last_stop == nullptr && m_first_stop == nullptr;
 }
 void Flight::removeFromRoute(){

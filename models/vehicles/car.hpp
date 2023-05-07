@@ -1,11 +1,13 @@
 #ifndef CAR_HPP
 #define CAR_HPP
 
-#include "vehicle.cpp"
-#include "drone.cpp"
+#include <vector>
+
+#include "vehicle.hpp"
 
 #define DEFAULT_CAR_SPEED 10
 class Route;
+class Drone;
 
 class Car : public Vehicle {
     private:
