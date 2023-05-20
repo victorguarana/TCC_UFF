@@ -132,9 +132,19 @@ void CarStop::erase(){
     delete this;
 }
 
+void CarStop::completeErase(){
+    if(this->isTakeoff())
+        for (auto &&flight : m_takeoff_flights)
+            flight->completeErase();
+
+    delete this;
+}
+
 
 CarStop* CarStop::duplicate(Route* t_route){
     CarStop* new_carstop = new CarStop(t_route, m_point);
+    new_carstop->m_cost = m_cost;
+
     if (m_next != nullptr){
         new_carstop->m_next = m_next->duplicate(t_route);
         new_carstop->m_next->m_prev = new_carstop;

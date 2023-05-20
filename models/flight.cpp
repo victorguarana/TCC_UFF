@@ -169,6 +169,14 @@ void Flight::removeFromRoute(){
 void Flight::erase(){
     delete this;
 }
+void Flight::completeErase(){
+    while(m_first_stop != nullptr){
+        m_first_stop->erase();
+        m_first_stop = m_first_stop->m_next;
+    }
+    
+    delete this;
+}
 void Flight::attachFlight(Flight* t_flight){
     m_landing = t_flight->getLandingStop();
 
@@ -301,11 +309,13 @@ bool Flight::isValid(){
 Flight* Flight::duplicate(CarStop* t_takeoff, CarStop* t_landing){
     Flight* new_flight = new Flight(t_takeoff, m_drone);
     new_flight->m_landing = t_landing;
+    new_flight->m_total_cost = m_total_cost;
+
     if(m_first_stop != nullptr){
         new_flight->m_first_stop = m_first_stop->duplicate(new_flight);
         new_flight->m_first_stop->setFlight(new_flight);
     }
-    return new Flight(*this);
+    return new_flight;
 }
 
 

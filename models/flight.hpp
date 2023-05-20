@@ -59,6 +59,7 @@ class Flight {
     // Spit the flight in one or more valid flights
     void splitToValidFlights();
     bool isValid();
+    void completeErase();
 
     Flight* duplicate(CarStop*, CarStop*);
 

@@ -33,6 +33,7 @@ class Car : public Vehicle {
     void deliver(Point*);
     void support(double);
 
+    void changeRoute(Route *t_route);
 
 };
 

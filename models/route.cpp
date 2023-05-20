@@ -230,6 +230,7 @@ bool Route::isValid(){
 // Copy an Route and return a pointer to the new one
 Route* Route::duplicate(){
     Route* new_route = new Route(m_car);
+    new_route->m_total_cost = m_total_cost;
 
     if (m_first_stop != nullptr){
         new_route->m_first_stop = m_first_stop->duplicate(new_route);
@@ -240,6 +241,14 @@ Route* Route::duplicate(){
         m_last_stop = m_last_stop->m_next;
     
     return new_route;
+}
+
+void Route::completeErase(){
+    while(m_first_stop != nullptr){
+        m_first_stop->completeErase();
+        m_first_stop = m_first_stop->m_next;
+    }
+    delete this;
 }
 
 
