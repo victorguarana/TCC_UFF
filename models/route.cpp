@@ -234,11 +234,11 @@ Route* Route::duplicate(){
 
     if (m_first_stop != nullptr){
         new_route->m_first_stop = m_first_stop->duplicate(new_route);
-    }
 
-    m_last_stop = m_first_stop;
-    while(m_last_stop->m_next != nullptr)
-        m_last_stop = m_last_stop->m_next;
+        new_route->m_last_stop = new_route->m_first_stop;
+        while(new_route->m_last_stop->m_next != nullptr)
+            new_route->m_last_stop = new_route->m_last_stop->m_next;
+    }
     
     return new_route;
 }

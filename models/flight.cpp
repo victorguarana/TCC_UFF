@@ -313,7 +313,10 @@ Flight* Flight::duplicate(CarStop* t_takeoff, CarStop* t_landing){
 
     if(m_first_stop != nullptr){
         new_flight->m_first_stop = m_first_stop->duplicate(new_flight);
-        new_flight->m_first_stop->setFlight(new_flight);
+
+        new_flight->m_last_stop = new_flight->m_first_stop;
+        while(new_flight->m_last_stop->m_next != nullptr) 
+            new_flight->m_last_stop = new_flight->m_last_stop->m_next;
     }
     return new_flight;
 }
