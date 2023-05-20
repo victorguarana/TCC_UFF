@@ -298,6 +298,16 @@ bool Flight::isValid(){
     return true;
 }
 
+Flight* Flight::duplicate(CarStop* t_takeoff, CarStop* t_landing){
+    Flight* new_flight = new Flight(t_takeoff, m_drone);
+    new_flight->m_landing = t_landing;
+    if(m_first_stop != nullptr){
+        new_flight->m_first_stop = m_first_stop->duplicate(new_flight);
+        new_flight->m_first_stop->setFlight(new_flight);
+    }
+    return new Flight(*this);
+}
+
 
 // PRINTING //
 void Flight::print(int index){

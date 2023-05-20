@@ -61,6 +61,15 @@ void DroneStop::erase(){
     delete this;
 }
 
+DroneStop* DroneStop::duplicate(Flight* t_flight){
+    DroneStop* new_dronestop = new DroneStop(t_flight, m_point);
+    if(m_next != nullptr){
+        new_dronestop->m_next = m_next->duplicate(t_flight);
+        new_dronestop->m_next->m_prev = new_dronestop;
+    }
+    return new_dronestop;
+}
+
 
 // PRINTING //
 string DroneStop::toString(){

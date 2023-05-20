@@ -60,6 +60,8 @@ class Flight {
     void splitToValidFlights();
     bool isValid();
 
+    Flight* duplicate(CarStop*, CarStop*);
+
     // PRINTING //
     void print(int);
 };

@@ -11,7 +11,7 @@
 // PRIVATE INITIALIZER //
 CarStop::CarStop(Route* t_route, Point* t_point){
     t_point->setCarStop(this);
-    m_this_route = t_route;
+    m_route = t_route;
     m_point = t_point;
     m_cost = 0;
     m_next = nullptr;
@@ -33,7 +33,7 @@ Point* CarStop::getPoint(){
     return m_point;
 }
 Route* CarStop::getRoute(){
-    return m_this_route;
+    return m_route;
 }
 bool CarStop::isTakeoff(){
     return !m_takeoff_flights.empty();
@@ -125,10 +125,32 @@ void CarStop::removeFromRoute(){
     }
 
     m_point->setCarStop(nullptr);
-    m_this_route->removeCarStop(this);
+    m_route->removeCarStop(this);
 }
+
 void CarStop::erase(){
     delete this;
+}
+
+
+CarStop* CarStop::duplicate(Route* t_route){
+    CarStop* new_carstop = new CarStop(t_route, m_point);
+    if (m_next != nullptr){
+        new_carstop->m_next = m_next->duplicate(t_route);
+        new_carstop->m_next->m_prev = new_carstop;
+    }
+    if (this->isTakeoff()){
+        for (auto &&flight : m_takeoff_flights){
+            CarStop* landing = new_carstop;
+            CarStop* aux = this;
+            while(aux != flight->getLandingStop()){
+                aux = aux->m_next;
+                landing = landing->m_next;
+            }
+            new_carstop->addTakeoffFlight(flight->duplicate(new_carstop, landing));
+        }
+    }
+    return new_carstop;
 }
 
 
