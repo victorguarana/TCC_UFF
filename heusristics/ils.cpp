@@ -162,10 +162,12 @@ class Ils{
 
             // Define CarStop cost
             if (p_actual_car_stop->getPoint()->isClient()){
-                if (actual_car_cost > worst_car_cost){
-                    worst_car_cost = actual_car_cost;
-                    p_worst_car_stop = p_actual_car_stop;
-                }
+                // Avoid to select a stop that cant be delivered by a drone
+                if (p_actual_car_stop->getPoint()->getPackage() <= Drone::defaultStorage())
+                    if (actual_car_cost > worst_car_cost){
+                        worst_car_cost = actual_car_cost;
+                        p_worst_car_stop = p_actual_car_stop;
+                    }
             }
 
             //Define DroneStop cost
@@ -174,12 +176,10 @@ class Ils{
                 for(int i = 0; i < flights.size(); i++){
                     p_actual_drone_stop = findWorstDroneStopInFlight(flights.at(i));
                     actual_drone_cost = p_actual_drone_stop->getCost();
-                    // Avoid to select a stop that cant be delivered by a drone
-                    if (p_actual_car_stop->getPoint()->getPackage() <= Drone::defaultStorage())
-                        if(actual_drone_cost > worst_drone_cost){
-                            worst_drone_cost = actual_drone_cost;
-                            p_worst_drone_stop = p_actual_drone_stop;
-                        }
+                    if(actual_drone_cost > worst_drone_cost){
+                        worst_drone_cost = actual_drone_cost;
+                        p_worst_drone_stop = p_actual_drone_stop;
+                    }
                 }
             }
 
