@@ -120,6 +120,14 @@ int main(){
         carro1->changeRoute(backup_route1->duplicate());
     }
 
+    carro1->getRoute()->toFile("result.csv");
+
+    for(int i = 0; i < cars.size(); i++){
+        cars.at(i)->getRoute()->calcCosts();
+        cars.at(i)->getRoute()->print();
+        cout << endl;
+    }
+    
     cout << endl;
 
 

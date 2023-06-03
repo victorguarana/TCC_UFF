@@ -101,6 +101,15 @@ string Point::toString(){
 
     return str;
 }
+string Point::toStringFile(){
+    std::stringstream latitude, longitude;
+    latitude << std::fixed << std::setprecision(2) << m_latitude;
+    longitude << std::fixed << std::setprecision(2) << m_longitude;
+
+    string str = m_name + ";" + latitude.str() +  ";" + longitude.str();
+
+    return str;
+}
 
 // OPERATIONS //
 bool Point::equal(Point t_point){

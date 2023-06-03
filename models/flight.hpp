@@ -64,6 +64,7 @@ class Flight {
 
     // PRINTING //
     void print(int);
+    string toStringFile();
 };
 
 #endif

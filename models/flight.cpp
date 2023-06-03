@@ -339,4 +339,17 @@ void Flight::print(int index){
 
 }
 
+string Flight::toStringFile(){
+    std::stringstream str;
+    str << "D;" + m_takeoff->getPoint()->toStringFile() + ';' + m_first_stop->getPoint()->toStringFile() + '\n';
+
+    DroneStop *aux = m_first_stop;
+    while(aux != nullptr){
+        str << aux->toStringFile();
+        aux = aux->m_next;
+    }
+
+    return str.str();
+}
+
 #endif

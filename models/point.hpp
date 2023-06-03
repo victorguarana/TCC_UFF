@@ -65,6 +65,7 @@ class Point{
 
     // STRINGFY //
     string toString();
+    string toStringFile();
 
     // OPERATIONS //
     bool equal(Point);

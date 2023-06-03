@@ -60,6 +60,7 @@ class Route {
 
     // PRINTING //
     void print();
+    void toFile(string);
 };
 
 #endif

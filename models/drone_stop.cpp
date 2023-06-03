@@ -5,6 +5,7 @@
 
 #include "flight.hpp"
 #include "point.hpp"
+#include "car_stop.hpp"
 
 // PRIVATE INITIALIZER //
 DroneStop::DroneStop(Flight* t_this_flight, Point* t_point){
@@ -79,6 +80,18 @@ string DroneStop::toString(){
     cost << std::fixed << std::setprecision(2) << m_cost;
     string str = "Point: " + m_point->toString() + " - Stop cost: " + cost.str();
     return str;
+}
+
+string DroneStop::toStringFile(){
+    std::stringstream str;
+    str << "D;" + m_point->toStringFile() + ';';
+    if (this->m_next != nullptr){
+        str << m_next->m_point->toStringFile() + '\n';
+    }
+    else{
+        str << m_this_flight->getLandingStop()->getPoint()->toStringFile() + '\n';
+    }
+    return str.str();
 }
 
 #endif

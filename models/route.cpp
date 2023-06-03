@@ -278,4 +278,16 @@ void Route::print(){
     cout << "Route Total Cost: " << total_cost.str() << endl;
 }
 
+void Route::toFile(string fileName){
+    ofstream file(fileName);
+    CarStop *aux = m_first_stop;
+    while(aux != nullptr){
+        file << aux->toStringFile();
+        aux = aux->m_next;
+    }
+
+    file.close();
+}
+
+
 #endif

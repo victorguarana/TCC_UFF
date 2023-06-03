@@ -167,4 +167,18 @@ string CarStop::toString(){
     return str;
 }
 
+string CarStop::toStringFile(){
+    std::stringstream str;
+    if (this->m_next != nullptr){
+        str << "C;" + m_point->toStringFile() + ';' + m_next->m_point->toStringFile() + '\n';
+    }
+    if(this->isTakeoff()){
+        for (Flight *flight : m_takeoff_flights){
+            str << flight->toStringFile();
+        }
+        
+    }
+    return str.str();
+}
+
 #endif

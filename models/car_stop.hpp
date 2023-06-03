@@ -62,6 +62,7 @@ class CarStop {
 
     // PRINTING //
     string toString();
+    string toStringFile();
 };
 
 #endif

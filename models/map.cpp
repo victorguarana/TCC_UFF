@@ -11,7 +11,6 @@
 
 using namespace std;
 
-// DOUBT: Use vectors or linked list to represent?
 class Map{
     public:
         vector<Point> clients;

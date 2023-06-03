@@ -51,6 +51,7 @@ class DroneStop {
 
     // PRINTING //
     string toString();
+    string toStringFile();
 
 };
 
