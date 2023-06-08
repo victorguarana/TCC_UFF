@@ -374,10 +374,6 @@ class Ils{
         Flight* p_drone_stop_flight = remove_drone_stop->getFlight();
         remove_drone_stop->removeFromRoute();
         remove_drone_stop->erase();
-        if (p_drone_stop_flight->isEmpty()){
-            p_drone_stop_flight->removeFromRoute();
-            p_drone_stop_flight->erase();
-        }
 
         addCarStopToRoute(t_route, new_car_stop);
     }
@@ -405,13 +401,8 @@ class Ils{
         CarStop* new_car_stop = CarStop::create(t_route, remove_drone_stop->getPoint());
         DroneStop* new_drone_stop = DroneStop::create(nullptr, remove_car_stop->getPoint());
 
-        Flight* p_drone_stop_flight = remove_drone_stop->getFlight();
         remove_drone_stop->removeFromRoute();
         remove_drone_stop->erase();
-        if (p_drone_stop_flight->isEmpty()){
-            p_drone_stop_flight->removeFromRoute();
-            p_drone_stop_flight->erase();
-        }
 
         remove_car_stop->removeFromRoute();
         remove_car_stop->erase();
@@ -431,23 +422,11 @@ class Ils{
         DroneStop* p_new_drone_stop_1 = DroneStop::create(nullptr, p_worst_drone_stop_2->getPoint());
         DroneStop* p_new_drone_stop_2 = DroneStop::create(nullptr, p_worst_drone_stop_1->getPoint());
 
-
-        Flight* p_drone_stop_flight = p_worst_drone_stop_1->getFlight();
         p_worst_drone_stop_1->removeFromRoute();
         p_worst_drone_stop_1->erase();
-        if (p_drone_stop_flight->isEmpty()){
-            p_drone_stop_flight->removeFromRoute();
-            p_drone_stop_flight->erase();
-        }
 
-        p_drone_stop_flight = p_worst_drone_stop_2->getFlight();
         p_worst_drone_stop_2->removeFromRoute();
         p_worst_drone_stop_2->erase();
-        if (p_drone_stop_flight->isEmpty()){
-            p_drone_stop_flight->removeFromRoute();
-            p_drone_stop_flight->erase();
-        }
-
 
         addDroneStopToRoute(t_route, p_new_drone_stop_1);
         addDroneStopToRoute(t_route, p_new_drone_stop_2);
