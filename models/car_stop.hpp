@@ -18,7 +18,7 @@ class CarStop {
     vector<Flight*> m_takeoff_flights;
     vector<Flight*> m_return_flights;
     double m_cost;
-    Route* m_this_route;
+    Route* m_route;
 
     // PRIVATE INITIALIZER //
     CarStop(Route*, Point*);
@@ -57,6 +57,7 @@ class CarStop {
     // OPERATIONS //
     void removeFromRoute();
     void erase();
+    CarStop* duplicate(Route*);
 
 
     // PRINTING //

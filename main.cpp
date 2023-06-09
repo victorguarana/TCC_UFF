@@ -62,64 +62,64 @@ int main(){
         cout << endl;
     }
 
-    // Switcher cases:
-    //  0 -> Shift DroneStop to CarStop
-    //  1 -> Shift CarStop to DroneStop
-    //  2 -> Swap DroneStops
-    //  3 -> Swap DroneStop and CarStop
-    //  4 -> Swap CarStops
-
-    int switcher = 4;
-
-    cout << endl << endl << endl;
-    switch (switcher){
-    case 0:
-        cout << "========================" << endl;
-        cout << "Shift Stop: Drone to Car" << endl;
-        cout << "========================" << endl << endl;
-        Ils::shiftWorstDroneToCarStop(carro1->getRoute());
-        break;
+    Route* backup_route1 = carro1->getRoute()->duplicate();
+    Route* backup_route2 = carro2->getRoute()->duplicate();
     
-    case 1:
-        cout << "========================" << endl;
-        cout << "Shift Stop: Car to Drone" << endl;
-        cout << "========================" << endl << endl;
-        Ils::shiftWorstCarToDroneStop(carro1->getRoute());
-        break;
+    cout << "=========================" << endl;
+    cout << "Selecting best Operation:" << endl;
+    cout << "=========================" << endl << endl;
 
-    case 2:
-        cout << "================" << endl;
-        cout << "Swap Drone Stops" << endl;
-        cout << "================" << endl << endl;
-        Ils::swapWorstsDroneStops(carro1->getRoute());
-        break;
+    cout << "===================================" << endl;
+    cout << "Shift Worst Drone Stop to Car Stop:" << endl;
+    cout << "===================================" << endl;
+    Ils::shiftWorstDroneToCarStop(carro1->getRoute());
+    if(backup_route1->getTotalCost() > carro1->getRoute()->getTotalCost()){
+        cout << "shiftWorstDroneToCarStop is better: " <<  carro1->getRoute()->getTotalCost() << endl;
+        backup_route1 = carro1->getRoute()->duplicate();
+    } else {
+        cout << "backup is better: " <<  backup_route1->getTotalCost() << endl;
+        carro1->changeRoute(backup_route1->duplicate());
+    }
+    cout << endl;
 
-    case 3:
-        cout << "=================================" << endl;
-        cout << "Swap Worsts Stops: Car and Drone:" << endl;
-        cout << "=================================" << endl << endl;
-        // TODO: Swap is setting returning flight wrong?
-        Ils::swapWorstsStops(carro1->getRoute());
-        break;
-  
-  
-      case 4:
-        cout << "==============" << endl;
-        cout << "Swap Car Stops" << endl;
-        cout << "==============" << endl << endl;
-        Ils::swapWorstsCarStops(carro1->getRoute(), carro2->getRoute());
-        break;
-  
-    default:
-        return 0;
+    cout << "===================================" << endl;
+    cout << "Shift Worst Car Stop to Drone Stop:" << endl;
+    cout << "===================================" << endl;
+    Ils::shiftWorstCarToDroneStop(carro1->getRoute());
+    if(backup_route1->getTotalCost() > carro1->getRoute()->getTotalCost()){
+        cout << "shiftWorstCarToDroneStop is better: " <<  carro1->getRoute()->getTotalCost() << endl;
+        backup_route1 = carro1->getRoute()->duplicate();
+    } else {
+        cout << "backup is better: " <<  backup_route1->getTotalCost() << endl;
+        carro1->changeRoute(backup_route1->duplicate());
+    }
+    cout << endl;
+
+    cout << "=======================" << endl;
+    cout << "Swap Worst Drone Stops:" << endl;
+    cout << "=======================" << endl;
+    Ils::swapWorstsDroneStops(carro1->getRoute());
+    if(backup_route1->getTotalCost() > carro1->getRoute()->getTotalCost()){
+        cout << "swapWorstsCarStops is better: " <<  carro1->getRoute()->getTotalCost() << endl;
+        backup_route1 = carro1->getRoute()->duplicate();
+    } else {
+        cout << "backup is better: " <<  backup_route1->getTotalCost() << endl;
+        carro1->changeRoute(backup_route1->duplicate());
+    }
+    cout << endl;
+
+    cout << "===============================" << endl;
+    cout << "Swap Worst Car and Drone Stops:" << endl;
+    cout << "===============================" << endl;
+    Ils::swapWorstsStops(carro1->getRoute());
+    if(backup_route1->getTotalCost() > carro1->getRoute()->getTotalCost()){
+        cout << "swapWorstsStops is better: " <<  carro1->getRoute()->getTotalCost() << endl;
+        backup_route1 = carro1->getRoute()->duplicate();
+    } else {
+        cout << "backup is better: " <<  backup_route1->getTotalCost() << endl;
+        carro1->changeRoute(backup_route1->duplicate());
     }
 
-    for(int i = 0; i < cars.size(); i++){
-        cars.at(i)->getRoute()->calcCosts();
-        cars.at(i)->getRoute()->print();
-        cout << endl;
-    }
-    
     cout << endl;
 
 

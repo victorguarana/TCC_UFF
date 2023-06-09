@@ -227,6 +227,30 @@ bool Route::isValid(){
     return true;
 }
 
+// Copy an Route and return a pointer to the new one
+Route* Route::duplicate(){
+    Route* new_route = new Route(m_car);
+    new_route->m_total_cost = m_total_cost;
+
+    if (m_first_stop != nullptr){
+        new_route->m_first_stop = m_first_stop->duplicate(new_route);
+
+        new_route->m_last_stop = new_route->m_first_stop;
+        while(new_route->m_last_stop->m_next != nullptr)
+            new_route->m_last_stop = new_route->m_last_stop->m_next;
+    }
+    
+    return new_route;
+}
+
+void Route::erase(){
+    while(m_first_stop != nullptr){
+        m_first_stop->erase();
+        m_first_stop = m_first_stop->m_next;
+    }
+    delete this;
+}
+
 
 // PRINTING //
 void Route::print(){

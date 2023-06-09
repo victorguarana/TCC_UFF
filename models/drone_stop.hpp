@@ -46,6 +46,7 @@ class DroneStop {
     // OPERATIONS //
     void removeFromRoute();
     void erase();
+    DroneStop* duplicate(Flight*);
 
 
     // PRINTING //

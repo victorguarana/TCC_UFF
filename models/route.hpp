@@ -54,6 +54,9 @@ class Route {
     void calcCosts();
     void appendPoint(Point*);
     bool isValid();
+    Route* duplicate();
+
+    void erase();
 
     // PRINTING //
     void print();
