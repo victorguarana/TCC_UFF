@@ -243,9 +243,9 @@ Route* Route::duplicate(){
     return new_route;
 }
 
-void Route::completeErase(){
+void Route::erase(){
     while(m_first_stop != nullptr){
-        m_first_stop->completeErase();
+        m_first_stop->erase();
         m_first_stop = m_first_stop->m_next;
     }
     delete this;

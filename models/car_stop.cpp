@@ -129,17 +129,12 @@ void CarStop::removeFromRoute(){
 }
 
 void CarStop::erase(){
-    delete this;
-}
-
-void CarStop::completeErase(){
     if(this->isTakeoff())
         for (auto &&flight : m_takeoff_flights)
-            flight->completeErase();
+            flight->erase();
 
     delete this;
 }
-
 
 CarStop* CarStop::duplicate(Route* t_route){
     CarStop* new_carstop = new CarStop(t_route, m_point);

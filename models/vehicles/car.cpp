@@ -51,7 +51,7 @@ void Car::support(double t_used_storage){
 }
 
 void Car::changeRoute(Route *t_route){
-    m_route->completeErase();
+    m_route->erase();
     m_route = t_route;
 }
 

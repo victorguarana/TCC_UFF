@@ -56,7 +56,7 @@ class Route {
     bool isValid();
     Route* duplicate();
 
-    void completeErase();
+    void erase();
 
     // PRINTING //
     void print();

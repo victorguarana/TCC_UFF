@@ -57,7 +57,6 @@ class CarStop {
     // OPERATIONS //
     void removeFromRoute();
     void erase();
-    void completeErase();
     CarStop* duplicate(Route*);
 
 

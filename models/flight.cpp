@@ -167,14 +167,14 @@ void Flight::removeFromRoute(){
     }
 }
 void Flight::erase(){
-    delete this;
-}
-void Flight::completeErase(){
     while(m_first_stop != nullptr){
         m_first_stop->erase();
         m_first_stop = m_first_stop->m_next;
     }
-    
+
+    m_takeoff->removeTakeoff(this);
+    m_landing->removeReturn(this);
+
     delete this;
 }
 void Flight::attachFlight(Flight* t_flight){
