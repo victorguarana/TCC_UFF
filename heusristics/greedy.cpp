@@ -126,13 +126,13 @@ class Greedy{
 
     public:
 
-    // TODO: Review this method, and p_point var inside it
-    static void nearest_client_greedy(Map t_map, vector<Car*> t_car_fleet, Point t_initial_position){
-        int fleet_size = t_car_fleet.size();
-        int car_index = 0;
+    // TODO: Review this method
+    static void nearest_client_greedy(Map t_map, vector<Route*> t_routes, Point t_initial_position){
+        int route_index = 0;
 
         while (!t_map.clients.empty()){
-            Car* p_actual_car = t_car_fleet.at(car_index);
+            Route* p_actual_route = t_routes.at(route_index);
+            Car* p_actual_car = p_actual_route->getCar();
             Point* p_actual_position = p_actual_car->getActualPosition();
 
             // OPTIMIZATION: Use the remainig car range when setting the nearest client?
@@ -156,23 +156,23 @@ class Greedy{
 
 
             // Create car stop and append it to route
-            p_actual_car->getRoute()->appendPoint(p_next_point);
+            p_actual_route->appendPoint(p_next_point);
             p_actual_car->deliver(p_next_point);
 
-            // Get next car in line
-            car_index++;
-            if (car_index >= fleet_size){
-                car_index = 0;
+            // Get next route (iterating like circular list)
+            route_index++;
+            if (route_index >= t_routes.size()){
+                route_index = 0;
             }
         }
 
-        // Append initial point to all routes
-        for(int i = 0; i < t_car_fleet.size(); i++){
-            Point* p_actual_position = t_car_fleet.at(i)->getActualPosition();
+        // Append final point to all routes
+        for (Route *route : t_routes){
+            Point* p_actual_position = route->getCar()->getActualPosition();
             Point nearest_deposit = find_nearest_point(p_actual_position, &t_map.deposits).point;
 
             Point* p_point = Point::create(nearest_deposit);
-            t_car_fleet.at(i)->getRoute()->appendPoint(p_point);
+            route->appendPoint(p_point);
         }
     }
 

@@ -14,16 +14,25 @@
 
 #include <vector>
 
+void print_routes(Route* route){
+    route->calcCosts();
+    route->print();
+    cout << endl;
+}
+
 int main(){
 
     Map initial_map = Map::initializeMap("all_maps//map1.csv");
     Point initial_point = initial_map.deposits.at(0);
 
-    vector<Car*> cars;
     Car* carro1 = new Car("Carro1", initial_point);
     Car* carro2 = new Car("Carro2", initial_point);
-    cars.push_back(carro1);
-    cars.push_back(carro2);
+
+    vector <Route*> routes;
+    Route* route1 = carro1->getRoute();
+    Route* route2 = carro2->getRoute();
+    routes.push_back(route1);
+    routes.push_back(route2);
 
     Drone* drone11 = new Drone("Drone 1.1");
     Drone* drone12 = new Drone("Drone 1.2");
@@ -39,31 +48,24 @@ int main(){
     cout << "================================" << endl; 
     cout << "Initial Greedy Route (Car only):" << endl;
     cout << "================================" << endl << endl;
-    Greedy::nearest_client_greedy(initial_map, cars, initial_point);
+    Greedy::nearest_client_greedy(initial_map, routes, initial_point);
     //Greedy::best_insertion_greedy(initial_map, cars, initial_point);
 
-    for(int i = 0; i < cars.size(); i++){
-        cars.at(i)->getRoute()->calcCosts();
-        cars.at(i)->getRoute()->print();
-        cout << endl;
-    }
-
+    print_routes(route1);
+    print_routes(route2);
     cout << endl << endl << endl;
 
     cout << "====================================" << endl;
     cout << "Hybrid Greedy Route (Car and drone):" << endl;
     cout << "====================================" << endl << endl;
-    Greedy::add_drone_flight(carro1->getRoute());
-    Greedy::add_drone_flight(carro2->getRoute());
+    Greedy::add_drone_flight(route1);
+    Greedy::add_drone_flight(route2);
 
-    for(int i = 0; i < cars.size(); i++){
-        cars.at(i)->getRoute()->calcCosts();
-        cars.at(i)->getRoute()->print();
-        cout << endl;
-    }
+    print_routes(route1);
+    print_routes(route2);
 
-    Route* backup_route1 = carro1->getRoute()->duplicate();
-    Route* backup_route2 = carro2->getRoute()->duplicate();
+    Route* backup_route1 = route1->duplicate();
+    Route* backup_route2 = route2->duplicate();
     
     cout << "=========================" << endl;
     cout << "Selecting best Operation:" << endl;
@@ -72,52 +74,60 @@ int main(){
     cout << "===================================" << endl;
     cout << "Shift Worst Drone Stop to Car Stop:" << endl;
     cout << "===================================" << endl;
-    Ils::shiftWorstDroneToCarStop(carro1->getRoute());
-    if(backup_route1->getTotalCost() > carro1->getRoute()->getTotalCost()){
-        cout << "shiftWorstDroneToCarStop is better: " <<  carro1->getRoute()->getTotalCost() << endl;
-        backup_route1 = carro1->getRoute()->duplicate();
+    Ils::shiftWorstDroneToCarStop(route1);
+    if(backup_route1->getTotalCost() > route1->getTotalCost()){
+        cout << "shiftWorstDroneToCarStop is better: " <<  route1->getTotalCost() << endl;
+        backup_route1->erase();
+        backup_route1 = route1->duplicate();
     } else {
         cout << "backup is better: " <<  backup_route1->getTotalCost() << endl;
-        carro1->changeRoute(backup_route1->duplicate());
+        route1->erase();
+        route1 = backup_route1->duplicate();
     }
     cout << endl;
 
     cout << "===================================" << endl;
     cout << "Shift Worst Car Stop to Drone Stop:" << endl;
     cout << "===================================" << endl;
-    Ils::shiftWorstCarToDroneStop(carro1->getRoute());
-    if(backup_route1->getTotalCost() > carro1->getRoute()->getTotalCost()){
-        cout << "shiftWorstCarToDroneStop is better: " <<  carro1->getRoute()->getTotalCost() << endl;
-        backup_route1 = carro1->getRoute()->duplicate();
+    Ils::shiftWorstCarToDroneStop(route1);
+    if(backup_route1->getTotalCost() > route1->getTotalCost()){
+        cout << "shiftWorstCarToDroneStop is better: " <<  route1->getTotalCost() << endl;
+        backup_route1->erase();
+        backup_route1 = route1->duplicate();
     } else {
         cout << "backup is better: " <<  backup_route1->getTotalCost() << endl;
-        carro1->changeRoute(backup_route1->duplicate());
+        route1->erase();
+        route1 = backup_route1->duplicate();
     }
     cout << endl;
 
     cout << "=======================" << endl;
     cout << "Swap Worst Drone Stops:" << endl;
     cout << "=======================" << endl;
-    Ils::swapWorstsDroneStops(carro1->getRoute());
-    if(backup_route1->getTotalCost() > carro1->getRoute()->getTotalCost()){
-        cout << "swapWorstsCarStops is better: " <<  carro1->getRoute()->getTotalCost() << endl;
-        backup_route1 = carro1->getRoute()->duplicate();
+    Ils::swapWorstsDroneStops(route1);
+    if(backup_route1->getTotalCost() > route1->getTotalCost()){
+        cout << "swapWorstsCarStops is better: " <<  route1->getTotalCost() << endl;
+        backup_route1->erase();
+        backup_route1 = route1->duplicate();
     } else {
         cout << "backup is better: " <<  backup_route1->getTotalCost() << endl;
-        carro1->changeRoute(backup_route1->duplicate());
+        route1->erase();
+        route1 = backup_route1->duplicate();
     }
     cout << endl;
 
     cout << "===============================" << endl;
     cout << "Swap Worst Car and Drone Stops:" << endl;
     cout << "===============================" << endl;
-    Ils::swapWorstsStops(carro1->getRoute());
-    if(backup_route1->getTotalCost() > carro1->getRoute()->getTotalCost()){
-        cout << "swapWorstsStops is better: " <<  carro1->getRoute()->getTotalCost() << endl;
-        backup_route1 = carro1->getRoute()->duplicate();
+    Ils::swapWorstsStops(route1);
+    if(backup_route1->getTotalCost() > route1->getTotalCost()){
+        cout << "swapWorstsStops is better: " <<  route1->getTotalCost() << endl;
+        backup_route1->erase();
+        backup_route1 = route1->duplicate();
     } else {
         cout << "backup is better: " <<  backup_route1->getTotalCost() << endl;
-        carro1->changeRoute(backup_route1->duplicate());
+        route1->erase();
+        route1 = backup_route1->duplicate();
     }
 
     cout << endl;
