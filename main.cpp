@@ -22,7 +22,7 @@ void print_routes(Route* route){
 
 int main(){
 
-    Map initial_map = Map::initializeMap("all_maps//map1.csv");
+    Map initial_map = Map::initializeMap("all_maps//map3.csv");
     Point initial_point = initial_map.deposits.at(0);
 
     Car* carro1 = new Car("Carro1", initial_point);
@@ -66,7 +66,8 @@ int main(){
 
     Route* backup_route1 = route1->duplicate();
     Route* backup_route2 = route2->duplicate();
-    
+
+    bool success;
     cout << "=========================" << endl;
     cout << "Selecting best Operation:" << endl;
     cout << "=========================" << endl << endl;
@@ -74,8 +75,8 @@ int main(){
     cout << "===================================" << endl;
     cout << "Shift Worst Drone Stop to Car Stop:" << endl;
     cout << "===================================" << endl;
-    Ils::shiftWorstDroneToCarStop(route1);
-    if(backup_route1->getTotalCost() > route1->getTotalCost()){
+    success = Ils::shiftWorstDroneToCarStop(route1);
+    if(success && route1->getTotalCost() < backup_route1->getTotalCost()){
         cout << "shiftWorstDroneToCarStop is better: " <<  route1->getTotalCost() << endl;
         backup_route1->erase();
         backup_route1 = route1->duplicate();
@@ -89,8 +90,8 @@ int main(){
     cout << "===================================" << endl;
     cout << "Shift Worst Car Stop to Drone Stop:" << endl;
     cout << "===================================" << endl;
-    Ils::shiftWorstCarToDroneStop(route1);
-    if(backup_route1->getTotalCost() > route1->getTotalCost()){
+    success = Ils::shiftWorstCarToDroneStop(route1);
+    if(success && route1->getTotalCost() < backup_route1->getTotalCost()){
         cout << "shiftWorstCarToDroneStop is better: " <<  route1->getTotalCost() << endl;
         backup_route1->erase();
         backup_route1 = route1->duplicate();
@@ -104,9 +105,9 @@ int main(){
     cout << "=======================" << endl;
     cout << "Swap Worst Drone Stops:" << endl;
     cout << "=======================" << endl;
-    Ils::swapWorstsDroneStops(route1);
-    if(backup_route1->getTotalCost() > route1->getTotalCost()){
-        cout << "swapWorstsCarStops is better: " <<  route1->getTotalCost() << endl;
+    success = Ils::swapWorstsDroneStops(route1);
+    if(success && route1->getTotalCost() < backup_route1->getTotalCost()){
+        cout << "swapWorstsDroneStops is better: " <<  route1->getTotalCost() << endl;
         backup_route1->erase();
         backup_route1 = route1->duplicate();
     } else {
@@ -119,8 +120,8 @@ int main(){
     cout << "===============================" << endl;
     cout << "Swap Worst Car and Drone Stops:" << endl;
     cout << "===============================" << endl;
-    Ils::swapWorstsStops(route1);
-    if(backup_route1->getTotalCost() > route1->getTotalCost()){
+    success = Ils::swapWorstsStops(route1);
+    if(success && route1->getTotalCost() < backup_route1->getTotalCost()){
         cout << "swapWorstsStops is better: " <<  route1->getTotalCost() << endl;
         backup_route1->erase();
         backup_route1 = route1->duplicate();

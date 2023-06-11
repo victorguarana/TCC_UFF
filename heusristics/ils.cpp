@@ -66,6 +66,10 @@ class Ils{
             p_actual_car_stop = p_actual_car_stop->m_next;
         }
 
+        if(p_worst_car_stop == nullptr){
+            cout << "# WARNING!\nCould not find Worst Car Stop." << endl;
+        }
+
         return p_worst_car_stop;
     }
 
@@ -88,6 +92,10 @@ class Ils{
             }
 
             p_actual_car_stop = p_actual_car_stop->m_next;
+        }
+
+        if(p_worst_car_stop == nullptr){
+            cout << "# WARNING!\nCould not find Worst Car Stop." << endl;
         }
 
         return p_worst_car_stop;
@@ -114,6 +122,10 @@ class Ils{
             }
 
             p_actual_car_stop = p_actual_car_stop->m_next;
+        }
+
+        if(p_worst_drone_stop == nullptr){
+            cout << "# WARNING!\nCould not find Worst Drone Stop." << endl;
         }
     
         return p_worst_drone_stop;
@@ -147,7 +159,11 @@ class Ils{
 
             p_actual_car_stop = p_actual_car_stop->m_next;
         }
-    
+        
+        if(p_worst_drone_stop == nullptr){
+            cout << "# WARNING!\nCould not find second worst Drone Stop." << endl;
+        }
+
         return p_worst_drone_stop;
     }
 
@@ -184,6 +200,13 @@ class Ils{
             }
 
             p_actual_car_stop = p_actual_car_stop->m_next;
+        }
+
+        if(p_worst_car_stop == nullptr){
+            cout << "# WARNING!\nCould not find worst Car Stop." << endl;
+        }
+        if(p_worst_drone_stop == nullptr){
+            cout << "# WARNING!\nCould not find worst Drone Stop." << endl;
         }
     
         Stops stops = { p_worst_car_stop, p_worst_drone_stop };
@@ -364,8 +387,11 @@ class Ils{
     public:
 
 
-    static void shiftWorstDroneToCarStop(Route* t_route){
+    static bool shiftWorstDroneToCarStop(Route* t_route){
         DroneStop* remove_drone_stop = findWorstDroneStop(t_route);
+        if(remove_drone_stop ==  nullptr){
+            return false;
+        }
 
         cout << "Worst Drone Stop: " + remove_drone_stop->toString() << endl;
 
@@ -376,10 +402,15 @@ class Ils{
         remove_drone_stop->erase();
 
         addCarStopToRoute(t_route, new_car_stop);
+
+        return true;
     }
 
-    static void shiftWorstCarToDroneStop(Route* t_route){
+    static bool shiftWorstCarToDroneStop(Route* t_route){
         CarStop* remove_car_stop = findWorstCarStop(t_route);
+        if(remove_car_stop ==  nullptr){
+            return false;
+        }
 
         cout << "Worst Car Stop: " + remove_car_stop->toString() << endl;
 
@@ -390,10 +421,12 @@ class Ils{
 
         addDroneStopToRoute(t_route, new_drone_stop);
 
+        return true;
     }
 
-    static void swapWorstsStops(Route* t_route){
+    static bool swapWorstsStops(Route* t_route){
         Stops stops = findWorstStops(t_route);
+        if(stops.p_car_stop == nullptr || stops.p_drone_stop == nullptr) return false;
         printWorstsStops(stops);
 
         CarStop* remove_car_stop = stops.p_car_stop;
@@ -410,11 +443,15 @@ class Ils{
         addCarStopToRoute(t_route, new_car_stop);
         addDroneStopToRoute(t_route, new_drone_stop);
 
+        return true;
     }
 
-    static void swapWorstsDroneStops(Route* t_route){
+    static bool swapWorstsDroneStops(Route* t_route){
         DroneStop* p_worst_drone_stop_1 = findWorstDroneStop(t_route);
+        if(p_worst_drone_stop_1 == nullptr) return false;
+
         DroneStop* p_worst_drone_stop_2 = findSecondWorstDroneStop(t_route, p_worst_drone_stop_1);
+        if(p_worst_drone_stop_2 == nullptr) return false;
 
         cout << "Worst Drone Stop: " + p_worst_drone_stop_1->toString() << endl;
         cout << "Second Worst Drone Stop: " + p_worst_drone_stop_2->toString() << endl;
@@ -431,9 +468,10 @@ class Ils{
         addDroneStopToRoute(t_route, p_new_drone_stop_1);
         addDroneStopToRoute(t_route, p_new_drone_stop_2);
 
+        return true;
     }
 
-    // This swap is not used anymore
+    // ThisS swap is not used anymore
     static void swapWorstsCarStops(Route* t_route1, Route* t_route2){
         CarStop* p_worst_car_stop_2 = findWorstCarStop(t_route2);
         cout << "Worst Car Stop 2: " + p_worst_car_stop_2->toString() << endl;
