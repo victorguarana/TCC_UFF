@@ -144,6 +144,7 @@ CarStop* CarStop::duplicate(Route* t_route){
         new_carstop->m_next = m_next->duplicate(t_route);
         new_carstop->m_next->m_prev = new_carstop;
     }
+
     if (this->isTakeoff()){
         for (auto &&flight : m_takeoff_flights){
             CarStop* landing = new_carstop;
@@ -152,7 +153,9 @@ CarStop* CarStop::duplicate(Route* t_route){
                 aux = aux->m_next;
                 landing = landing->m_next;
             }
-            new_carstop->addTakeoffFlight(flight->duplicate(new_carstop, landing));
+            Flight* new_flight = flight->duplicate(new_carstop, landing);
+            new_carstop->addTakeoffFlight(new_flight);
+            landing->addReturnFlight(new_flight);
         }
     }
     return new_carstop;
