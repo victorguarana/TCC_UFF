@@ -325,6 +325,7 @@ class Ils{
                     flights.at(i)->getDrone()->land();
                 }
 
+                // FIX: Try to use all docked drones
                 // Get a docked drone
                 Drone* p_drone = nullptr;
                 for(int i = 0; i < p_car->getDrones().size(); i++){
