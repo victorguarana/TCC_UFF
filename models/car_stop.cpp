@@ -152,7 +152,9 @@ CarStop* CarStop::duplicate(Route* t_route){
                 aux = aux->m_next;
                 landing = landing->m_next;
             }
-            new_carstop->addTakeoffFlight(flight->duplicate(new_carstop, landing));
+            Flight* new_flight = flight->duplicate(new_carstop, landing);
+            new_carstop->addTakeoffFlight(new_flight);
+            landing->addReturnFlight(new_flight);
         }
     }
     return new_carstop;

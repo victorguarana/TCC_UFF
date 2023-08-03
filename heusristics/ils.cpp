@@ -394,6 +394,15 @@ class Ils{
 
     static void swapWorstsStops(Route* t_route){
         Stops stops = findWorstStops(t_route);
+        if(!stops.p_car_stop || !stops.p_drone_stop){
+            if(!stops.p_car_stop){
+                cout << "Swap Worsts: Could not found Worst Car Stop";
+            }
+            if(!stops.p_drone_stop){
+                cout << "Swap Worsts: Could not found Worst Drone Stop";  
+            }
+            return;
+        }
         printWorstsStops(stops);
 
         CarStop* remove_car_stop = stops.p_car_stop;
